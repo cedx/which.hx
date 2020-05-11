@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
+
+use haxe\{EntryPoint};
+use php\{Boot};
 use which\{Programm};
 
 // Load the dependencies.
@@ -8,4 +11,6 @@ $rootPath = (new SplFileInfo(__DIR__))->getPath();
 require_once $autoloader->isFile() ? $autoloader->getPathname() : "$rootPath/vendor/autoload.php";
 
 // Start the application.
+Boot::__hx__init();
 Program::main();
+EntryPoint::run();
