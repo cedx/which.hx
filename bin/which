@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+use which\{Programm};
+
+// Load the dependencies.
+$autoloader = new SplFileInfo(__DIR__.'/../../../autoload.php');
+$rootPath = (new SplFileInfo(__DIR__))->getPath();
+require_once $autoloader->isFile() ? $autoloader->getPathname() : "$rootPath/vendor/autoload.php";
+
+// Start the application.
+Program::main();
