@@ -7,5 +7,5 @@ tool/version.ps1
 haxe build.hxml
 
 foreach ($item in Get-ChildItem lib/php) {
-  if ($item.BaseName -ne 'which') { Remove-Item $item -Recurse }
+	if (-not ("tink", "which" -contains $item.BaseName)) { Remove-Item $item -Recurse }
 }

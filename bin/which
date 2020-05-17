@@ -3,12 +3,14 @@
 
 use haxe\{EntryPoint};
 use php\{Boot};
-use which\{Programm};
+use which\{Program};
 
 // Load the dependencies.
-$autoloader = new SplFileInfo(__DIR__.'/../../../autoload.php');
+$autoload = new SplFileInfo(__DIR__."/../../../autoload.php");
 $rootPath = (new SplFileInfo(__DIR__))->getPath();
-require_once $autoloader->isFile() ? $autoloader->getPathname() : "$rootPath/vendor/autoload.php";
+
+$classLoader = require_once $autoload->isFile() ? $autoload->getPathname() : "$rootPath/vendor/autoload.php";
+$classLoader->setPsr4("tink\\", "$rootPath/lib/php/tink/");
 
 // Start the application.
 Boot::__hx__init();
