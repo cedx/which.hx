@@ -1,0 +1,48 @@
+{
+	"bugs": "https://git.belin.io/cedx/which.hx/issues",
+	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
+	"homepage": "https://docs.belin.io/which.hx",
+	"license": "MIT",
+	"main": "./lib/js/index.js",
+	"name": "@cedx/which.hx",
+	"type": "commonjs",
+	"types": "./lib/js/index.d.ts",
+	"version": "1.0.0",
+	"author": {
+		"email": "cedric@belin.io",
+		"name": "Cédric Belin",
+		"url": "https://belin.io"
+	},
+	"bin": {
+		"which": "./bin/which.js"
+	},
+	"engines": {
+		"node": ">=14.0.0"
+	},
+	"exports": {
+		"import": "./lib/js/index.mjs",
+		"require": "./lib/js/index.js"
+	},
+	"files": [
+		"lib/js/"
+	],
+	"funding": {
+		"type": "patreon",
+		"url": "https://www.patreon.com/cedx"
+	},
+	"keywords": [
+		"find",
+		"path",
+		"system",
+		"utility",
+		"which"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://git.belin.io/cedx/which.hx.git"
+	},
+	"scripts": {
+		"prepack": "pwsh tool/dist.ps1",
+		"test": "haxe --define js-es=6 --js var/tests.js --library hxnodejs test.hxml && node var/tests.js"
+	}
+}
