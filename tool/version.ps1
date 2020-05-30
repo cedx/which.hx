@@ -15,4 +15,3 @@ function Update-File {
 $version = (Get-Content haxelib.json | ConvertFrom-Json).version
 Update-File composer.json '"version": "\d+(\.\d+){2}"' """version"": ""$version"""
 Update-File package.json '"version": "\d+(\.\d+){2}"' """version"": ""$version"""
-Update-File src/Program.hx 'packageVersion = "\d+(\.\d+){2}"' "packageVersion = ""$version"""

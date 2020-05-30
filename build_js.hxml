@@ -1,3 +1,11 @@
 share/build.hxml
 --define js-es=6
+--library hxnodejs
+
+--each
+--dce full
+--js bin/which.js
+--main Program
+
+--next
 --js lib/js/which.js
