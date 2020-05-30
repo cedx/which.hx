@@ -1,0 +1,7 @@
+--class-path src
+--define analyzer-optimize
+--library tink_cli
+--library tink_core
+
+which.Finder
+which.FinderException

@@ -1,0 +1,3 @@
+share/build.hxml
+--define js-es=6
+--js lib/js/which.js

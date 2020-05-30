@@ -1,0 +1,5 @@
+share/test.hxml
+--define js-es=6
+--js var/tests.js
+--library hxnodejs
+--cmd node var/tests.js
