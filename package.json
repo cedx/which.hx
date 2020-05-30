@@ -16,6 +16,9 @@
 	"bin": {
 		"which": "./bin/which.js"
 	},
+	"devDependencies": {
+		"@cedx/coveralls": "^10.1.0"
+	},
 	"engines": {
 		"node": ">=14.0.0"
 	},
@@ -42,7 +45,7 @@
 		"url": "https://git.belin.io/cedx/which.hx.git"
 	},
 	"scripts": {
-		"prepack": "pwsh tool/dist.ps1",
-		"test": "haxe --define js-es=6 --js var/tests.js --library hxnodejs test.hxml && node var/tests.js"
+		"coverage": "coveralls var/lcov.info",
+		"prepack": "pwsh tool/dist.ps1"
 	}
 }

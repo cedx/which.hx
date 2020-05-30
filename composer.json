@@ -29,10 +29,7 @@
 	],
 	"require": {
 		"php": ">=7.0.0",
-		"cedx/haxe": "^0.3.0"
-	},
-	"scripts": {
-		"test": "haxe --define php-lib=php --php lib test.hxml && php lib/index.php"
+		"cedx/haxe": "^1.0.0"
 	},
 	"support": {
 		"docs": "https://api.belin.io/which.hx",

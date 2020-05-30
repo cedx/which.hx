@@ -15,4 +15,5 @@
 /composer.lock
 /npm-debug.log
 /package-lock.json
+/run.n
 /lib/js/which.*
