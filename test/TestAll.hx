@@ -1,20 +1,28 @@
 import mcover.coverage.MCoverage;
 import mcover.coverage.client.LcovPrintClient;
-import tink.testrunner.Runner;
-import tink.unit.TestBatch;
+import utest.Runner;
+import utest.ui.Report;
 import which.*;
 
 /** Runs the test suites. **/
-class RunTests {
+class TestAll {
+
+	/** The test cases. **/
+	static final tests = [
+		new ProcessTest()
+	];
 
 	/** Application entry point. **/
 	static function main(): Void {
-		final tests = TestBatch.make([new FinderTest()]);
-		Runner.run(tests).handle(result -> {
+		final runner = new Runner();
+		runner.onComplete.add(_ -> {
 			final logger = MCoverage.getLogger();
 			logger.addClient(new LcovPrintClient("which", "var/lcov.info"));
 			logger.report();
-			Runner.exit(result);
 		});
+
+		Report.create(runner);
+		for (test in tests) runner.addCase(test);
+		runner.run();
 	}
 }
