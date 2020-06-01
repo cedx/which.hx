@@ -1,7 +1,8 @@
 --class-path src
 --class-path test
 --library mcover
---library tink_testrunner
---library tink_unittest
+--library thenshim
+--library tink_cli
+--library utest
 --macro mcover.MCover.coverage([''], ['src'])
---main RunTests
+--main TestAll

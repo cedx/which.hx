@@ -11,5 +11,5 @@ if (-not $IsWindows) { chmod +x bin/which.js }
 
 Remove-Item lib/index.php
 foreach ($item in Get-ChildItem lib/php) {
-	if (-not ("Program.php", "tink", "which" -contains $item.Name)) { Remove-Item $item -Recurse } # TODO remove "tink" ???
+	if (-not ("Program.php", "which" -contains $item.Name)) { Remove-Item $item -Recurse }
 }

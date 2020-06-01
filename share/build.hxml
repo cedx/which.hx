@@ -1,7 +1,9 @@
 --class-path src
 --define analyzer-optimize
+--library thenshim
 --library tink_cli
---library tink_core
 
 which.Finder
 which.FinderException
+which.Process
+which.ProcessIdentity
