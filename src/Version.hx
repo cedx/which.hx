@@ -1,9 +1,6 @@
 import haxe.Json;
-import sys.io.File;
-
-#if macro
 import haxe.macro.Expr.ExprOf;
-#end
+import sys.io.File;
 
 /** Provides the version number of this package. **/
 class Version {
