@@ -1,6 +1,6 @@
-share/build.hxml
 --define js-es=6
 --library hxnodejs
+share/build.hxml
 
 --each
 --dce full

@@ -1,5 +1,5 @@
-share/build.hxml
 --define php-lib=php
 --define real-position
 --main Program
 --php lib
+share/build.hxml
