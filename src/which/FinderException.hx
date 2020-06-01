@@ -3,8 +3,7 @@ package which;
 import haxe.Exception;
 
 /** An exception caused by a `Finder` in a command lookup. **/
-@:expose
-class FinderException extends Exception {
+@:expose class FinderException extends Exception {
 
 	/** The looked up command. **/
 	public final command: String;
