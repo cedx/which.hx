@@ -1,2 +1,2 @@
 #!/bin/sh
-echo This file is executable by everyone.
+echo This file is executable on POSIX.
