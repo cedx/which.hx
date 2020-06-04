@@ -1,0 +1,92 @@
+name: build
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: "0 0 1 * *"
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.1.1
+      - name: Check environment
+        run: |
+          haxe --version
+          haxelib version
+      - name: Fetch sources
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: haxelib install all --always
+      - name: Run tests
+        run: haxe test_eval.hxml
+  js:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.1.1
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Check environment
+        run: |
+          node --version
+          npm --version
+      - name: Fetch sources
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          haxelib install all --always
+          npm install --ignore-scripts
+      - name: Run tests
+        run: haxe test_js.hxml
+      - name: Collect code coverage
+        env:
+          COVERALLS_REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        if: success()
+        run: npm run-script coverage
+  neko:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.1.1
+      - name: Check environment
+        run: neko -version
+      - name: Fetch sources
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: haxelib install all --always
+      - name: Run tests
+        run: haxe test_neko.hxml
+  php:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.1.1
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          coverage: none
+          extensions: mbstring
+      - name: Check environment
+        run: |
+          php --version
+          composer --version
+      - name: Fetch sources
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          haxelib install all --always
+          composer install --no-interaction
+      - name: Run tests
+        run: haxe test_php.hxml

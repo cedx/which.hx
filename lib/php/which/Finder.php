@@ -5,9 +5,12 @@
 
 namespace which;
 
+use \thenshim\PromiseTools;
 use \php\Boot;
 use \php\_Boot\HxString;
+use \thenshim\_Promise\Promise_Impl_;
 use \sys\FileSystem;
+use \thenshim\Thenable;
 use \haxe\io\Path;
 
 /**
@@ -57,7 +60,21 @@ class Finder {
 	 */
 	public function __construct ($options = null) {
 		$this->pathSeparator = (Finder::get_isWindows() ? ";" : ":");
-		$this->extensions = (Finder::get_isWindows() ? HxString::split(\Sys::getEnv("PATHEXT"), $this->pathSeparator) : new \Array_hx());
+		$tmp = null;
+		if (Finder::get_isWindows()) {
+			$_this = HxString::split(\Sys::getEnv("PATHEXT"), $this->pathSeparator);
+			$result = [];
+			$data = $_this->arr;
+			$_g_current = 0;
+			$_g_length = count($data);
+			while ($_g_current < $_g_length) {
+				$result[] = mb_strtolower($data[$_g_current++]);
+			}
+			$tmp = \Array_hx::wrap($result);
+		} else {
+			$tmp = new \Array_hx();
+		}
+		$this->extensions = $tmp;
 		$this->path = HxString::split(\Sys::getEnv("PATH"), $this->pathSeparator);
 		if ($options !== null) {
 			if (isset($options["extensions"])) {
@@ -80,7 +97,7 @@ class Finder {
 	 * @return bool
 	 */
 	public function checkFileExtension ($file) {
-		$extension = Path::extension($file);
+		$extension = mb_strtolower(Path::extension($file));
 		if (mb_strlen($extension) > 0) {
 			return $this->extensions->indexOf("." . ($extension??'null')) !== -1;
 		} else {
@@ -89,54 +106,111 @@ class Finder {
 	}
 
 	/**
-	 * Checks that the specified `file` is executable according to its permissions.
+	 * Checks that the file represented by the specified `stats` is executable according to its permissions.
 	 * 
-	 * @param string $file
+	 * @param object $stats
 	 * 
-	 * @return bool
+	 * @return Thenable
 	 */
-	public function checkFilePermissions ($file) {
-		$stats = FileSystem::stat($file);
-		if (($stats->mode & 1) !== 0) {
-			return true;
-		}
-		if (($stats->mode & 8) !== 0) {
-			return -1 === $stats->gid;
-		}
-		if (($stats->mode & 64) !== 0) {
-			return -1 === $stats->uid;
-		}
-		if (($stats->mode & 72) !== 0) {
-			return false;
-		} else {
-			return false;
-		}
+	public function checkFilePermissions ($stats) {
+		$procUid = -1;
+		return Promise_Impl_::then(Promise_Impl_::then(Promise_Impl_::then(Promise_Impl_::resolve(($stats->mode & 1) !== 0), function ($isExec) use (&$stats) {
+			if ($isExec || (($stats->mode & 8) === 0)) {
+				return Promise_Impl_::resolve($isExec);
+			} else {
+				return Promise_Impl_::then(Process::get_gid(), function ($gid) use (&$stats) {
+					return $stats->gid === $gid;
+				});
+			}
+		}), function ($isExec) use (&$stats, &$procUid) {
+			if ($isExec || (($stats->mode & 64) === 0)) {
+				return Promise_Impl_::resolve($isExec);
+			} else {
+				return Promise_Impl_::then(Process::get_uid(), function ($uid) use (&$stats, &$procUid) {
+					$procUid = $uid;
+					return $stats->uid === $uid;
+				});
+			}
+		}), function ($isExec) use (&$stats, &$procUid) {
+			if ($isExec || (($stats->mode & 72) === 0)) {
+				return $isExec;
+			} else {
+				return $procUid === 0;
+			}
+		});
 	}
 
 	/**
-	 * Finds the instances of an executable `command` in the specified `directory`.
+	 * Finds the instances of the specified `command` in the system path.
+	 * 
+	 * @param string $command
+	 * 
+	 * @return Thenable
+	 */
+	public function find ($command) {
+		$_gthis = $this;
+		$_this = $this->path;
+		$result = [];
+		$data = $_this->arr;
+		$_g_current = 0;
+		$_g_length = count($data);
+		while ($_g_current < $_g_length) {
+			$result[] = $_gthis->findExecutables($data[$_g_current++], $command);
+		}
+		return Promise_Impl_::then(PromiseTools::all(\Array_hx::wrap($result)), function ($results) {
+			$_g = new \Array_hx();
+			$_g_current = 0;
+			while ($_g_current < $results->length) {
+				$x = ($results->arr[$_g_current++] ?? null)->iterator();
+				while ($x->hasNext()) {
+					$x1 = $x->next();
+					$_g->arr[$_g->length++] = $x1;
+				}
+			}
+			return $_g;
+		});
+	}
+
+	/**
+	 * Finds the instances of the specified `command` in the given `directory`.
 	 * 
 	 * @param string $directory
 	 * @param string $command
 	 * 
-	 * @return object
+	 * @return Thenable
 	 */
 	public function findExecutables ($directory, $command) {
-		return null;
-	}
-
-	/**
-	 * Gets a numeric `identity` of the current process.
-	 * 
-	 * @param string $identity
-	 * 
-	 * @return int
-	 */
-	public function getProcessId ($identity) {
-		if (Finder::get_isWindows()) {
-			return -1;
+		$_gthis = $this;
+		$_this = (\Array_hx::wrap([""]))->concat($this->extensions);
+		$result = [];
+		$data = $_this->arr;
+		$_g_current = 0;
+		$_g_length = count($data);
+		while ($_g_current < $_g_length) {
+			$result[] = Path::join(\Array_hx::wrap([
+				$directory,
+				"" . ($command??'null') . ($data[$_g_current++]??'null'),
+			]));
 		}
-		return -1;
+		$paths = \Array_hx::wrap($result);
+		$result = [];
+		$data = $paths->arr;
+		$_g_current = 0;
+		$_g_length = count($data);
+		while ($_g_current < $_g_length) {
+			$result[] = $_gthis->isExecutable($data[$_g_current++]);
+		}
+		return Promise_Impl_::then(PromiseTools::all(\Array_hx::wrap($result)), function ($results) use (&$paths) {
+			$_g = new \Array_hx();
+			$_g1_current = 0;
+			while ($_g1_current < $results->length) {
+				if (($results->arr[$_g1_current++] ?? null)) {
+					$paths1 = ($paths->arr[$_g1_current - 1] ?? null);
+					$_g->arr[$_g->length++] = $paths1;
+				}
+			}
+			return $_g;
+		});
 	}
 
 	/**
@@ -144,17 +218,20 @@ class Finder {
 	 * 
 	 * @param string $file
 	 * 
-	 * @return bool
+	 * @return Thenable
 	 */
 	public function isExecutable ($file) {
 		clearstatcache(true, $file);
 		if (!file_exists($file) || FileSystem::isDirectory($file)) {
-			return false;
+			return Promise_Impl_::resolve(false);
+		}
+		if (is_executable($file)) {
+			return Promise_Impl_::resolve(true);
 		}
 		if (Finder::get_isWindows()) {
-			return $this->checkFileExtension($file);
+			return Promise_Impl_::resolve($this->checkFileExtension($file));
 		} else {
-			return $this->checkFilePermissions($file);
+			return $this->checkFilePermissions(FileSystem::stat($file));
 		}
 	}
 }

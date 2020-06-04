@@ -1,3 +1,3 @@
 #!/usr/bin/env pwsh
 Set-StrictMode -Version Latest
-neko "$PSScriptRoot/which.n" $args
+neko "$PSScriptRoot/run.n" @args

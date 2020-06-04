@@ -6,7 +6,8 @@ tool/clean.ps1
 tool/version.ps1
 tool/build.ps1
 
-@("#!/usr/bin/env node") + (Get-Content bin/which.js) | Out-File bin/which.js
+node_modules/.bin/ncc build bin/which.js --minify --out=var
+@("#!/usr/bin/env node") + (Get-Content var/index.js) | Out-File bin/which.js
 if (-not $IsWindows) { chmod +x bin/which.js }
 
 Remove-Item lib/index.php

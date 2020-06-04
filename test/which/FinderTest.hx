@@ -18,7 +18,7 @@ class FinderTest extends Test {
 		}));
 
 		// It should return `false` for a non-executable file.
-		async.branch(branch -> new Finder().isExecutable("test/TestAll.hx").then(result -> {
+		async.branch(branch -> new Finder().isExecutable("test/fixtures/not_executable.sh").then(result -> {
 			Assert.isFalse(result);
 			branch.done();
 		}));

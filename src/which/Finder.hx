@@ -71,7 +71,7 @@ import php.NativeStructArray;
 				if (stats.isFile()) isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(cast stats)
 				else Promise.resolve(false)
 			)
-			.catchError(() -> false);
+			.catchError(_ -> false);
 		#else
 		if (!FileSystem.exists(file) || FileSystem.isDirectory(file)) return Promise.resolve(false);
 		#if php if (php.Syntax.code("is_executable({0})", file)) return Promise.resolve(true); #end

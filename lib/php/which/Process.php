@@ -27,9 +27,9 @@ class Process {
 			return Promise_Impl_::resolve(-1);
 		}
 		$process = new IoProcess("id", \Array_hx::wrap(["-" . ($identity??'null')]));
-		$id = ($process->exitCode() !== 0 ? -1 : \Std::parseInt($process->stdout->readLine()));
+		$id = ($process->exitCode() !== 0 ? null : \Std::parseInt($process->stdout->readLine()));
 		$process->close();
-		return Promise_Impl_::resolve($id);
+		return Promise_Impl_::resolve(($id !== null ? $id : -1));
 	}
 
 	/**
