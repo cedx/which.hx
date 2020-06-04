@@ -1,5 +1,6 @@
 package which;
 
+import haxe.ds.Either;
 import haxe.io.Path;
 import sys.FileSystem;
 import sys.FileStat;
@@ -78,6 +79,18 @@ import php.NativeStructArray;
 		#end
 	}
 
+	/** Finds the first instance of the specified `command` in the system path. **/
+	public static function which(command: String, ?options: WhichOptions): Promise<Dynamic> {
+		final finder = new Finder(options);
+		final all = options != null && options.all != null ? options.all : false;
+		final onError = options != null && options.onError != null ? options.onError : null;
+
+		return finder.find(command).then(executables ->
+			if (executables.length != 0) all ? executables : cast executables[0]
+			else onError != null ? cast onError(command) : throw new FinderException(command, finder, 'Command "$command" not found.')
+		);
+	}
+
 	/** Checks that the specified `file` is executable according to the executable file extensions. **/
 	function checkFileExtension(file: String): Bool {
 		final extension = Path.extension(file).toLowerCase();
@@ -118,4 +131,14 @@ typedef FinderOptions = {
 
 	/** The character used to separate paths in the system path. **/
 	var ?pathSeparator: String;
+}
+
+/** Defines the options of the `which()` method. **/
+typedef WhichOptions = FinderOptions & {
+
+	/** Value indicating whether to return an array of all executables found, instead of just the first one. **/
+	var ?all: Bool;
+
+	/** An optional error handler. */
+	var ?onError: String -> Either<String, Array<String>>;
 }
