@@ -2,11 +2,16 @@ package which;
 
 import haxe.io.Path;
 import sys.FileSystem;
+import sys.FileStat;
+import thenshim.Promise;
 
 using Lambda;
+using thenshim.PromiseTools;
 
 #if nodejs
 import js.lib.Object;
+import js.node.Fs;
+import js.node.Util;
 #elseif php
 import php.Global.isset;
 import php.NativeStructArray;
@@ -30,7 +35,7 @@ import php.NativeStructArray;
 	/** Creates a new finder. **/
 	public function new(?options: #if php NativeStructArray<FinderOptions> #else FinderOptions #end) {
 		pathSeparator = isWindows ? ";" : ":";
-		extensions = isWindows ? Sys.getEnv("PATHEXT").split(pathSeparator) : [];
+		extensions = isWindows ? Sys.getEnv("PATHEXT").split(pathSeparator).map(item -> item.toLowerCase()) : [];
 		path = Sys.getEnv("PATH").split(pathSeparator);
 
 		if (options != null) {
@@ -53,63 +58,52 @@ import php.NativeStructArray;
 		return osType == "cygwin" || osType == "msys";
 	}
 
+	/** Finds the instances of the specified `command` in the system path. **/
+	public function find(command: String): Promise<Array<String>>
+		return path.map(item -> findExecutables(item, command)).all().then(results -> results.flatten());
+
 	/** Gets a value indicating whether the specified `file` is executable. **/
-	public function isExecutable(file: String): Bool {
-		if (!FileSystem.exists(file) || FileSystem.isDirectory(file)) return false;
-		return isWindows ? checkFileExtension(file) : checkFilePermissions(file);
-		// TODO: promise on Node.js
+	public function isExecutable(file: String): Promise<Bool> {
+		#if nodejs
+		final stat = Util.promisify(Fs.stat);
+		return cast stat(file)
+			.then(stats ->
+				if (stats.isFile()) isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(cast stats)
+				else Promise.resolve(false)
+			)
+			.catchError(() -> false);
+		#else
+		if (!FileSystem.exists(file) || FileSystem.isDirectory(file)) return Promise.resolve(false);
+		#if php if (php.Syntax.code("is_executable({0})", file)) return Promise.resolve(true); #end
+		return isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(FileSystem.stat(file));
+		#end
 	}
 
 	/** Checks that the specified `file` is executable according to the executable file extensions. **/
 	function checkFileExtension(file: String): Bool {
-		final extension = Path.extension(file);
+		final extension = Path.extension(file).toLowerCase();
 		return extension.length > 0 ? extensions.contains('.$extension') : false;
 	}
 
-	/** Checks that the specified `file` is executable according to its permissions. **/
-	function checkFilePermissions(file: String): Bool {
-		final stats = FileSystem.stat(file);
-
-		// TODO PHP and Node.js support getuid/getgid functions on non-Windows OSes !!!
-
-		// Others.
-		if (stats.mode & 1 != 0) return true;
-
-		// Group.
-		//final gid = typeof process.getgid == "function" ? process.getgid() : -1;
-		final gid = -1; //#if php posix_getgid() #else -1 #end;
-		if (stats.mode & 8 != 0) return gid == stats.gid;
-
-		// Owner.
-		//final uid = typeof process.getuid == "function" ? process.getuid() : -1;
-		final uid = -1;
-		if (stats.mode & 64 != 0) return uid == stats.uid;
-
-		// Root.
-		return stats.mode & (64 | 8) != 0 ? uid == 0 : false;
+	/** Checks that the file represented by the specified `stats` is executable according to its permissions. **/
+	function checkFilePermissions(stats: FileStat): Promise<Bool> {
+		var procUid = -1;
+		return Promise.resolve(stats.mode & 1 != 0)
+			.then(isExec -> isExec || (stats.mode & 8 == 0) ? Promise.resolve(isExec) : Process.gid.then(gid -> stats.gid == gid))
+			.then(isExec -> isExec || (stats.mode & 64 == 0) ? Promise.resolve(isExec) : Process.uid.then(uid -> { procUid = uid; stats.uid == uid; }))
+			.then(isExec -> isExec || (stats.mode & (64 | 8) == 0) ? isExec : procUid == 0);
 	}
 
-	/** Finds the instances of an executable `command` in the specified `directory`. **/
-	function findExecutables(directory: String, command: String): Iterable<String> {
-		//final basePath = Sys.getCwd();
-		/*
-		for (extension in [""].concat(this.extensions)) {
-			@yield return "TODO";
-		}*/
-		return null;
+	/** Finds the instances of the specified `command` in the given `directory`. **/
+	function findExecutables(directory: String, command: String): Promise<Array<String>> {
+		final paths = [""].concat(extensions).map(item -> Path.join([directory, '$command$item']));
+		return paths.map(item -> isExecutable(item)).all().then(results -> [for (index => isExec in results) if (isExec) paths[index]]);
 	}
 
-	/** Gets a numeric `identity` of the current process. **/
-	function getProcessId(identity: String) {
-		if (isWindows) return -1;
-		return -1;
-	}
-
-	#if js
+	#if nodejs
 	/** Initializes the class. **/
-	static function __init__(): Void {
-		// TODO Object.defineProperty(Finder, "isWindows", {get: Finder.get_isWindows});
-	}
+	static function __init__(): Void
+		Object.defineProperty(Finder, "isWindows", {get: js.Syntax.field(Finder, "get_isWindows")});
 	#end
 }
 
