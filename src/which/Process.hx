@@ -45,16 +45,16 @@ class Process {
 		if (Finder.isWindows) return Promise.resolve(-1);
 
 		#if nodejs
-		final exec = Util.promisify(ChildProcess.exec);
-		return exec('id -$identity').then(process -> {
-			final id = Std.parseInt(process.stdout);
-			id != null ? id : -1;
-		});
+			final exec = Util.promisify(ChildProcess.exec);
+			return exec('id -$identity').then(process -> {
+				final id = Std.parseInt(process.stdout);
+				id != null ? id : -1;
+			});
 		#else
-		final process = new sys.io.Process("id", ['-$identity']);
-		final id = process.exitCode() != 0 ? null : Std.parseInt(process.stdout.readLine());
-		process.close();
-		return Promise.resolve(id != null ? id : -1);
+			final process = new sys.io.Process("id", ['-$identity']);
+			final id = process.exitCode() != 0 ? null : Std.parseInt(process.stdout.readLine());
+			process.close();
+			return Promise.resolve(id != null ? id : -1);
 		#end
 	}
 }

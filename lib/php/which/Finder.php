@@ -181,16 +181,20 @@ class Finder {
 	 */
 	public function findExecutables ($directory, $command) {
 		$_gthis = $this;
+		$basePath = (Path::isAbsolute($directory) ? $directory : Path::join(\Array_hx::wrap([
+			\Sys::getCwd(),
+			$directory,
+		])));
 		$_this = (\Array_hx::wrap([""]))->concat($this->extensions);
 		$result = [];
 		$data = $_this->arr;
 		$_g_current = 0;
 		$_g_length = count($data);
 		while ($_g_current < $_g_length) {
-			$result[] = Path::join(\Array_hx::wrap([
-				$directory,
+			$result[] = \StringTools::replace(Path::join(\Array_hx::wrap([
+				$basePath,
 				"" . ($command??'null') . ($data[$_g_current++]??'null'),
-			]));
+			])), "/", (Finder::get_isWindows() ? "\\" : "/"));
 		}
 		$paths = \Array_hx::wrap($result);
 		$result = [];

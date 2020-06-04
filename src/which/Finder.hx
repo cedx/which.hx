@@ -6,6 +6,7 @@ import sys.FileStat;
 import thenshim.Promise;
 
 using Lambda;
+using StringTools;
 using thenshim.PromiseTools;
 
 #if nodejs
@@ -40,13 +41,13 @@ import php.NativeStructArray;
 
 		if (options != null) {
 			#if php
-			if (isset(options["extensions"])) extensions = options["extensions"];
-			if (isset(options["path"])) path = options["path"];
-			if (isset(options["pathSeparator"])) pathSeparator = options["pathSeparator"];
+				if (isset(options["extensions"])) extensions = options["extensions"];
+				if (isset(options["path"])) path = options["path"];
+				if (isset(options["pathSeparator"])) pathSeparator = options["pathSeparator"];
 			#else
-			if (options.extensions != null) extensions = options.extensions;
-			if (options.path != null) path = options.path;
-			if (options.pathSeparator != null) pathSeparator = options.pathSeparator;
+				if (options.extensions != null) extensions = options.extensions;
+				if (options.path != null) path = options.path;
+				if (options.pathSeparator != null) pathSeparator = options.pathSeparator;
 			#end
 		}
 	}
@@ -65,17 +66,15 @@ import php.NativeStructArray;
 	/** Gets a value indicating whether the specified `file` is executable. **/
 	public function isExecutable(file: String): Promise<Bool> {
 		#if nodejs
-		final stat = Util.promisify(Fs.stat);
-		return cast stat(file)
-			.then(stats ->
-				if (stats.isFile()) isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(cast stats)
+			final stat = Util.promisify(Fs.stat);
+			return stat(file).then(stats ->
+				if (stats.isFile()) isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(stats)
 				else Promise.resolve(false)
-			)
-			.catchError(_ -> false);
+			).catchError(_ -> false);
 		#else
-		if (!FileSystem.exists(file) || FileSystem.isDirectory(file)) return Promise.resolve(false);
-		#if php if (php.Syntax.code("is_executable({0})", file)) return Promise.resolve(true); #end
-		return isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(FileSystem.stat(file));
+			if (!FileSystem.exists(file) || FileSystem.isDirectory(file)) return Promise.resolve(false);
+			#if php if (php.Syntax.code("is_executable({0})", file)) return Promise.resolve(true); #end
+			return isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(FileSystem.stat(file));
 		#end
 	}
 
@@ -96,7 +95,8 @@ import php.NativeStructArray;
 
 	/** Finds the instances of the specified `command` in the given `directory`. **/
 	function findExecutables(directory: String, command: String): Promise<Array<String>> {
-		final paths = [""].concat(extensions).map(item -> Path.join([directory, '$command$item']));
+		final basePath = Path.isAbsolute(directory) ? directory : Path.join([Sys.getCwd(), directory]);
+		final paths = [""].concat(extensions).map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"));
 		return paths.map(item -> isExecutable(item)).all().then(results -> [for (index => isExec in results) if (isExec) paths[index]]);
 	}
 
