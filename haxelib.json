@@ -1,7 +1,7 @@
 {
 	"classPath": "src/",
 	"contributors": ["cedx"],
-	"dependencies": {"thenshim": "1.0.0", "tink_cli": "0.5.1"},
+	"dependencies": {"thenshim": "1.1.0", "tink_cli": "0.5.1"},
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
 	"license": "MIT",
 	"main": "Program",
