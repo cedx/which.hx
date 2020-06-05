@@ -8,7 +8,7 @@ import php.NativeStructArray;
 #end
 
 /** The main class. **/
-class Main {
+@expose class Main {
 
 	/** Finds the first instance of the specified `command` in the system path. **/
 	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end): Promise<Dynamic> {

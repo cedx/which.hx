@@ -99,12 +99,6 @@ import php.NativeStructArray;
 		final paths = [""].concat(extensions).map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"));
 		return paths.map(item -> isExecutable(item)).all().then(results -> [for (index => isExec in results) if (isExec) paths[index]]);
 	}
-
-	#if nodejs
-	/** Initializes the class. **/
-	static function __init__(): Void
-		Object.defineProperty(Finder, "isWindows", {get: js.Syntax.field(Finder, "get_isWindows")});
-	#end
 }
 
 /** Defines the options of a `Finder` instance. **/
