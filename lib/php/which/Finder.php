@@ -7,7 +7,6 @@ namespace which;
 
 use \thenshim\PromiseTools;
 use \php\Boot;
-use \php\_NativeStructArray\NativeStructArray_Impl_;
 use \php\_Boot\HxString;
 use \thenshim\_Promise\Promise_Impl_;
 use \sys\FileSystem;
@@ -50,33 +49,6 @@ class Finder {
 		} else {
 			return true;
 		}
-	}
-
-	/**
-	 * Finds the first instance of the specified `command` in the system path.
-	 * 
-	 * @param string $command
-	 * @param object $options
-	 * 
-	 * @return Thenable
-	 */
-	public static function which ($command, $options = null) {
-		$finder = new Finder(NativeStructArray_Impl_::__fromObject($options));
-		$all = ($options !== null) && ($options->all !== null) && $options->all;
-		$onError = (($options !== null) && ($options->onError !== null) ? $options->onError : null);
-		return Promise_Impl_::then($finder->find($command), function ($executables) use (&$finder, &$command, &$all, &$onError) {
-			if ($executables->length !== 0) {
-				if ($all) {
-					return $executables;
-				} else {
-					return ($executables->arr[0] ?? null);
-				}
-			} else if ($onError !== null) {
-				return $onError($command);
-			} else {
-				throw new FinderException($command, $finder, "Command \"" . ($command??'null') . "\" not found.");
-			}
-		});
 	}
 
 	/**

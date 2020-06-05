@@ -72,4 +72,4 @@ You can verify if you're already good to go with the following commands:
 
 		:::php
 		<?php
-		use function which\which;
+		use function which\{which};
