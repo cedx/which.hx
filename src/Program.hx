@@ -1,5 +1,9 @@
 import tink.Cli;
 import tink.cli.Rest;
+import which.FinderException;
+import which.Main;
+
+using thenshim.PromiseTools;
 
 /** Find the instances of an executable in the system path. **/
 @:expose class Program {
@@ -23,13 +27,22 @@ import tink.cli.Rest;
 	static function main(): Void
 		Cli.process(Sys.args(), new Program()).handle(Cli.exit);
 
-	/** Executes this program. **/
+	/** <command> : The name of the command to find. **/
 	@:defaultCommand
 	public function run(rest: Rest<String>): Void {
 		if (help) return Sys.println(Cli.getDoc(this));
 		if (version) return Sys.println(Version.getPackageVersion());
 
-		Sys.println("Program path:");
-		Sys.println(Sys.programPath());
+		if (rest.length == 0) {
+			Sys.println("ERROR: you must provide the name of a command to find.");
+			return Sys.exit(64);
+		}
+
+		Main.which(rest[0], {all: all})
+			.then(executables -> if (!silent) {
+				if (Std.isOfType(executables, String)) executables = cast [executables];
+				Lambda.iter(executables, Sys.println);
+			})
+			.catchError(e -> Sys.exit(Std.isOfType(e, FinderException) ? 2 : 1));
 	}
 }

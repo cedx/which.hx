@@ -4,11 +4,15 @@
  */
 
 use \tink\Cli;
+use \which\Main;
+use \thenshim\PromiseTools;
 use \php\Boot;
 use \tink\cli\prompt\RetryPrompt;
 use \tink\cli\Doc0;
+use \which\FinderException;
 use \tink\cli\doc\DefaultFormatter;
 use \tink\cli\Router0;
+use \thenshim\_Promise\Promise_Impl_;
 
 /**
  * Find the instances of an executable in the system path.
@@ -58,13 +62,14 @@ class Program {
 	}
 
 	/**
-	 * Executes this program.
+	 * <command> : The name of the command to find.
 	 * 
 	 * @param \Array_hx $rest
 	 * 
 	 * @return void
 	 */
 	public function run ($rest) {
+		$_gthis = $this;
 		if ($this->help) {
 			echo((\Std::string((new DefaultFormatter())->format(Doc0::get()))??'null') . PHP_EOL);
 			return;
@@ -73,8 +78,21 @@ class Program {
 			echo("1.0.0" . PHP_EOL);
 			return;
 		}
-		echo("Program path:" . PHP_EOL);
-		echo((\Std::string(\Sys::programPath())??'null') . PHP_EOL);
+		if ($rest->length === 0) {
+			echo("ERROR: you must provide the name of a command to find." . PHP_EOL);
+			exit(64);
+			return;
+		}
+		PromiseTools::catch_(Promise_Impl_::then(Main::which(($rest->arr[0] ?? null), ["all" => $this->all]), function ($executables) use (&$_gthis) {
+			if (!$_gthis->silent) {
+				if (is_string($executables)) {
+					$executables = \Array_hx::wrap([$executables]);
+				}
+				\Lambda::iter($executables, Boot::getStaticClosure(\Sys::class, 'println'));
+			}
+		}), function ($e) {
+			exit((($e instanceof FinderException) ? 2 : 1));
+		});
 	}
 }
 
