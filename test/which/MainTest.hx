@@ -51,7 +51,7 @@ class MainTest extends Test {
 			branch.done();
 		}));
 
-		async.branch(branch -> Main.which("foo", {all: true, onError: _ -> ["bar", "baz", "qux"]}).then((executables: Array<String>) -> {
+		async.branch(branch -> Main.which("foo", {all: true, onError: _ -> ["bar", "baz", "qux"]}).then(executables -> {
 			Assert.same(["bar", "baz", "qux"], executables);
 			branch.done();
 		}));
