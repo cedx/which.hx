@@ -10,6 +10,7 @@ class TestAll {
 	/** The test cases. **/
 	static final tests = [
 		new FinderTest(),
+		new MainTest(),
 		new ProcessTest()
 	];
 

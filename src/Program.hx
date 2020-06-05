@@ -33,19 +33,3 @@ import tink.cli.Rest;
 		Sys.println(Sys.programPath());
 	}
 }
-
-/** Defines the options of the `Program.which()` method. **/
-typedef WhichOptions = {
-
-	/** The application to open the target with. **/
-	var ?application: String;
-
-	/** The arguments to pass when using a custom `application` option. **/
-	var ?arguments: Array<String>;
-
-	/** Value indicating whether to not bring the app to the foreground (macOS only). **/
-	var ?background: Bool;
-
-	/** Value indicating whether to wait for the opened application to exit. **/
-	var ?wait: Bool;
-}
