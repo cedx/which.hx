@@ -46,7 +46,7 @@ class MainTest extends Test {
 		);
 
 		// It should return the value of the `onError` handler.
-		async.branch(branch -> Main.which("foo", {all: false, onError: _ -> "bar/baz.qux"}).then((executable: String) -> {
+		async.branch(branch -> Main.which("foo", {all: false, onError: _ -> "bar/baz.qux"}).then(executable -> {
 			Assert.equals("bar/baz.qux", executable);
 			branch.done();
 		}));

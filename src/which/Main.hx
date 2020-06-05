@@ -34,6 +34,6 @@ typedef WhichOptions = Finder.FinderOptions & {
 	/** Value indicating whether to return an array of all executables found, instead of just the first one. **/
 	var ?all: Bool;
 
-	/** An optional error handler. */
+	/** An optional error handler. **/
 	var ?onError: String -> Dynamic;
 }
