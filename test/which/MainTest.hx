@@ -14,7 +14,7 @@ class MainTest extends Test {
 		// It should return the path of the `executable.cmd` file on Windows.
 		async.branch(branch -> Main.which("executable", {all: false, path: ["test/fixtures"]})
 			.then(executable -> isWindows ? Assert.isTrue(executable.endsWith("\\test\\fixtures\\executable.cmd")) : Assert.fail("Exception not thrown"))
-			// TODO .catchError(e -> isWindows ? Assert.fail(Std.string(e)) : Assert.isTrue(Std.isOfType(e, FinderException)))
+			.catchError(e -> isWindows ? Assert.fail(Std.string(e)) : Assert.isTrue(Std.isOfType(e, FinderException)))
 			.finally(() -> branch.done())
 		);
 
