@@ -91,7 +91,7 @@ class Program {
 				\Lambda::iter($executables, Boot::getStaticClosure(\Sys::class, 'println'));
 			}
 		}), function ($e) {
-			exit((($e instanceof FinderException) ? 2 : 1));
+			exit((($e instanceof FinderException) ? 1 : 2));
 		});
 	}
 }
