@@ -3,6 +3,7 @@
 
 use haxe\{EntryPoint};
 use php\{Boot};
+use which\{Program};
 
 // Load the dependencies.
 $autoload = new SplFileInfo(__DIR__."/../../../autoload.php");

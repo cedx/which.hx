@@ -1,5 +1,6 @@
+--dce no
 --define php-lib=php
 --define real-position
---main Program
+--main which.Program
 --php lib
 share/build.hxml

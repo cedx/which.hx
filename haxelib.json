@@ -4,7 +4,6 @@
 	"dependencies": {"thenshim": "1.1.0", "tink_cli": "0.5.1"},
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
 	"license": "MIT",
-	"main": "Program",
 	"name": "which",
 	"releasenote": "Initial release.",
 	"tags": ["cross", "find", "path", "system", "utility", "which"],

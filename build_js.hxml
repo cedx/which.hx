@@ -5,7 +5,7 @@ share/build.hxml
 --each
 --dce full
 --js bin/which.js
---main Program
+--main which.Program
 
 --next
 --js lib/js/which.js

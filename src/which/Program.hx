@@ -1,3 +1,5 @@
+package which;
+
 import tink.Cli;
 import tink.cli.Rest;
 import which.FinderException;
@@ -6,7 +8,7 @@ import which.Main;
 using thenshim.PromiseTools;
 
 /** Find the instances of an executable in the system path. **/
-@:expose class Program {
+class Program {
 
 	/** List all instances of executables found (instead of just the first one). **/
 	public var all: Bool = false;

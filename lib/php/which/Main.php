@@ -5,7 +5,6 @@
 
 namespace which;
 
-use \php\_Boot\HxAnon;
 use \php\Boot;
 use \thenshim\_Promise\Promise_Impl_;
 use \thenshim\Thenable;
@@ -14,7 +13,6 @@ use \thenshim\Thenable;
  * The main class.
  */
 class Main {
-
 	/**
 	 * Finds the first instance of the specified `command` in the system path.
 	 * 
@@ -41,21 +39,6 @@ class Main {
 			}
 		});
 	}
-
-	/**
-	 * @internal
-	 * @access private
-	 */
-	static public function __hx__init ()
-	{
-		static $called = false;
-		if ($called) return;
-		$called = true;
-
-
-	}
 }
 
 Boot::registerClass(Main::class, 'which.Main');
-Boot::registerMeta(Main::class, new HxAnon(["obj" => new HxAnon(["expose" => null])]));
-Main::__hx__init();

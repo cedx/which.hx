@@ -1,4 +1,4 @@
 --dce full
---main Program
+--main which.Program
 --neko run.n
 share/build.hxml
