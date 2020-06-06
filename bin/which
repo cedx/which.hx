@@ -8,10 +8,7 @@ use which\{Program};
 // Load the dependencies.
 $autoload = new SplFileInfo(__DIR__."/../../../autoload.php");
 $rootPath = (new SplFileInfo(__DIR__))->getPath();
-
-$classLoader = require_once $autoload->isFile() ? $autoload->getPathname() : "$rootPath/vendor/autoload.php";
-if (!interface_exists("thenshim\\Thenable")) $classLoader->setPsr4("thenshim\\", "$rootPath/lib/php/thenshim/");
-if (!class_exists("tink\\Cli")) $classLoader->setPsr4("tink\\", "$rootPath/lib/php/tink/");
+require_once $autoload->isFile() ? $autoload->getPathname() : "$rootPath/vendor/autoload.php";
 
 // Start the application.
 Boot::__hx__init();
