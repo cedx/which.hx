@@ -1,5 +1,3 @@
-package which;
-
 import haxe.Json;
 import haxe.macro.Expr.ExprOf;
 import sys.io.File;
@@ -12,8 +10,6 @@ class Version {
 		return try Json.parse(File.getContent("haxelib.json")).version catch (e) "0.0.0";
 
 	/** Gets the version number of this package. **/
-	macro public static function getPackageVersion(): ExprOf<String> {
-		final version = #if display "0.0.0" #else getHaxelibVersion() #end;
-		return macro $v{version};
-	}
+	macro public static function getPackageVersion(): ExprOf<String>
+		return macro $v{#if display "0.0.0" #else getHaxelibVersion() #end};
 }
