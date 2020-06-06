@@ -6,5 +6,5 @@ foreach ($item in ".temp", "doc/api", "lib/index.php", "lib/js/which.*", "lib/re
 	if (Test-Path $item) { Remove-Item $item -Force -Recurse }
 }
 
-Remove-Item lib/php/* -Exclude which.php -Recurse
+Remove-Item lib/php -Exclude which.php -Recurse
 Get-ChildItem var -Exclude .gitkeep | Remove-Item -Recurse
