@@ -21,7 +21,7 @@
 		"@zeit/ncc": "^0.22.3"
 	},
 	"engines": {
-		"node": ">=14.0.0"
+		"node": ">=14.4.0"
 	},
 	"exports": {
 		"import": "./lib/js/index.mjs",

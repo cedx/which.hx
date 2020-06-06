@@ -9,6 +9,7 @@
 		{"email": "cedric@belin.io", "homepage": "https://belin.io", "name": "Cédric Belin"}
 	],
 	"autoload": {
+		"files": ["lib/php/which.php"],
 		"psr-4": {
 			"tink\\cli\\": "lib/php/tink/cli/",
 			"which\\": "lib/php/which/"
@@ -31,7 +32,7 @@
 		"which"
 	],
 	"require": {
-		"php": ">=7.0.0",
+		"php": ">=7.4.0",
 		"cedx/haxe": "^1.1.0"
 	},
 	"support": {
