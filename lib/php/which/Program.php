@@ -83,7 +83,7 @@ class Program {
 			exit(64);
 			return;
 		}
-		PromiseTools::catch_(Promise_Impl_::then(Main::which(($rest->arr[0] ?? null), ["all" => $this->all]), function ($executables) use (&$_gthis) {
+		PromiseTools::catch_(Promise_Impl_::then(Tools::which(($rest->arr[0] ?? null), ["all" => $this->all]), function ($executables) use (&$_gthis) {
 			if (!$_gthis->silent) {
 				if (is_string($executables)) {
 					$executables = \Array_hx::wrap([$executables]);

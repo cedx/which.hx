@@ -3,9 +3,9 @@ package which;
 import tink.Cli;
 import tink.cli.Rest;
 import which.FinderException;
-import which.Main;
 
 using thenshim.PromiseTools;
+using which.Tools;
 
 /** Find the instances of an executable in the system path. **/
 class Program {
@@ -40,7 +40,7 @@ class Program {
 			return Sys.exit(64);
 		}
 
-		Main.which(rest[0], {all: all})
+		rest[0].which({all: all})
 			.then(executables -> if (!silent) {
 				if (Std.isOfType(executables, String)) executables = cast [executables];
 				Lambda.iter(executables, Sys.println);

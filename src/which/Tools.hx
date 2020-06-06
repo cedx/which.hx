@@ -7,8 +7,8 @@ import php.Global.isset;
 import php.NativeStructArray;
 #end
 
-/** The main class. **/
-@:expose class Main {
+/** Provides static extensions. **/
+@:expose class Tools {
 
 	/** Finds the first instance of the specified `command` in the system path. **/
 	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end): Promise<Dynamic> {

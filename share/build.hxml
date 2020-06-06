@@ -5,6 +5,6 @@
 
 which.Finder
 which.FinderException
-which.Main
 which.Process
 which.ProcessIdentity
+which.Tools

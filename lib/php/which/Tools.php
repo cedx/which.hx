@@ -10,9 +10,9 @@ use \thenshim\_Promise\Promise_Impl_;
 use \thenshim\Thenable;
 
 /**
- * The main class.
+ * Provides static extensions.
  */
-class Main {
+class Tools {
 	/**
 	 * Finds the first instance of the specified `command` in the system path.
 	 * 
@@ -41,4 +41,4 @@ class Main {
 	}
 }
 
-Boot::registerClass(Main::class, 'which.Main');
+Boot::registerClass(Tools::class, 'which.Tools');

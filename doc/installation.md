@@ -45,7 +45,7 @@ You can verify if you're already good to go with the following commands:
 	Now in your [Haxe](https://haxe.org) code, you can use:
 
 		:::haxe
-		import which.Main;
+		using which.Tools;
 
 === "JavaScript"
 	From a command prompt, run:
