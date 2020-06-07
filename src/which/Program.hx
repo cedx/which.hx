@@ -11,22 +11,22 @@ using which.Tools;
 class Program {
 
 	/** List all instances of executables found (instead of just the first one). **/
-	public var all: Bool = false;
+	public var all = false;
 
 	/** Output usage information. **/
-	public var help: Bool = false;
+	public var help = false;
 
 	/** Silence the output, just return the exit code (0 if any executable is found, otherwise 1). **/
-	public var silent: Bool = false;
+	public var silent = false;
 
 	/** Output the version number. **/
-	public var version: Bool = false;
+	public var version = false;
 
 	/** Creates a new program. **/
 	public function new() {}
 
 	/** Application entry point. **/
-	static function main(): Void
+	static function main()
 		Cli.process(Sys.args(), new Program()).handle(Cli.exit);
 
 	/** <command> : The name of the command to find. **/

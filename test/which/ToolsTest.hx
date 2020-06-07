@@ -3,14 +3,14 @@ package which;
 using StringTools;
 using thenshim.PromiseTools;
 
-/** Tests the features of the `Main` class. **/
-class MainTest extends Test {
+/** Tests the features of the `Tools` class. **/
+class ToolsTest extends Test {
 
 	/** Value indicating whether the current platform is Windows. **/
 	static final isWindows = Sys.systemName() == "Windows";
 
 	/** Tests the `which()` method. **/
-	function testWhich(async: Async): Void {
+	function testWhich(async: Async) {
 		// It should return the path of the `executable.cmd` file on Windows.
 		async.branch(branch -> Main.which("executable", {all: false, path: ["test/fixtures"]})
 			.then(executable -> isWindows ? Assert.isTrue(executable.endsWith("\\test\\fixtures\\executable.cmd")) : Assert.fail("Exception not thrown"))

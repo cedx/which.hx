@@ -12,7 +12,7 @@ import haxe.Exception;
 	public final finder: Finder;
 
 	/** Creates a new finder exception. **/
-	public function new(command: String, finder: Finder, message: String = "", ?previous: Exception) {
+	public function new(command: String, finder: Finder, message = "", ?previous: Exception) {
 		super(message, previous);
 		this.command = command;
 		this.finder = finder;

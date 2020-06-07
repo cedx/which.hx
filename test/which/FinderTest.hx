@@ -9,7 +9,7 @@ class FinderTest extends Test {
 	static final isWindows = Sys.systemName() == "Windows";
 
 	/** Tests the `find()` method. **/
-	function testFind(async: Async): Void {
+	function testFind(async: Async) {
 		final finder = new Finder({path: ["test/fixtures"]});
 
 		// It should return the path of the `executable.cmd` file on Windows.
@@ -28,7 +28,7 @@ class FinderTest extends Test {
 	}
 
 	/** Tests the `isExecutable()` method. **/
-	function testIsExecutable(async: Async): Void {
+	function testIsExecutable(async: Async) {
 		final finder = new Finder();
 
 		// It should return `false` for a non-existent file.

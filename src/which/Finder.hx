@@ -53,7 +53,7 @@ import php.NativeStructArray;
 	}
 
 	/** Gets a value indicating whether the current platform is Windows. **/
-	static function get_isWindows(): Bool {
+	static function get_isWindows() {
 		if (Sys.systemName() == "Windows") return true;
 		final osType = Sys.getEnv("OSTYPE");
 		return osType == "cygwin" || osType == "msys";

@@ -10,12 +10,12 @@ class TestAll {
 	/** The test cases. **/
 	static final tests = [
 		new FinderTest(),
-		new MainTest(),
-		new ProcessTest()
+		new ProcessTest(),
+		new ToolsTest()
 	];
 
 	/** Application entry point. **/
-	static function main(): Void {
+	static function main() {
 		final runner = new Runner();
 		runner.onComplete.add(_ -> {
 			final logger = MCoverage.getLogger();
