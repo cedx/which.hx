@@ -47,6 +47,7 @@
 	},
 	"scripts": {
 		"coverage": "coveralls var/lcov.info",
+		"dist": "ncc build bin/which.js --minify --out=var",
 		"prepack": "pwsh tool/dist.ps1"
 	}
 }

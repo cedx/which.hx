@@ -49,7 +49,7 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
         if: success()
-        run: npm run-script coverage
+        run: npm run coverage
   neko:
     runs-on: ubuntu-latest
     steps:
