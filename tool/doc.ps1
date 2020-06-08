@@ -7,7 +7,7 @@ haxe build_doc.hxml
 haxelib run dox `
 	--define description "Find the instances of an executable in the system path. Like the `which` Linux command." `
 	--define logo "https://api.belin.io/which.hx/favicon.ico" `
-	--define source-path "https://git.belin.io/cedx/which.hx/src/branch/master/src" `
+	--define source-path "https://git.belin.io/cedx/which.hx/src/branch/main/src" `
 	--define themeColor 0xffc105 `
 	--define version $version `
 	--define website "https://belin.io" `
