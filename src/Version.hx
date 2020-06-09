@@ -10,6 +10,6 @@ class Version {
 		return try Json.parse(File.getContent("haxelib.json")).version catch (e) "0.0.0";
 
 	/** Gets the version number of this package. **/
-	macro public static function getPackageVersion(): ExprOf<String>
+	public static macro function getPackageVersion(): ExprOf<String>
 		return macro $v{#if display "0.0.0" #else getHaxelibVersion() #end};
 }
