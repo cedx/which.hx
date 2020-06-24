@@ -10,6 +10,13 @@ namespace which;
  */
 function which(string $command, array $options = null) {
 	$executable = null;
-	FinderTools::which($command, $options)->then(function($result) use (&$executable) { $executable = $result; });
+	$exception = null;
+
+	FinderTools::which($command, $options)->then(
+		function($result) use (&$executable) { $executable = $result; },
+		function($error) use (&$exception) { $exception = $error; }
+	);
+
+	if ($exception) throw $exception;
 	return $executable;
 }
