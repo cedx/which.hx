@@ -2,10 +2,15 @@ package which;
 
 import tink.Cli;
 import tink.cli.Rest;
+import tink.core.Promise as TinkPromise;
 import which.FinderException;
 
 using thenshim.PromiseTools;
 using which.Tools;
+
+#if nodejs
+import js.Node;
+#end
 
 /** Find the instances of an executable in the system path. **/
 class Program {
@@ -26,21 +31,35 @@ class Program {
 	public function new() {}
 
 	/** Application entry point. **/
-	static function main()
+	static function main() {
+		#if nodejs
+			Node.process.title = "Which.hx";
+		#elseif php
+			php.Syntax.code("cli_set_process_title({0})", "Which.hx");
+		#end
+
 		Cli.process(Sys.args(), new Program()).handle(Cli.exit);
+	}
 
 	/** <command> : The name of the command to find. **/
 	@:defaultCommand
-	public function run(rest: Rest<String>): Void {
-		if (help) return Sys.println(Cli.getDoc(this));
-		if (version) return Sys.println(Version.getPackageVersion());
-
-		if (rest.length == 0) {
-			Sys.println("ERROR: you must provide the name of a command to find.");
-			return Sys.exit(64);
+	public function run(rest: Rest<String>): TinkPromise<Dynamic> {
+		if (help) {
+			Sys.println(Cli.getDoc(this));
+			Sys.exit(0);
 		}
 
-		rest[0].which({all: all})
+		if (version) {
+			Sys.println(Version.getPackageVersion());
+			Sys.exit(0);
+		}
+
+		if (rest.length == 0) {
+			Sys.println("You must provide the name of a command to find.");
+			Sys.exit(64);
+		}
+
+		return rest[0].which({all: all})
 			.then(executables -> if (!silent) {
 				if (Std.isOfType(executables, String)) executables = cast [executables];
 				Lambda.iter(executables, Sys.println);
