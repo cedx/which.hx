@@ -10,6 +10,6 @@ namespace which;
  */
 function which(string $command, array $options = null) {
 	$executable = null;
-	Tools::which($command, $options)->then(function($result) use (&$executable) { $executable = $result; });
+	FinderTools::which($command, $options)->then(function($result) use (&$executable) { $executable = $result; });
 	return $executable;
 }

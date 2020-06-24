@@ -8,7 +8,7 @@ import php.NativeStructArray;
 #end
 
 /** Provides static extensions. **/
-@:expose class Tools {
+@:expose class FinderTools {
 
 	/** Finds the first instance of the specified `command` in the system path. **/
 	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end): Promise<Dynamic> {

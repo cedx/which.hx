@@ -12,7 +12,7 @@ use \thenshim\Thenable;
 /**
  * Provides static extensions.
  */
-class Tools {
+class FinderTools {
 	/**
 	 * Finds the first instance of the specified `command` in the system path.
 	 * 
@@ -41,4 +41,4 @@ class Tools {
 	}
 }
 
-Boot::registerClass(Tools::class, 'which.Tools');
+Boot::registerClass(FinderTools::class, 'which.FinderTools');

@@ -87,7 +87,7 @@ class Program {
 			echo("You must provide the name of a command to find." . PHP_EOL);
 			exit(64);
 		}
-		return new SyncFuture(new LazyConst(Outcome::Success(PromiseTools::catch_(Promise_Impl_::then(Tools::which(($rest->arr[0] ?? null), ["all" => $this->all]), function ($executables) use (&$_gthis) {
+		return new SyncFuture(new LazyConst(Outcome::Success(PromiseTools::catch_(Promise_Impl_::then(FinderTools::which(($rest->arr[0] ?? null), ["all" => $this->all]), function ($executables) use (&$_gthis) {
 			if (!$_gthis->silent) {
 				if (is_string($executables)) {
 					$executables = \Array_hx::wrap([$executables]);

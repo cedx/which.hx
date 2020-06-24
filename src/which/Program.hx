@@ -6,7 +6,7 @@ import tink.core.Promise as TinkPromise;
 import which.FinderException;
 
 using thenshim.PromiseTools;
-using which.Tools;
+using which.FinderTools;
 
 #if nodejs
 import js.Node;

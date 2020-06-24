@@ -5,6 +5,7 @@
 
 namespace which;
 
+use \php\_Boot\HxDynamicStr;
 use \thenshim\PromiseTools;
 use \php\Boot;
 use \php\_Boot\HxString;
@@ -17,6 +18,11 @@ use \haxe\io\Path;
  * Finds the instances of an executable in the system path.
  */
 class Finder {
+	/**
+	 * @var bool
+	 * Value indicating whether the current platform is Windows.
+	 */
+	static public $isWindows;
 
 	/**
 	 * @var \Array_hx
@@ -28,11 +34,6 @@ class Finder {
 	 * The list of system paths.
 	 */
 	public $path;
-	/**
-	 * @var string
-	 * The character used to separate paths in the system path.
-	 */
-	public $pathSeparator;
 
 	/**
 	 * Gets a value indicating whether the current platform is Windows.
@@ -40,15 +41,17 @@ class Finder {
 	 * @return bool
 	 */
 	public static function get_isWindows () {
-		if (\Sys::systemName() === "Windows") {
-			return true;
+		if (Finder::$isWindows === null) {
+			$tmp = null;
+			if (\Sys::systemName() !== "Windows") {
+				$osType = \Sys::getEnv("OSTYPE");
+				$tmp = ($osType === "cygwin") || ($osType === "msys");
+			} else {
+				$tmp = true;
+			}
+			Finder::$isWindows = $tmp;
 		}
-		$osType = \Sys::getEnv("OSTYPE");
-		if ($osType !== "cygwin") {
-			return $osType === "msys";
-		} else {
-			return true;
-		}
+		return Finder::$isWindows;
 	}
 
 	/**
@@ -59,10 +62,11 @@ class Finder {
 	 * @return void
 	 */
 	public function __construct ($options = null) {
-		$this->pathSeparator = (Finder::get_isWindows() ? ";" : ":");
+		$separator = (Finder::get_isWindows() ? ";" : ":");
+		$pathExt = \Sys::getEnv("PATHEXT");
 		$tmp = null;
-		if (Finder::get_isWindows()) {
-			$_this = HxString::split(\Sys::getEnv("PATHEXT"), $this->pathSeparator);
+		if ($pathExt !== null) {
+			$_this = HxString::split($pathExt, $separator);
 			$result = [];
 			$data = $_this->arr;
 			$_g_current = 0;
@@ -72,19 +76,24 @@ class Finder {
 			}
 			$tmp = \Array_hx::wrap($result);
 		} else {
-			$tmp = new \Array_hx();
+			$tmp = \Array_hx::wrap([
+				".exe",
+				".cmd",
+				".bat",
+				".com",
+			]);
 		}
 		$this->extensions = $tmp;
-		$this->path = HxString::split(\Sys::getEnv("PATH"), $this->pathSeparator);
+		$pathEnv = \Sys::getEnv("PATH");
+		$this->path = ($pathEnv !== null ? HxString::split($pathEnv, $separator) : new \Array_hx());
 		if ($options !== null) {
 			if (isset($options["extensions"])) {
-				$this->extensions = $options["extensions"];
+				$this->extensions = $options["extensions"]->map(function ($item) {
+					return HxDynamicStr::wrap($item)->toLowerCase();
+				});
 			}
 			if (isset($options["path"])) {
 				$this->path = $options["path"];
-			}
-			if (isset($options["pathSeparator"])) {
-				$this->pathSeparator = $options["pathSeparator"];
 			}
 		}
 	}
@@ -149,7 +158,7 @@ class Finder {
 	 */
 	public function find ($command) {
 		$_gthis = $this;
-		$_this = $this->path;
+		$_this = Boot::deref(((Finder::get_isWindows() ? \Array_hx::wrap([\Sys::getCwd()]) : new \Array_hx())))->concat($this->path);
 		$result = [];
 		$data = $_this->arr;
 		$_g_current = 0;
@@ -185,7 +194,7 @@ class Finder {
 			\Sys::getCwd(),
 			$directory,
 		])));
-		$_this = (\Array_hx::wrap([""]))->concat($this->extensions);
+		$_this = (\Array_hx::wrap([""]))->concat((Finder::get_isWindows() ? $this->extensions : new \Array_hx()));
 		$result = [];
 		$data = $_this->arr;
 		$_g_current = 0;
