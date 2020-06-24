@@ -64,6 +64,9 @@ class Program {
 				if (Std.isOfType(executables, String)) executables = cast [executables];
 				Lambda.iter(executables, Sys.println);
 			})
-			.catchError(e -> Sys.exit(Std.isOfType(e, FinderException) ? 1 : 2));
+			.catchError(e -> Std.isOfType(e, FinderException) ? Sys.exit(1) : {
+				Sys.println(e);
+				Sys.exit(2);
+			});
 	}
 }

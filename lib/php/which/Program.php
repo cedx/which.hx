@@ -95,7 +95,12 @@ class Program {
 				\Lambda::iter($executables, Boot::getStaticClosure(\Sys::class, 'println'));
 			}
 		}), function ($e) {
-			exit((($e instanceof FinderException) ? 1 : 2));
+			if (($e instanceof FinderException)) {
+				exit(1);
+			} else {
+				echo((\Std::string($e)??'null') . PHP_EOL);
+				exit(2);
+			}
 		}))));
 	}
 }
