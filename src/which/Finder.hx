@@ -22,7 +22,7 @@ import php.NativeStructArray;
 @:expose class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
-	public static var isWindows(get, never): Bool;
+	public static var isWindows(get, null): Bool;
 
 	/** The list of executable file extensions. **/
 	public final extensions: Array<String>;
@@ -33,15 +33,19 @@ import php.NativeStructArray;
 	/** Creates a new finder. **/
 	public function new(?options: #if php NativeStructArray<FinderOptions> #else FinderOptions #end) {
 		final separator = isWindows ? ";" : ":";
-		extensions = isWindows ? Sys.getEnv("PATHEXT").split(separator) : [];
-		path = Sys.getEnv("PATH").split(separator);
+
+		final pathExt = Sys.getEnv("PATHEXT");
+		extensions = pathExt != null ? pathExt.split(separator).map(item -> item.toLowerCase()) : [".exe", ".cmd", ".bat", ".com"];
+
+		final pathEnv = Sys.getEnv("PATH");
+		path = pathEnv != null ? pathEnv.split(separator) : [];
 
 		if (options != null) {
 			#if php
-				if (isset(options["extensions"])) extensions = options["extensions"];
+				if (isset(options["extensions"])) extensions = options["extensions"].map(item -> item.toLowerCase());
 				if (isset(options["path"])) path = options["path"];
 			#else
-				if (options.extensions != null) extensions = options.extensions;
+				if (options.extensions != null) extensions = options.extensions.map(item -> item.toLowerCase());
 				if (options.path != null) path = options.path;
 			#end
 		}
@@ -49,14 +53,19 @@ import php.NativeStructArray;
 
 	/** Gets a value indicating whether the current platform is Windows. **/
 	static function get_isWindows() {
-		if (Sys.systemName() == "Windows") return true;
-		final osType = Sys.getEnv("OSTYPE");
-		return osType == "cygwin" || osType == "msys";
+		if (isWindows == null) isWindows = Sys.systemName() == "Windows" || {
+			final osType = Sys.getEnv("OSTYPE");
+			osType == "cygwin" || osType == "msys";
+		};
+
+		return isWindows;
 	}
 
 	/** Finds the instances of the specified `command` in the system path. **/
-	public function find(command: String): Promise<Array<String>>
-		return path.map(item -> findExecutables(item, command)).all().then(results -> results.flatten());
+	public function find(command: String): Promise<Array<String>> {
+		final paths = isWindows ? [Sys.getCwd()] : [];
+		return paths.concat(path).map(item -> findExecutables(item, command)).all().then(results -> results.flatten());
+	}
 
 	/** Gets a value indicating whether the specified `file` is executable. **/
 	public function isExecutable(file: String): Promise<Bool> {
@@ -91,7 +100,7 @@ import php.NativeStructArray;
 	/** Finds the instances of the specified `command` in the given `directory`. **/
 	function findExecutables(directory: String, command: String): Promise<Array<String>> {
 		final basePath = Path.isAbsolute(directory) ? directory : Path.join([Sys.getCwd(), directory]);
-		final paths = [""].concat(extensions).map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"));
+		final paths = [""].concat(isWindows ? extensions : []).map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"));
 		return paths.map(item -> isExecutable(item)).all().then(results -> [for (index => isExec in results) if (isExec) paths[index]]);
 	}
 }
