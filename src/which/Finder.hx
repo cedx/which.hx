@@ -30,24 +30,19 @@ import php.NativeStructArray;
 	/** The list of system paths. **/
 	public final path: Array<String>;
 
-	/** The character used to separate paths in the system path. **/
-	public final pathSeparator: String;
-
 	/** Creates a new finder. **/
 	public function new(?options: #if php NativeStructArray<FinderOptions> #else FinderOptions #end) {
-		pathSeparator = isWindows ? ";" : ":";
-		extensions = isWindows ? Sys.getEnv("PATHEXT").split(pathSeparator).map(item -> item.toLowerCase()) : [];
-		path = Sys.getEnv("PATH").split(pathSeparator);
+		final separator = isWindows ? ";" : ":";
+		extensions = isWindows ? Sys.getEnv("PATHEXT").split(separator) : [];
+		path = Sys.getEnv("PATH").split(separator);
 
 		if (options != null) {
 			#if php
 				if (isset(options["extensions"])) extensions = options["extensions"];
 				if (isset(options["path"])) path = options["path"];
-				if (isset(options["pathSeparator"])) pathSeparator = options["pathSeparator"];
 			#else
 				if (options.extensions != null) extensions = options.extensions;
 				if (options.path != null) path = options.path;
-				if (options.pathSeparator != null) pathSeparator = options.pathSeparator;
 			#end
 		}
 	}
@@ -109,7 +104,4 @@ typedef FinderOptions = {
 
 	/** The list of system paths. **/
 	var ?path: Array<String>;
-
-	/** The character used to separate paths in the system path. **/
-	var ?pathSeparator: String;
 }
