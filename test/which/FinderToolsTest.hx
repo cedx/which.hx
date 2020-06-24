@@ -14,8 +14,8 @@ class FinderToolsTest extends Test {
 	function testWhich(async: Async) {
 		// It should return the path of the `executable.cmd` file on Windows.
 		async.branch(branch -> "executable".which({all: false, path: ["test/fixtures"]})
-			.then(executable -> isWindows ? Assert.isTrue(executable.endsWith("\\test\\fixtures\\executable.cmd")) : Assert.fail("Promise not rejected"))
-			.catchError(e -> { trace(Type.getClassName(Type.getClass(e))); isWindows ? Assert.fail(Std.string(e)) : Assert.isTrue(Std.isOfType(e, FinderException)); })
+			.then((executable: String) -> isWindows ? Assert.isTrue(executable.endsWith("\\test\\fixtures\\executable.cmd")) : Assert.fail("Promise not rejected"))
+			.catchError(e -> isWindows ? Assert.fail(Std.string(e)) : Assert.isTrue(Std.isOfType(e, FinderException)))
 			.finally(() -> branch.done())
 		);
 
@@ -31,7 +31,7 @@ class FinderToolsTest extends Test {
 
 		// It should return the path of the `executable.sh` file on POSIX.
 		async.branch(branch -> "executable.sh".which({all: false, path: ["test/fixtures"]})
-			.then(executable -> isWindows ? Assert.fail("Promise not rejected") : Assert.isTrue(executable.endsWith("/test/fixtures/executable.sh")))
+			.then((executable: String) -> isWindows ? Assert.fail("Promise not rejected") : Assert.isTrue(executable.endsWith("/test/fixtures/executable.sh")))
 			.catchError(e -> isWindows ? Assert.isTrue(Std.isOfType(e, FinderException)) : Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
 		);
@@ -48,12 +48,12 @@ class FinderToolsTest extends Test {
 
 		// It should return the value of the `onError` handler.
 		async.branch(branch -> "foo".which({all: false, onError: _ -> "bar/baz.qux"})
-			.then(executable -> Assert.equals("bar/baz.qux", executable), e -> Assert.fail(Std.string(e)))
+			.then((executable: String) -> Assert.equals("bar/baz.qux", executable), e -> Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
 		);
 
 		async.branch(branch -> "foo".which({all: true, onError: _ -> ["bar", "baz", "qux"]})
-			.then(executables -> Assert.same(["bar", "baz", "qux"], executables), e -> Assert.fail(Std.string(e)))
+			.then((executables: Array<String>) -> Assert.same(["bar", "baz", "qux"], executables), e -> Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
 		);
 	}
