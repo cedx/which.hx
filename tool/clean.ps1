@@ -7,4 +7,4 @@ foreach ($item in ".temp", "doc/api", "lib/index.php", "lib/js/which.*", "lib/re
 }
 
 Remove-Item lib/php -Exclude which.php -Recurse
-Get-ChildItem var -Exclude .gitkeep | Remove-Item -Recurse
+Get-ChildItem var -Exclude .gitkeep | Remove-Item -Force -Recurse
