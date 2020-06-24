@@ -10,8 +10,8 @@ class TestAll {
 	/** The test cases. **/
 	static final tests = [
 		new FinderTest(),
-		new ProcessTest(),
-		new ToolsTest()
+		new FinderToolsTest(),
+		new ProcessTest()
 	];
 
 	/** Application entry point. **/
