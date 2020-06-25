@@ -33,7 +33,7 @@
 	],
 	"require": {
 		"php": ">=7.4.0",
-		"cedx/haxe": "^1.1.0"
+		"cedx/haxe": "^1.1.1"
 	},
 	"support": {
 		"docs": "https://api.belin.io/which.hx",
