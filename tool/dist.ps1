@@ -7,7 +7,7 @@ tool/version.ps1
 tool/build.ps1
 
 npm run dist
-@("#!/usr/bin/env node") + (Get-Content var/index.js) | Out-File bin/which.js
+@("#!/usr/bin/env node") + (Get-Content bin/which.js) | Out-File bin/which.js
 if (-not $IsWindows) { chmod +x bin/which.js }
 
 Remove-Item lib/index.php

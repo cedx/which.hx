@@ -18,7 +18,7 @@
 	},
 	"devDependencies": {
 		"@cedx/coveralls": "^10.1.0",
-		"@zeit/ncc": "^0.22.3"
+		"terser": "^4.8.0"
 	},
 	"engines": {
 		"node": ">=14.4.0"
@@ -47,7 +47,7 @@
 	},
 	"scripts": {
 		"coverage": "coveralls var/lcov.info",
-		"dist": "ncc build bin/which.js --minify --out=var",
+		"dist": "terser --config-file=etc/terser.json --output=bin/which.js bin/which.js",
 		"prepack": "pwsh tool/dist.ps1"
 	}
 }
