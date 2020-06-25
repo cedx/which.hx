@@ -83,7 +83,7 @@ class Program {
 			echo("1.0.0" . PHP_EOL);
 			exit(0);
 		}
-		if ($rest->length === 0) {
+		if (($rest->length === 0) || ((\Sys::getEnv("HAXELIB_RUN") === "1") && ($rest->length === 1))) {
 			echo("You must provide the name of a command to find." . PHP_EOL);
 			exit(64);
 		}
