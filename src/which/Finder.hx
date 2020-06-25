@@ -64,7 +64,7 @@ import php.NativeStructArray;
 	/** Finds the instances of the specified `command` in the system path. **/
 	public function find(command: String): Promise<Array<String>> {
 		final paths = isWindows ? [Sys.getCwd()] : [];
-		return paths.concat(path).map(item -> findExecutables(item, command)).all().then(results -> results.flatten());
+		return paths.concat(path).map(item -> findExecutables(item, command)).all().then(results -> arrayUnique(results.flatten()));
 	}
 
 	/** Gets a value indicating whether the specified `file` is executable. **/
@@ -80,6 +80,13 @@ import php.NativeStructArray;
 			#if php if (php.Syntax.code("is_executable({0})", file)) return Promise.resolve(true); #end
 			return isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(FileSystem.stat(file));
 		#end
+	}
+
+	/** Removes duplicate values from the specified `array`. **/
+	function arrayUnique<T>(array: Array<T>) {
+		var list = [];
+		for (value in array) if (!list.contains(value)) list.push(value);
+		return list;
 	}
 
 	/** Checks that the specified `file` is executable according to the executable file extensions. **/

@@ -99,6 +99,26 @@ class Finder {
 	}
 
 	/**
+	 * Removes duplicate values from the specified `array`.
+	 * 
+	 * @param \Array_hx $array
+	 * 
+	 * @return \Array_hx
+	 */
+	public function arrayUnique ($array) {
+		$list = new \Array_hx();
+		$_g = 0;
+		while ($_g < $array->length) {
+			$value = ($array->arr[$_g] ?? null);
+			++$_g;
+			if ($list->indexOf($value) === -1) {
+				$list->arr[$list->length++] = $value;
+			}
+		}
+		return $list;
+	}
+
+	/**
 	 * Checks that the specified `file` is executable according to the executable file extensions.
 	 * 
 	 * @param string $file
@@ -166,7 +186,8 @@ class Finder {
 		while ($_g_current < $_g_length) {
 			$result[] = $_gthis->findExecutables($data[$_g_current++], $command);
 		}
-		return Promise_Impl_::then(PromiseTools::all(\Array_hx::wrap($result)), function ($results) {
+		return Promise_Impl_::then(PromiseTools::all(\Array_hx::wrap($result)), function ($results) use (&$_gthis) {
+			$_gthis1 = $_gthis;
 			$_g = new \Array_hx();
 			$_g_current = 0;
 			while ($_g_current < $results->length) {
@@ -176,7 +197,7 @@ class Finder {
 					$_g->arr[$_g->length++] = $x1;
 				}
 			}
-			return $_g;
+			return $_gthis1->arrayUnique($_g);
 		});
 	}
 
