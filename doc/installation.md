@@ -9,7 +9,7 @@ You can verify if you're already good to go with the following commands:
 === "Haxe"
 		:::shell
 		haxe --version
-		# 4.1.1
+		# 4.1.2
 
 		haxelib version
 		# 4.0.2
@@ -25,7 +25,7 @@ You can verify if you're already good to go with the following commands:
 === "PHP"
 		:::shell
 		php --version
-		# PHP 7.4.6 (cli) (built: May 12 2020 11:38:52) ( NTS Visual C++ 2017 x64 )
+		# PHP 7.4.7 (cli) (built: Jun  9 2020 13:34:30) ( NTS Visual C++ 2017 x64 )
 
 		composer --version
 		# Composer version 1.10.7 2020-06-03 10:03:56
@@ -45,7 +45,8 @@ You can verify if you're already good to go with the following commands:
 	Now in your [Haxe](https://haxe.org) code, you can use:
 
 		:::haxe
-		using which.Tools;
+		import which.FinderException;
+		import which.FinderTools;
 
 === "JavaScript"
 	From a command prompt, run:
@@ -72,4 +73,5 @@ You can verify if you're already good to go with the following commands:
 
 		:::php
 		<?php
-		use function which\{which};
+		use function which\which;
+		use which\FinderException;
