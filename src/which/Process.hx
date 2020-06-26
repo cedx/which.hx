@@ -21,7 +21,7 @@ class Process {
 	public static var uid(get, never): Promise<Int>;
 
 	/** Gets the identifier of the current process's group. **/
-	static function get_gid(): Promise<Int> {
+	static function get_gid() {
 		#if nodejs
 		if (typeof(Node.process.getgid) == "function") return Promise.resolve(Node.process.getgid());
 		#elseif php
@@ -31,7 +31,7 @@ class Process {
 	}
 
 	/** Gets the identifier of the current process's user. **/
-	static function get_uid(): Promise<Int> {
+	static function get_uid() {
 		#if nodejs
 		if (typeof(Node.process.getuid) == "function") return Promise.resolve(Node.process.getuid());
 		#elseif php

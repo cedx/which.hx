@@ -21,7 +21,7 @@ import php.NativeStructArray;
 @:expose class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
-	public static var isWindows(get, null): Bool;
+	public static var isWindows(get, never): Bool;
 
 	/** The list of executable file extensions. **/
 	public final extensions: Array<String>;
@@ -51,14 +51,11 @@ import php.NativeStructArray;
 	}
 
 	/** Gets a value indicating whether the current platform is Windows. **/
-	static function get_isWindows() {
-		if (isWindows == null) isWindows = Sys.systemName() == "Windows" || {
+	static function get_isWindows()
+		return Sys.systemName() == "Windows" || {
 			final osType = Sys.getEnv("OSTYPE");
 			osType == "cygwin" || osType == "msys";
 		};
-
-		return isWindows;
-	}
 
 	/** Finds the instances of the specified `command` in the system path. **/
 	public function find(command: String): Promise<Array<String>> {
