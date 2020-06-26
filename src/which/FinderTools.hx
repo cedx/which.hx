@@ -23,7 +23,7 @@ import php.NativeStructArray;
 		final finder = new Finder(options);
 		return finder.find(command).then(executables ->
 			if (executables.length > 0) all ? executables : cast executables[0]
-			else onError != null ? onError(command) : throw new FinderException(command, finder, 'Command "$command" not found.')
+			else onError != null ? onError(command) : throw new FinderException(command, finder)
 		);
 	}
 }

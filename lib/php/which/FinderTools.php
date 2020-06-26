@@ -35,7 +35,7 @@ class FinderTools {
 			} else if ($onError !== null) {
 				return $onError($command);
 			} else {
-				throw new FinderException($command, $finder, "Command \"" . ($command??'null') . "\" not found.");
+				throw new FinderException($command, $finder);
 			}
 		});
 	}

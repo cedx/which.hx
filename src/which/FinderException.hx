@@ -12,8 +12,8 @@ import haxe.Exception;
 	public final finder: Finder;
 
 	/** Creates a new finder exception. **/
-	public function new(command: String, finder: Finder, message = "", ?previous: Exception) {
-		super(message, previous);
+	public function new(command: String, finder: Finder, ?previous: Exception) {
+		super('Command "$command" not found.', previous);
 		this.command = command;
 		this.finder = finder;
 	}

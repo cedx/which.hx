@@ -28,16 +28,12 @@ class FinderException extends Exception {
 	 * 
 	 * @param string $command
 	 * @param Finder $finder
-	 * @param string $message
 	 * @param Exception $previous
 	 * 
 	 * @return void
 	 */
-	public function __construct ($command, $finder, $message = "", $previous = null) {
-		if ($message === null) {
-			$message = "";
-		}
-		parent::__construct($message, $previous);
+	public function __construct ($command, $finder, $previous = null) {
+		parent::__construct("Command \"" . ($command??'null') . "\" not found.", $previous);
 		$this->command = $command;
 		$this->finder = $finder;
 	}
