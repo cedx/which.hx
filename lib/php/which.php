@@ -8,7 +8,7 @@ namespace which;
  * @return string|string[] A string, or an array of strings, specifying the path(s) of the found executable(s).
  * @throws FinderException The specified command was not found.
  */
-function which(string $command, array $options = null) {
+function which(string $command, array $options = []) {
 	$executable = null;
 	$exception = null;
 

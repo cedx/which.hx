@@ -21,8 +21,8 @@ This package provides a single function, `which()`, allowing to locate a command
 		class Main {
 			static function main() {
 				FinderTools.which("foobar").then(
-					(path: String) -> Sys.println('The command "foobar" is located at: $path'),
-					(e: FinderException) -> Sys.println('The command "${e.command}" was not found.')
+					path -> Sys.println('The command "foobar" is located at: $path'),
+					e -> Sys.println('The command "${(e: FinderException).command}" was not found.')
 				);
 			}
 		}
@@ -65,7 +65,7 @@ This package provides a single function, `which()`, allowing to locate a command
 			}
 
 			catch (FinderException $e) {
-				print "The command '{$e->getCommand()}' was not found.";
+				print "The command '{$e->command}' was not found.";
 			}
 		}
 
@@ -92,7 +92,7 @@ If you pass `true` as option value, the function will return an array of strings
 
 === "JavaScript"
 		:::js
-		import {which} from "@cedx/which";
+		import {which} from "@cedx/which.hx";
 
 		async function main() {
 			const paths = await which("foobar", {all: true});
@@ -149,7 +149,7 @@ By default, when the specified command cannot be located, a `FinderException` is
 
 === "JavaScript"
 		:::js
-		import {which} from "@cedx/which";
+		import {which} from "@cedx/which.hx";
 
 		async function main() {
 			const path = await which("foobar", {onError: command => ""});
