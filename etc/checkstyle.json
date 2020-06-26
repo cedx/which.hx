@@ -3,7 +3,7 @@
 	"exclude": {
 		"path": "RELATIVE_TO_SOURCE",
 		"ArrowFunction": [
-			"which/MainTest"
+			"which/FinderToolsTest"
 		],
 		"ReturnCount": [
 			"which/Finder:isExecutable",

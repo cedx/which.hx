@@ -10,7 +10,6 @@ using StringTools;
 using thenshim.PromiseTools;
 
 #if nodejs
-import js.lib.Object;
 import js.node.Fs;
 import js.node.Util;
 #elseif php

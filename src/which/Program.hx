@@ -3,7 +3,6 @@ package which;
 import tink.Cli;
 import tink.cli.Rest;
 import tink.core.Promise as TinkPromise;
-import which.FinderException;
 
 using thenshim.PromiseTools;
 using which.FinderTools;
