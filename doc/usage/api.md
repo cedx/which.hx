@@ -8,7 +8,7 @@ This package provides a single function, `which()`, allowing to locate a command
 
 === "Haxe"
 	The function is provided by the `FinderTools` class,
-	that can acts as a [static extension](https://haxe.org/manual/lf-static-extension.html) to the `String` class
+	that can act as a [static extension](https://haxe.org/manual/lf-static-extension.html) to the `String` class
 	(with the `using which.FinderTools` statement).
 
 	It returns a [`Promise`](https://promisesaplus.com) that resolves with the absolute path of the first instance of the executables found.
