@@ -63,9 +63,15 @@ class Program {
 				if (Std.isOfType(executables, String)) executables = cast [executables];
 				Lambda.iter(executables, Sys.println);
 			})
-			.catchError(e -> Std.isOfType(e, FinderException) ? Sys.exit(1) : {
-				Sys.println(e);
-				Sys.exit(2);
+			.catchError(e -> {
+				if (Std.isOfType(e, FinderException)) {
+					if (!silent) Sys.println('No "${rest[0]}" in (${(e: FinderException).finder.path.join(Finder.isWindows ? ";" : ":")}).');
+					Sys.exit(1);
+				}
+				else {
+					Sys.println(e);
+					Sys.exit(2);
+				}
 			});
 	}
 }

@@ -94,8 +94,11 @@ class Program {
 				}
 				\Lambda::iter($executables, Boot::getStaticClosure(\Sys::class, 'println'));
 			}
-		}), function ($e) {
+		}), function ($e) use (&$rest, &$_gthis) {
 			if (($e instanceof FinderException)) {
+				if (!$_gthis->silent) {
+					echo((\Std::string("No \"" . (($rest->arr[0] ?? null)??'null') . "\" in (" . ($e->finder->path->join((Finder::get_isWindows() ? ";" : ":"))??'null') . ").")??'null') . PHP_EOL);
+				}
 				exit(1);
 			} else {
 				echo((\Std::string($e)??'null') . PHP_EOL);

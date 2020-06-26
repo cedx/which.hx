@@ -6,9 +6,6 @@ using thenshim.PromiseTools;
 /** Tests the features of the `Finder` class. **/
 class FinderTest extends Test {
 
-	/** Value indicating whether the current platform is Windows. **/
-	static final isWindows = Sys.systemName() == "Windows";
-
 	/** Tests the `find()` method. **/
 	function testFind(async: Async) {
 		final finder = new Finder({path: ["test/fixtures"]});
@@ -16,8 +13,8 @@ class FinderTest extends Test {
 		// It should return the path of the `executable.cmd` file on Windows.
 		async.branch(branch -> finder.find("executable")
 			.then(executables -> {
-				Assert.equals(isWindows ? 1 : 0, executables.length);
-				if (isWindows) Assert.isTrue(executables[0].endsWith("\\test\\fixtures\\executable.cmd"));
+				Assert.equals(Finder.isWindows ? 1 : 0, executables.length);
+				if (Finder.isWindows) Assert.isTrue(executables[0].endsWith("\\test\\fixtures\\executable.cmd"));
 			})
 			.catchError(e -> Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
@@ -26,8 +23,8 @@ class FinderTest extends Test {
 		// It should return the path of the `executable.sh` file on POSIX.
 		async.branch(branch -> finder.find("executable.sh")
 			.then(executables -> {
-				Assert.equals(isWindows ? 0 : 1, executables.length);
-				if (!isWindows) Assert.isTrue(executables[0].endsWith("/test/fixtures/executable.sh"));
+				Assert.equals(Finder.isWindows ? 0 : 1, executables.length);
+				if (!Finder.isWindows) Assert.isTrue(executables[0].endsWith("/test/fixtures/executable.sh"));
 			})
 			.catchError(e -> Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())

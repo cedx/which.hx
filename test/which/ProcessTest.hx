@@ -9,7 +9,7 @@ class ProcessTest extends Test {
 	function testGid(async: Async) {
 		// It should be `-1` on Windows, otherwise greater than or equal to zero.
 		Process.gid
-			.then(gid -> Assert.isTrue(Sys.systemName() == "Windows" ? gid == -1 : gid >= 0))
+			.then(gid -> Assert.isTrue(Finder.isWindows ? gid == -1 : gid >= 0))
 			.catchError(e -> Assert.fail(Std.string(e)))
 			.finally(() -> async.done());
 	}
@@ -18,7 +18,7 @@ class ProcessTest extends Test {
 	function testUid(async: Async) {
 		// It should be `-1` on Windows, otherwise greater than or equal to zero.
 		Process.uid
-			.then(uid -> Assert.isTrue(Sys.systemName() == "Windows" ? uid == -1 : uid >= 0))
+			.then(uid -> Assert.isTrue(Finder.isWindows ? uid == -1 : uid >= 0))
 			.catchError(e -> Assert.fail(Std.string(e)))
 			.finally(() -> async.done());
 	}
