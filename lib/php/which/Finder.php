@@ -18,11 +18,6 @@ use \haxe\io\Path;
  * Finds the instances of an executable in the system path.
  */
 class Finder {
-	/**
-	 * @var bool
-	 * Value indicating whether the current platform is Windows.
-	 */
-	static public $isWindows;
 
 	/**
 	 * @var \Array_hx
@@ -41,17 +36,16 @@ class Finder {
 	 * @return bool
 	 */
 	public static function get_isWindows () {
-		if (Finder::$isWindows === null) {
-			$tmp = null;
-			if (\Sys::systemName() !== "Windows") {
-				$osType = \Sys::getEnv("OSTYPE");
-				$tmp = ($osType === "cygwin") || ($osType === "msys");
+		if (\Sys::systemName() !== "Windows") {
+			$osType = \Sys::getEnv("OSTYPE");
+			if ($osType !== "cygwin") {
+				return $osType === "msys";
 			} else {
-				$tmp = true;
+				return true;
 			}
-			Finder::$isWindows = $tmp;
+		} else {
+			return true;
 		}
-		return Finder::$isWindows;
 	}
 
 	/**
