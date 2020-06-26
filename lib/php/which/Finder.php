@@ -99,7 +99,7 @@ class Finder {
 	}
 
 	/**
-	 * Removes duplicate values from the specified `array`.
+	 * Removes the duplicate values from the specified `array`.
 	 * 
 	 * @param \Array_hx $array
 	 * 

@@ -82,8 +82,8 @@ import php.NativeStructArray;
 		#end
 	}
 
-	/** Removes duplicate values from the specified `array`. **/
-	function arrayUnique<T>(array: Array<T>) {
+	/** Removes the duplicate values from the specified `array`. **/
+	function arrayUnique<T>(array: Array<T>): Array<T> {
 		var list = [];
 		for (value in array) if (!list.contains(value)) list.push(value);
 		return list;
