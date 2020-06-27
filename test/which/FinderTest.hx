@@ -37,29 +37,25 @@ class FinderTest extends Test {
 
 		// It should return `false` for a non-existent file.
 		async.branch(branch -> finder.isExecutable("foo/bar/baz.qux")
-			.then(isExec -> Assert.isFalse(isExec))
-			.catchError(e -> Assert.fail(Std.string(e)))
+			.then(isExec -> Assert.isFalse(isExec), e -> Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
 		);
 
 		// It should return `false` for a non-executable file.
 		async.branch(branch -> finder.isExecutable("test/fixtures/not_executable.sh")
-			.then(isExec -> Assert.isFalse(isExec))
-			.catchError(e -> Assert.fail(Std.string(e)))
+			.then(isExec -> Assert.isFalse(isExec), e -> Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
 		);
 
 		// It should return `false` for a POSIX executable when test is run on Windows, otherwise `true`.
 		async.branch(branch -> finder.isExecutable("test/fixtures/executable.sh")
-			.then(isExec -> Assert.equals(!Finder.isWindows, isExec))
-			.catchError(e -> Assert.fail(Std.string(e)))
+			.then(isExec -> Assert.equals(!Finder.isWindows, isExec), e -> Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
 		);
 
 		// It should return `false` for a Windows executable when test is run on POSIX, otherwise `true`.
 		async.branch(branch -> finder.isExecutable("test/fixtures/executable.cmd")
-			.then(isExec -> Assert.equals(Finder.isWindows, isExec))
-			.catchError(e -> Assert.fail(Std.string(e)))
+			.then(isExec -> Assert.equals(Finder.isWindows, isExec), e -> Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
 		);
 	}
