@@ -86,10 +86,8 @@ import php.NativeStructArray;
 	}
 
 	/** Checks that the specified `file` is executable according to the executable file extensions. **/
-	function checkFileExtension(file: String): Bool {
-		final extension = Path.extension(file).toLowerCase();
-		return extension.length > 0 ? extensions.contains('.$extension') : false;
-	}
+	function checkFileExtension(file: String)
+		return extensions.contains('.${Path.extension(file).toLowerCase()}');
 
 	/** Checks that the file represented by the specified `stats` is executable according to its permissions. **/
 	function checkFilePermissions(stats: FileStat): Promise<Bool> {
