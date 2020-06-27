@@ -120,12 +120,7 @@ class Finder {
 	 * @return bool
 	 */
 	public function checkFileExtension ($file) {
-		$extension = mb_strtolower(Path::extension($file));
-		if (mb_strlen($extension) > 0) {
-			return $this->extensions->indexOf("." . ($extension??'null')) !== -1;
-		} else {
-			return false;
-		}
+		return $this->extensions->indexOf("." . (mb_strtolower(Path::extension($file))??'null')) !== -1;
 	}
 
 	/**
