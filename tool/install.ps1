@@ -8,4 +8,4 @@ haxelib install dox
 haxelib install all --always
 
 composer install --no-interaction
-npm install --ignore-scripts --production=false
+npm install --production=false
