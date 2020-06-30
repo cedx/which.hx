@@ -11,6 +11,6 @@ npm run dist
 if (-not $IsWindows) { chmod +x bin/which.js }
 
 Remove-Item lib/index.php
-Get-ChildItem lib/php -Exclude tink, which, which.php | Remove-Item -Force -Recurse
-Get-ChildItem lib/php/tink -Exclude cli | Remove-Item -Force -Recurse
-Get-ChildItem lib/php/tink/cli -Exclude *0.php | Remove-Item -Force -Recurse
+Remove-Item lib/php/* -Exclude tink, which, which.php -Force -Recurse
+Remove-Item lib/php/tink/* -Exclude cli -Force -Recurse
+Remove-Item lib/php/tink/cli/* -Exclude *0.php -Force -Recurse
