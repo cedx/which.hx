@@ -1,5 +1,4 @@
 import haxe.Json;
-import haxe.macro.Expr.ExprOf;
 import sys.io.File;
 
 /** Provides information about the program version. **/
