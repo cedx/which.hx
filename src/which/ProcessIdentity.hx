@@ -4,8 +4,8 @@ package which;
 enum abstract ProcessIdentity(String) from String to String {
 
 	/** The process group. **/
-	var group = "g";
+	var Group = "g";
 
 	/** The process user. **/
-	var user = "u";
+	var User = "u";
 }

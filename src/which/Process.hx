@@ -27,7 +27,7 @@ class Process {
 		#elseif php
 		if (function_exists("posix_getgid")) return Promise.resolve(php.Syntax.code("posix_getgid()"));
 		#end
-		return getProcessId(ProcessIdentity.group);
+		return getProcessId(Group);
 	}
 
 	/** Gets the identifier of the current process's user. **/
@@ -37,7 +37,7 @@ class Process {
 		#elseif php
 		if (function_exists("posix_getuid")) return Promise.resolve(php.Syntax.code("posix_getuid()"));
 		#end
-		return getProcessId(ProcessIdentity.user);
+		return getProcessId(User);
 	}
 
 	/** Gets the numeric `identity` of the current process. **/
