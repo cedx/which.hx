@@ -2,7 +2,7 @@ package which;
 
 import tink.Cli;
 import tink.cli.Rest;
-import tink.core.Promise as TinkPromise;
+import tink.core.Promise;
 
 using thenshim.PromiseTools;
 using which.FinderTools;
@@ -42,7 +42,7 @@ class Program {
 
 	/** <command> : The name of the command to find. **/
 	@:defaultCommand
-	public function run(rest: Rest<String>): TinkPromise<Dynamic> {
+	public function run(rest: Rest<String>): Promise<Dynamic> {
 		if (help) {
 			Sys.println(Cli.getDoc(this));
 			Sys.exit(0);
