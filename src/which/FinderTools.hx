@@ -28,7 +28,7 @@ import php.NativeStructArray;
 	}
 }
 
-/** Defines the options of the `which()` method. **/
+/** Defines the options of the `FinderTools.which()` method. **/
 typedef WhichOptions = Finder.FinderOptions & {
 
 	/** Value indicating whether to return an array of all executables found, instead of just the first one. **/
