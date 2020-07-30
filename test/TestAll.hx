@@ -1,5 +1,4 @@
-import mcover.coverage.MCoverage;
-import mcover.coverage.client.LcovPrintClient;
+import instrument.coverage.Coverage;
 import utest.UTest;
 import which.*;
 
@@ -14,9 +13,5 @@ class TestAll {
 	];
 
 	/** Application entry point. **/
-	static function main() UTest.run(tests, () -> {
-		final logger = MCoverage.getLogger();
-		logger.addClient(new LcovPrintClient("which", "var/lcov.info"));
-		logger.report();
-	});
+	static function main() UTest.run(tests, Coverage.endCoverage);
 }
