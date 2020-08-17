@@ -1,5 +1,5 @@
 --define js-es=6
 --js var/tests.js
---library hxnodejs
+--library hxnodejs:12.1.0
 share/test.hxml
 --cmd node var/tests.js

@@ -1,7 +1,8 @@
 --class-path src
 --define analyzer-optimize
---library thenshim
---library tink_cli
+--library thenshim:1.1.1
+--library tink_cli:0.5.1
+--library tink_core:1.27.1
 
 which.Finder
 which.FinderException
