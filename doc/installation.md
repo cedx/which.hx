@@ -17,7 +17,7 @@ You can verify if you're already good to go with the following commands:
 === "JavaScript"
 		:::shell
 		node --version
-		# v14.5.0
+		# v14.8.0
 
 		npm --version
 		# 6.14.7
@@ -25,7 +25,7 @@ You can verify if you're already good to go with the following commands:
 === "PHP"
 		:::shell
 		php --version
-		# PHP 7.4.8 (cli) (built: Jul  9 2020 11:30:33) ( NTS Visual C++ 2017 x64 )
+		# PHP 7.4.9 (cli) (built: Aug  4 2020 11:51:50) ( NTS Visual C++ 2017 x64 )
 
 		composer --version
 		# Composer version 1.10.9 2020-07-16 12:57:00
