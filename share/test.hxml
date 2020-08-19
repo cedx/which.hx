@@ -5,6 +5,6 @@
 --library thenshim:1.1.1
 --library tink_cli:0.5.1
 --library tink_core:1.27.1
---library utest:1.13.0
+--library utest:1.13.1
 --macro instrument.Instrumentation.coverage(['which'], ['src'])
 --main TestAll
