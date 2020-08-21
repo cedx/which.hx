@@ -34,7 +34,7 @@
 	"require": {
 		"php": ">=7.4.0",
 		"ext-mbstring": "*",
-		"cedx/haxe": "^1.2.0"
+		"cedx/haxe": "^1.3.0"
 	},
 	"support": {
 		"docs": "https://api.belin.io/which.hx",
