@@ -100,7 +100,7 @@ import php.NativeStructArray;
 
 	/** Finds the instances of the specified `command` in the given `directory`. **/
 	function findExecutables(directory: String, command: String): Promise<Array<String>> {
-		final basePath = Path.isAbsolute(directory) ? directory : Path.join([Sys.getCwd(), directory]);
+		final basePath = FileSystem.absolutePath(directory);
 		final paths = [""].concat(isWindows ? extensions : []).map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"));
 		return paths.map(item -> isExecutable(item)).all().then(results -> [for (index => isExec in results) if (isExec) paths[index]]);
 	}
