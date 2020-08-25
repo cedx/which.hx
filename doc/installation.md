@@ -28,7 +28,7 @@ You can verify if you're already good to go with the following commands:
 		# PHP 7.4.9 (cli) (built: Aug  4 2020 11:51:50) ( NTS Visual C++ 2017 x64 )
 
 		composer --version
-		# Composer version 1.10.9 2020-07-16 12:57:00
+		# Composer version 1.10.10 2020-08-03 11:35:19
 
 !!! info
 	If you plan to play with the package sources, you will also need
