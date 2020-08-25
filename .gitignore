@@ -5,6 +5,7 @@
 /build/
 /doc/api/
 /node_modules/
+/res/
 /var/
 /vendor/
 /www/
