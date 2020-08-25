@@ -80,7 +80,7 @@ class Program {
 			exit(0);
 		}
 		if ($this->version) {
-			echo("1.0.0" . \PHP_EOL);
+			echo("1.0.1" . \PHP_EOL);
 			exit(0);
 		}
 		if (($rest->length === 0) || ((\Sys::getEnv("HAXELIB_RUN") === "1") && ($rest->length === 1))) {
