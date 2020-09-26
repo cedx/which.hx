@@ -87,6 +87,7 @@ jobs:
       - name: Install dependencies
         run: |
           haxelib install all --always
+          composer global require cedx/coveralls
           composer install --no-interaction
       - name: Run tests
         run: haxe test_php.hxml
