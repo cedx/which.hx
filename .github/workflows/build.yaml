@@ -90,3 +90,8 @@ jobs:
           composer install --no-interaction
       - name: Run tests
         run: haxe test_php.hxml
+      - name: Collect code coverage
+        env:
+          COVERALLS_REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        if: success()
+        run: composer run coverage
