@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-use php\{Boot};
-use which\{Program};
+use php\Boot;
+use which\Program;
 
 // Load the dependencies.
 $autoload = new SplFileInfo(__DIR__."/../../../autoload.php");
