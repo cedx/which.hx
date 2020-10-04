@@ -25,7 +25,7 @@ You can verify if you're already good to go with the following commands:
 === "PHP"
 		:::shell
 		php --version
-		# PHP 7.4.10 (cli) (built: Sep  1 2020 16:52:21) ( NTS Visual C++ 2017 x64 )
+		# PHP 7.4.11 (cli) (built: Sep 29 2020 13:17:42) ( NTS Visual C++ 2017 x64 )
 
 		composer --version
 		# Composer version 1.10.13 2020-09-09 11:46:34
