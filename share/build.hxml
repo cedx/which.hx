@@ -1,4 +1,5 @@
 --class-path src
+--dce full
 --define analyzer-optimize
 --library thenshim:1.1.1
 --library tink_cli:0.5.1
