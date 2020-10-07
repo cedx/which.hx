@@ -2,9 +2,9 @@ package which;
 
 import tink.Cli;
 import tink.cli.Rest;
-import tink.core.Promise;
 
 using thenshim.PromiseTools;
+using tink.CoreApi;
 using which.FinderTools;
 
 #if nodejs
