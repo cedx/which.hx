@@ -3,7 +3,6 @@
 share/build.hxml
 
 --each
---dce full
 --js bin/which.js
 --main which.Program
 
