@@ -53,7 +53,8 @@ class Program {
 			Sys.exit(0);
 		}
 
-		if (rest.length == 0 || (Sys.getEnv("HAXELIB_RUN") == "1" && rest.length == 1)) {
+		final requiredArgs = 1;
+		if (rest.length < requiredArgs || (Sys.getEnv("HAXELIB_RUN") == "1" && rest.length < requiredArgs + 1)) {
 			Sys.println("You must provide the name of a command to find.");
 			Sys.exit(64);
 		}
