@@ -43,13 +43,8 @@ class Program {
 	/** <command> : The name of the command to find. **/
 	@:defaultCommand
 	public function run(rest: Rest<String>): Promise<Dynamic> {
-		if (help) {
-			Sys.println(Cli.getDoc(this));
-			Sys.exit(0);
-		}
-
-		if (version) {
-			Sys.println(Version.getPackageVersion());
+		if (help || version) {
+			Sys.println(help ? Cli.getDoc(this) : Version.getPackageVersion());
 			Sys.exit(0);
 		}
 

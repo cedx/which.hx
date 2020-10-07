@@ -75,12 +75,8 @@ class Program {
 	 */
 	public function run ($rest) {
 		$_gthis = $this;
-		if ($this->help) {
-			echo((\Std::string((new DefaultFormatter())->format(Doc0::get()))??'null') . \PHP_EOL);
-			exit(0);
-		}
-		if ($this->version) {
-			echo("1.0.1" . \PHP_EOL);
+		if ($this->help || $this->version) {
+			echo((\Std::string(($this->help ? (new DefaultFormatter())->format(Doc0::get()) : "1.0.1"))??'null') . \PHP_EOL);
 			exit(0);
 		}
 		if (($rest->length < 1) || ((\Sys::getEnv("HAXELIB_RUN") === "1") && ($rest->length < 2))) {
