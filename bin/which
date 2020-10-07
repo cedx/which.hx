@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
+use haxe\EntryPoint;
 use php\Boot;
 use which\Program;
 
@@ -12,3 +13,4 @@ require_once $autoload->isFile() ? $autoload->getPathname() : "$rootPath/vendor/
 // Start the application.
 Boot::__hx__init();
 Program::main();
+EntryPoint::run();
