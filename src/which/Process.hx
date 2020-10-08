@@ -9,6 +9,7 @@ import js.node.ChildProcess;
 import js.node.Util;
 #elseif php
 import php.Global.function_exists;
+import php.Syntax;
 #end
 
 /** Provides information about the current process. **/
@@ -25,7 +26,7 @@ class Process {
 		#if nodejs
 		if (typeof(Node.process.getgid) == "function") return Promise.resolve(Node.process.getgid());
 		#elseif php
-		if (function_exists("posix_getgid")) return Promise.resolve(php.Syntax.code("posix_getgid()"));
+		if (function_exists("posix_getgid")) return Promise.resolve(Syntax.code("posix_getgid()"));
 		#end
 		return getProcessId(Group);
 	}
@@ -35,7 +36,7 @@ class Process {
 		#if nodejs
 		if (typeof(Node.process.getuid) == "function") return Promise.resolve(Node.process.getuid());
 		#elseif php
-		if (function_exists("posix_getuid")) return Promise.resolve(php.Syntax.code("posix_getuid()"));
+		if (function_exists("posix_getuid")) return Promise.resolve(Syntax.code("posix_getuid()"));
 		#end
 		return getProcessId(User);
 	}

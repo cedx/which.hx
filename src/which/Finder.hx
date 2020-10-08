@@ -15,6 +15,7 @@ import js.node.Util;
 #elseif php
 import php.Global.isset;
 import php.NativeStructArray;
+import php.Syntax;
 #end
 
 /** Finds the instances of an executable in the system path. **/
@@ -72,7 +73,7 @@ import php.NativeStructArray;
 			).catchError(_ -> false);
 		#else
 			if (!FileSystem.exists(file) || FileSystem.isDirectory(file)) return Promise.resolve(false);
-			#if php if (php.Syntax.code("is_executable({0})", file)) return Promise.resolve(true); #end
+			#if php if (Syntax.code("is_executable({0})", file)) return Promise.resolve(true); #end
 			return isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(FileSystem.stat(file));
 		#end
 	}

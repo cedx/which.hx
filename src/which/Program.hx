@@ -9,6 +9,8 @@ using which.FinderTools;
 
 #if nodejs
 import js.Node;
+#elseif php
+import php.Syntax;
 #end
 
 /** Find the instances of an executable in the system path. **/
@@ -34,7 +36,7 @@ class Program {
 		#if nodejs
 			Node.process.title = "Which.hx";
 		#elseif php
-			php.Syntax.code("cli_set_process_title({0})", "Which.hx");
+			Syntax.code("cli_set_process_title({0})", "Which.hx");
 		#end
 
 		Cli.process(Sys.args(), new Program()).handle(Cli.exit);

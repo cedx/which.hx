@@ -136,7 +136,7 @@ class Router0 extends Router {
 		if ($args->length < 0) {
 			return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(null, "Insufficient arguments. Expected: " . 0 . ", Got: " . ($args->length??'null'), new HxAnon([
 				"fileName" => "src/which/Program.hx",
-				"lineNumber" => 45,
+				"lineNumber" => 47,
 				"className" => "tink.cli.Router0",
 				"methodName" => "run_run",
 			])))));
