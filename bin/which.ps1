@@ -1,3 +1,4 @@
 #!/usr/bin/env pwsh
 Set-StrictMode -Version Latest
-neko "$PSScriptRoot/../run.n" @args
+Set-Location (Split-Path $PSScriptRoot)
+haxe share/build.hxml --run which.Program @args
