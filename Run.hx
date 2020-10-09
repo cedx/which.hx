@@ -1,6 +1,6 @@
 import which.Program;
 
-/** Runs the main program. **/
+/** Runs the program. **/
 class Run {
 
 	/** Application entry point. **/

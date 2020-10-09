@@ -8,5 +8,5 @@
 	"releasenote": "Pinned the `tink_core` dependency.",
 	"tags": ["cross", "find", "path", "system", "utility", "which"],
 	"url": "https://docs.belin.io/which.hx",
-	"version": "1.0.1"
+	"version": "1.0.2"
 }
