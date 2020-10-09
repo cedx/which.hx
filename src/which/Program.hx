@@ -14,7 +14,7 @@ import php.Syntax;
 #end
 
 /** Find the instances of an executable in the system path. **/
-class Program {
+@:noDoc class Program {
 
 	/** List all instances of executables found (instead of just the first one). **/
 	public var all = false;
@@ -32,7 +32,7 @@ class Program {
 	public function new() {}
 
 	/** Application entry point. **/
-	static function main() {
+	public static function main() {
 		#if nodejs
 			Node.process.title = "Which.hx";
 		#elseif php
