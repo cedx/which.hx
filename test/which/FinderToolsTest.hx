@@ -12,7 +12,7 @@ class FinderToolsTest extends Test {
 		// It should return the path of the `executable.cmd` file on Windows.
 		async.branch(branch -> "executable".which({all: false, path: ["test/fixtures"]})
 			.then((path: String) -> Finder.isWindows ? Assert.isTrue(path.endsWith("\\test\\fixtures\\executable.cmd")) : Assert.fail("Promise not rejected"))
-			.catchError(e -> Finder.isWindows ? Assert.fail(Std.string(e)) : Assert.isTrue(Std.isOfType(e, FinderException)))
+			.catchError(e -> Finder.isWindows ? Assert.fail(Std.string(e)) : Assert.isOfType(e, FinderException))
 			.finally(() -> branch.done())
 		);
 
@@ -22,14 +22,14 @@ class FinderToolsTest extends Test {
 				Assert.equals(1, paths.length);
 				Assert.isTrue(paths[0].endsWith("\\test\\fixtures\\executable.cmd"));
 			})
-			.catchError(e -> Finder.isWindows ? Assert.fail(Std.string(e)) : Assert.isTrue(Std.isOfType(e, FinderException)))
+			.catchError(e -> Finder.isWindows ? Assert.fail(Std.string(e)) : Assert.isOfType(e, FinderException))
 			.finally(() -> branch.done())
 		);
 
 		// It should return the path of the `executable.sh` file on POSIX.
 		async.branch(branch -> "executable.sh".which({all: false, path: ["test/fixtures"]})
 			.then((path: String) -> Finder.isWindows ? Assert.fail("Promise not rejected") : Assert.isTrue(path.endsWith("/test/fixtures/executable.sh")))
-			.catchError(e -> Finder.isWindows ? Assert.isTrue(Std.isOfType(e, FinderException)) : Assert.fail(Std.string(e)))
+			.catchError(e -> Finder.isWindows ? Assert.isOfType(e, FinderException) : Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
 		);
 
@@ -39,7 +39,7 @@ class FinderToolsTest extends Test {
 				Assert.equals(1, paths.length);
 				Assert.isTrue(paths[0].endsWith("/test/fixtures/executable.sh"));
 			})
-			.catchError(e -> Finder.isWindows ? Assert.isTrue(Std.isOfType(e, FinderException)) : Assert.fail(Std.string(e)))
+			.catchError(e -> Finder.isWindows ? Assert.isOfType(e, FinderException) : Assert.fail(Std.string(e)))
 			.finally(() -> branch.done())
 		);
 
