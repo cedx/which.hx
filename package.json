@@ -14,7 +14,7 @@
 		"url": "https://belin.io"
 	},
 	"bin": {
-		"which": "./bin/which.js"
+		"which": "bin/which.js"
 	},
 	"devDependencies": {
 		"@cedx/coveralls": "^10.1.0",
