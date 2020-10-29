@@ -1,12 +1,12 @@
 package which;
 
-import haxe.io.Path;
 import sys.FileSystem;
 import sys.FileStat;
 import thenshim.Promise;
 
 using Lambda;
 using StringTools;
+using haxe.io.Path;
 using thenshim.PromiseTools;
 
 #if nodejs
@@ -87,7 +87,7 @@ import php.Syntax;
 
 	/** Checks that the specified `file` is executable according to the executable file extensions. **/
 	function checkFileExtension(file: String)
-		return extensions.contains('.${Path.extension(file).toLowerCase()}');
+		return extensions.contains('.${file.extension().toLowerCase()}');
 
 	/** Checks that the file represented by the specified `stats` is executable according to its permissions. **/
 	function checkFilePermissions(stats: FileStat): Promise<Bool> {
