@@ -4,59 +4,37 @@ using StringTools;
 using thenshim.PromiseTools;
 
 /** Tests the features of the `Finder` class. **/
-class FinderTest extends Test {
+@:asserts class FinderTest {
+
+	/** Creates a new test. **/
+	public function new() {}
 
 	/** Tests the `find()` method. **/
-	function testFind(async: Async) {
-		final finder = new Finder({path: ["test/fixtures"]});
-
-		// It should return the path of the `executable.cmd` file on Windows.
-		async.branch(branch -> finder.find("executable")
+	@:variant("executable", which.Finder.isWindows ? 1 : 0, "\\test\\fixtures\\executable.cmd")
+	@:variant("executable.sh", which.Finder.isWindows ? 0 : 1, "/test/fixtures/executable.sh")
+	public function testFind(input: String, length: Int, path: String) {
+		new Finder({path: ["test/fixtures"]}).find(input)
 			.then(paths -> {
-				Assert.equals(Finder.isWindows ? 1 : 0, paths.length);
-				if (Finder.isWindows) Assert.isTrue(paths[0].endsWith("\\test\\fixtures\\executable.cmd"));
+				asserts.assert(paths.length == length);
+				if (length > 0) asserts.assert(paths[0].endsWith(path));
 			})
-			.catchError(e -> Assert.fail(Std.string(e)))
-			.finally(() -> branch.done())
-		);
+			.catchError(e -> asserts.fail(Std.string(e)))
+			.finally(() -> asserts.done());
 
-		// It should return the path of the `executable.sh` file on POSIX.
-		async.branch(branch -> finder.find("executable.sh")
-			.then(paths -> {
-				Assert.equals(Finder.isWindows ? 0 : 1, paths.length);
-				if (!Finder.isWindows) Assert.isTrue(paths[0].endsWith("/test/fixtures/executable.sh"));
-			})
-			.catchError(e -> Assert.fail(Std.string(e)))
-			.finally(() -> branch.done())
-		);
+		return asserts;
 	}
 
 	/** Tests the `isExecutable()` method. **/
-	function testIsExecutable(async: Async) {
-		final finder = new Finder();
+	@:variant("foo/bar/baz.qux", false)
+	@:variant("test/fixtures/not_executable.sh", false)
+	@:variant("test/fixtures/executable.sh", !which.Finder.isWindows)
+	@:variant("test/fixtures/executable.cmd", which.Finder.isWindows)
+	public function testIsExecutable(input: String, output: Bool) {
+		new Finder().isExecutable(input)
+			.then(isExec -> asserts.assert(isExec == output))
+			.catchError(e -> asserts.fail(Std.string(e)))
+			.finally(() -> asserts.done());
 
-		// It should return `false` for a non-existent file.
-		async.branch(branch -> finder.isExecutable("foo/bar/baz.qux")
-			.then(isExec -> Assert.isFalse(isExec), e -> Assert.fail(Std.string(e)))
-			.finally(() -> branch.done())
-		);
-
-		// It should return `false` for a non-executable file.
-		async.branch(branch -> finder.isExecutable("test/fixtures/not_executable.sh")
-			.then(isExec -> Assert.isFalse(isExec), e -> Assert.fail(Std.string(e)))
-			.finally(() -> branch.done())
-		);
-
-		// It should return `false` for a POSIX executable when test is run on Windows, otherwise `true`.
-		async.branch(branch -> finder.isExecutable("test/fixtures/executable.sh")
-			.then(isExec -> Assert.equals(!Finder.isWindows, isExec), e -> Assert.fail(Std.string(e)))
-			.finally(() -> branch.done())
-		);
-
-		// It should return `false` for a Windows executable when test is run on POSIX, otherwise `true`.
-		async.branch(branch -> finder.isExecutable("test/fixtures/executable.cmd")
-			.then(isExec -> Assert.equals(Finder.isWindows, isExec), e -> Assert.fail(Std.string(e)))
-			.finally(() -> branch.done())
-		);
+		return asserts;
 	}
 }

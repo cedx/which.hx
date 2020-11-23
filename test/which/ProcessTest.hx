@@ -3,21 +3,34 @@ package which;
 using thenshim.PromiseTools;
 
 /** Tests the features of the `Process` class. **/
-class ProcessTest extends Test {
+@:asserts class ProcessTest {
+
+	/** Creates a new test. **/
+	public function new() {}
 
 	/** Tests the `gid` property. **/
-	function testGid(async: Async) {
+	public function testGid() {
 		// It should be `-1` on Windows, otherwise greater than or equal to zero.
 		Process.gid
-			.then(gid -> Assert.isTrue(Finder.isWindows ? gid == -1 : gid >= 0), e -> Assert.fail(Std.string(e)))
-			.finally(() -> async.done());
+			.then(gid -> asserts.assert(Finder.isWindows ? gid == -1 : gid >= 0), e -> {
+				asserts.fail(Std.string(e));
+				null;
+			})
+			.finally(() -> asserts.done());
+
+		return asserts;
 	}
 
 	/** Tests the `uid` property. **/
-	function testUid(async: Async) {
+	public function testUid() {
 		// It should be `-1` on Windows, otherwise greater than or equal to zero.
 		Process.uid
-			.then(uid -> Assert.isTrue(Finder.isWindows ? uid == -1 : uid >= 0), e -> Assert.fail(Std.string(e)))
-			.finally(() -> async.done());
+			.then(uid -> asserts.assert(Finder.isWindows ? uid == -1 : uid >= 0), e -> {
+				asserts.fail(Std.string(e));
+				null;
+			})
+			.finally(() -> asserts.done());
+
+		return asserts;
 	}
 }

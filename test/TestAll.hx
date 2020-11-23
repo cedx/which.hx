@@ -1,17 +1,22 @@
 import instrument.coverage.Coverage;
-import utest.UTest;
+import tink.testrunner.Runner;
+import tink.unit.TestBatch;
 import which.*;
 
 /** Runs the test suites. **/
 class TestAll {
 
-	/** The test cases. **/
-	static final tests = [
-		new FinderTest(),
-		new FinderToolsTest(),
-		new ProcessTest()
-	];
-
 	/** Application entry point. **/
-	static function main() UTest.run(tests, Coverage.endCoverage);
+	static function main() {
+		final tests = TestBatch.make([
+			new FinderTest(),
+			new FinderToolsTest(),
+			new ProcessTest()
+		]);
+
+		Runner.run(tests).handle(outcome -> {
+			Coverage.endCoverage();
+			Runner.exit(outcome);
+		});
+	}
 }
