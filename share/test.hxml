@@ -1,8 +1,8 @@
 --class-path src
 --class-path test
 --define coverage-lcov-reporter=var/lcov.info
+--library asys:0.4.0
 --library instrument:1.1.0
---library thenshim:1.1.1
 --library tink_cli:0.5.1
 --library tink_core:1.27.1
 --library tink_unittest:0.7.0

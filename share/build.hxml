@@ -1,7 +1,7 @@
 --class-path src
 --dce full
 --define analyzer-optimize
---library thenshim:1.1.1
+--library asys:0.4.0
 --library tink_cli:0.5.1
 --library tink_core:1.27.1
 
