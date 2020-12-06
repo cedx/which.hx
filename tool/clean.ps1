@@ -2,7 +2,7 @@
 Set-StrictMode -Version Latest
 Set-Location (Split-Path $PSScriptRoot)
 
-foreach ($item in "doc/api", "lib/index.php", "lib/js/which.*", "lib/res", "www") {
+foreach ($item in "docs/api", "lib/index.php", "lib/js/which.*", "lib/res") {
 	if (Test-Path $item) { Remove-Item $item -Force -Recurse }
 }
 
