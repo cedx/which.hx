@@ -1,0 +1,3 @@
+--hl var/tests.hl
+share/test.hxml
+--cmd hl var/tests.hl
