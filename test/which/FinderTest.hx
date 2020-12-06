@@ -1,7 +1,6 @@
 package which;
 
 using StringTools;
-using thenshim.PromiseTools;
 
 /** Tests the features of the `Finder` class. **/
 @:asserts class FinderTest {

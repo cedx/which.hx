@@ -2,19 +2,15 @@ package which;
 
 import sys.FileSystem;
 import sys.FileStat;
-import thenshim.Promise;
 
 using Lambda;
 using StringTools;
 using haxe.io.Path;
-using thenshim.PromiseTools;
 
 #if nodejs
 import js.node.Fs;
 import js.node.Util;
 #elseif php
-import php.Global.isset;
-import php.NativeStructArray;
 import php.Syntax;
 #end
 
@@ -31,7 +27,7 @@ import php.Syntax;
 	public final path: Array<String>;
 
 	/** Creates a new finder. **/
-	public function new(?options: #if php NativeStructArray<FinderOptions> #else FinderOptions #end) {
+	public function new(?options: FinderOptions) {
 		final separator = isWindows ? ";" : ":";
 
 		final pathExt = Sys.getEnv("PATHEXT");
@@ -41,13 +37,8 @@ import php.Syntax;
 		path = pathEnv != null ? pathEnv.split(separator) : [];
 
 		if (options != null) {
-			#if php
-				if (isset(options["extensions"])) extensions = options["extensions"].map(item -> item.toLowerCase());
-				if (isset(options["path"])) path = options["path"];
-			#else
-				if (options.extensions != null) extensions = options.extensions.map(item -> item.toLowerCase());
-				if (options.path != null) path = options.path;
-			#end
+			if (options.extensions != null) extensions = options.extensions.map(item -> item.toLowerCase());
+			if (options.path != null) path = options.path;
 		}
 	}
 

@@ -3,8 +3,6 @@ package which;
 import tink.Cli;
 import tink.cli.Rest;
 
-using thenshim.PromiseTools;
-using tink.CoreApi;
 using which.FinderTools;
 
 #if nodejs
@@ -33,12 +31,8 @@ import php.Syntax;
 
 	/** Application entry point. **/
 	public static function main() {
-		#if nodejs
-			Node.process.title = "Which.hx";
-		#elseif php
-			Syntax.code("cli_set_process_title({0})", "Which.hx");
-		#end
-
+		#if nodejs Node.process.title = "Which.hx";
+		#elseif php Syntax.code("cli_set_process_title({0})", "Which.hx"); #end
 		Cli.process(Sys.args(), new Program()).handle(Cli.exit);
 	}
 

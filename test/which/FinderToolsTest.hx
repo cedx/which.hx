@@ -1,7 +1,6 @@
 package which;
 
 using StringTools;
-using thenshim.PromiseTools;
 using which.FinderTools;
 
 /** Tests the features of the `Tools` class. **/

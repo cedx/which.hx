@@ -1,7 +1,5 @@
 package which;
 
-import thenshim.Promise;
-
 #if php
 import php.Global.isset;
 import php.NativeStructArray;
