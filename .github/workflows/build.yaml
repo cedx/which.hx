@@ -17,7 +17,9 @@ jobs:
       - name: Fetch sources
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: haxelib install all --always
+        run: |
+          haxelib install all --always
+          haxelib set tink_core 1.27.1 --always
       - name: Run tests
         run: haxe test_eval.hxml
   js:
@@ -40,6 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           haxelib install all --always
+          haxelib set tink_core 1.27.1 --always
           npm install
       - name: Run tests
         run: haxe test_js.hxml
@@ -49,7 +52,7 @@ jobs:
         if: success()
         run: npm run coverage
   php:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v1
@@ -58,9 +61,9 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
-          coverage: none
-          extensions: mbstring
+          php-version: 8.0
+          coverage: xdebug
+          extensions: mbstring, simplexml
       - name: Check environment
         run: |
           php --version
@@ -70,6 +73,7 @@ jobs:
       - name: Install dependencies
         run: |
           haxelib install all --always
+          haxelib set tink_core 1.27.1 --always
           composer global require cedx/coveralls
           composer install --no-interaction
       - name: Run tests
