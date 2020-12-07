@@ -84,8 +84,6 @@ class Router0 extends Router {
 					$this->command->all = true;
 				} else if ($_g2 === 104) {
 					$this->command->help = true;
-				} else if ($_g2 === 115) {
-					$this->command->silent = true;
 				} else if ($_g2 === 118) {
 					$this->command->version = true;
 				} else {
@@ -108,8 +106,6 @@ class Router0 extends Router {
 			$this->command->all = true;
 		} else if ($__hx__switch === "--help") {
 			$this->command->help = true;
-		} else if ($__hx__switch === "--silent") {
-			$this->command->silent = true;
 		} else if ($__hx__switch === "--version") {
 			$this->command->version = true;
 		} else {
@@ -136,12 +132,12 @@ class Router0 extends Router {
 		if ($args->length < 0) {
 			return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(null, "Insufficient arguments. Expected: " . 0 . ", Got: " . ($args->length??'null'), new HxAnon([
 				"fileName" => "src/which/Program.hx",
-				"lineNumber" => 47,
+				"lineNumber" => 38,
 				"className" => "tink.cli.Router0",
 				"methodName" => "run_run",
 			])))));
 		}
-		return Promise_Impl_::noise($this->command->run($args->slice(0, $args->length)));
+		return $this->command->run($args->slice(0, $args->length));
 	}
 }
 

@@ -20,9 +20,6 @@ import php.Syntax;
 	/** Output usage information. **/
 	public var help = false;
 
-	/** Silence the output, just return the exit code (0 if any executable is found, otherwise 1). **/
-	public var silent = false;
-
 	/** Output the version number. **/
 	public var version = false;
 

@@ -39,11 +39,6 @@ class Doc0 {
 						"doc" => " Output usage information. ",
 					]),
 					new HxAnon([
-						"names" => \Array_hx::wrap(["--silent"]),
-						"aliases" => \Array_hx::wrap(["s"]),
-						"doc" => " Silence the output, just return the exit code (0 if any executable is found, otherwise 1). ",
-					]),
-					new HxAnon([
 						"names" => \Array_hx::wrap(["--version"]),
 						"aliases" => \Array_hx::wrap(["v"]),
 						"doc" => " Output the version number. ",

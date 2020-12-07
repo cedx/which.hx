@@ -34,11 +34,6 @@ class Program {
 	public $help;
 	/**
 	 * @var bool
-	 * Silence the output, just return the exit code (0 if any executable is found, otherwise 1).
-	 */
-	public $silent;
-	/**
-	 * @var bool
 	 * Output the version number.
 	 */
 	public $version;
@@ -61,7 +56,6 @@ class Program {
 	 */
 	public function __construct () {
 		$this->version = false;
-		$this->silent = false;
 		$this->help = false;
 		$this->all = false;
 	}
