@@ -51,7 +51,7 @@ import php.Syntax;
 	/** Finds the instances of the specified `command` in the system path. **/
 	public function find(command: String): Promise<Array<String>> {
 		final paths = isWindows ? [Sys.getCwd()] : [];
-		return paths.concat(path).map(item -> findExecutables(item, command)).all().then(results -> arrayUnique(results.flatten()));
+		return paths.concat(path).map(item -> findExecutables(item, command)).inParallel().next(results -> arrayUnique(results.flatten()));
 	}
 
 	/** Gets a value indicating whether the specified `file` is executable. **/
@@ -81,19 +81,19 @@ import php.Syntax;
 		return extensions.contains('.${file.extension().toLowerCase()}');
 
 	/** Checks that the file represented by the specified `stats` is executable according to its permissions. **/
-	function checkFilePermissions(stats: FileStat): Promise<Bool> {
+	function checkFilePermissions(stats: FileStat) {
 		var procUid = -1;
-		return Promise.resolve(stats.mode & 1 != 0)
-			.then(isExec -> isExec || (stats.mode & 8 == 0) ? Promise.resolve(isExec) : Process.gid.then(gid -> stats.gid == gid))
-			.then(isExec -> isExec || (stats.mode & 64 == 0) ? Promise.resolve(isExec) : Process.uid.then(uid -> { procUid = uid; stats.uid == uid; }))
-			.then(isExec -> isExec || (stats.mode & (64 | 8) == 0) ? isExec : procUid == 0);
+		return Future.sync(stats.mode & 1 != 0)
+			.next(isExec -> isExec || (stats.mode & 8 == 0) ? isExec : Process.gid.next(gid -> stats.gid == gid))
+			.next(isExec -> isExec || (stats.mode & 64 == 0) ? isExec : Process.uid.next(uid -> { procUid = uid; stats.uid == uid; }))
+			.next(isExec -> isExec || (stats.mode & (64 | 8) == 0) ? isExec : procUid == 0);
 	}
 
 	/** Finds the instances of the specified `command` in the given `directory`. **/
-	function findExecutables(directory: String, command: String): Promise<Array<String>> {
+	function findExecutables(directory: String, command: String) {
 		final basePath = FileSystem.absolutePath(directory);
 		final paths = [""].concat(isWindows ? extensions : []).map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"));
-		return paths.map(item -> isExecutable(item)).all().then(results -> [for (index => isExec in results) if (isExec) paths[index]]);
+		return paths.map(item -> isExecutable(item)).inParallel().next(results -> Success([for (index => isExec in results) if (isExec) paths[index]]));
 	}
 }
 

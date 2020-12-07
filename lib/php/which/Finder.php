@@ -5,13 +5,15 @@
 
 namespace which;
 
-use \php\_Boot\HxDynamicStr;
-use \thenshim\PromiseTools;
+use \tink\core\_Future\SyncFuture;
 use \php\Boot;
+use \tink\core\Outcome;
+use \tink\core\_Lazy\LazyConst;
 use \php\_Boot\HxString;
-use \thenshim\_Promise\Promise_Impl_;
+use \tink\core\_Future\Future_Impl_;
+use \tink\core\_Promise\Promise_Impl_;
 use \sys\FileSystem;
-use \thenshim\Thenable;
+use \tink\core\FutureObject;
 use \haxe\io\Path;
 
 /**
@@ -51,7 +53,7 @@ class Finder {
 	/**
 	 * Creates a new finder.
 	 * 
-	 * @param mixed $options
+	 * @param object $options
 	 * 
 	 * @return void
 	 */
@@ -81,13 +83,19 @@ class Finder {
 		$pathEnv = \Sys::getEnv("PATH");
 		$this->path = ($pathEnv !== null ? HxString::split($pathEnv, $separator) : new \Array_hx());
 		if ($options !== null) {
-			if (isset($options["extensions"])) {
-				$this->extensions = $options["extensions"]->map(function ($item) {
-					return HxDynamicStr::wrap($item)->toLowerCase();
-				});
+			if ($options->extensions !== null) {
+				$_this = $options->extensions;
+				$result = [];
+				$data = $_this->arr;
+				$_g_current = 0;
+				$_g_length = \count($data);
+				while ($_g_current < $_g_length) {
+					$result[] = \mb_strtolower($data[$_g_current++]);
+				}
+				$this->extensions = \Array_hx::wrap($result);
 			}
-			if (isset($options["path"])) {
-				$this->path = $options["path"];
+			if ($options->path !== null) {
+				$this->path = $options->path;
 			}
 		}
 	}
@@ -128,32 +136,32 @@ class Finder {
 	 * 
 	 * @param object $stats
 	 * 
-	 * @return Thenable
+	 * @return FutureObject
 	 */
 	public function checkFilePermissions ($stats) {
 		$procUid = -1;
-		return Promise_Impl_::then(Promise_Impl_::then(Promise_Impl_::then(Promise_Impl_::resolve(($stats->mode & 1) !== 0), function ($isExec) use (&$stats) {
+		return Promise_Impl_::next(Promise_Impl_::next(Future_Impl_::next(new SyncFuture(new LazyConst(($stats->mode & 1) !== 0)), function ($isExec) use (&$stats) {
 			if ($isExec || (($stats->mode & 8) === 0)) {
-				return Promise_Impl_::resolve($isExec);
+				return new SyncFuture(new LazyConst(Outcome::Success($isExec)));
 			} else {
-				return Promise_Impl_::then(Process::get_gid(), function ($gid) use (&$stats) {
-					return $stats->gid === $gid;
+				return Promise_Impl_::next(Process::get_gid(), function ($gid) use (&$stats) {
+					return new SyncFuture(new LazyConst(Outcome::Success($stats->gid === $gid)));
 				});
 			}
 		}), function ($isExec) use (&$stats, &$procUid) {
 			if ($isExec || (($stats->mode & 64) === 0)) {
-				return Promise_Impl_::resolve($isExec);
+				return new SyncFuture(new LazyConst(Outcome::Success($isExec)));
 			} else {
-				return Promise_Impl_::then(Process::get_uid(), function ($uid) use (&$stats, &$procUid) {
+				return Promise_Impl_::next(Process::get_uid(), function ($uid) use (&$stats, &$procUid) {
 					$procUid = $uid;
-					return $stats->uid === $uid;
+					return new SyncFuture(new LazyConst(Outcome::Success($stats->uid === $uid)));
 				});
 			}
 		}), function ($isExec) use (&$stats, &$procUid) {
 			if ($isExec || (($stats->mode & 72) === 0)) {
-				return $isExec;
+				return new SyncFuture(new LazyConst(Outcome::Success($isExec)));
 			} else {
-				return $procUid === 0;
+				return new SyncFuture(new LazyConst(Outcome::Success($procUid === 0)));
 			}
 		});
 	}
@@ -163,7 +171,7 @@ class Finder {
 	 * 
 	 * @param string $command
 	 * 
-	 * @return Thenable
+	 * @return FutureObject
 	 */
 	public function find ($command) {
 		$_gthis = $this;
@@ -175,7 +183,7 @@ class Finder {
 		while ($_g_current < $_g_length) {
 			$result[] = $_gthis->findExecutables($data[$_g_current++], $command);
 		}
-		return Promise_Impl_::then(PromiseTools::all(\Array_hx::wrap($result)), function ($results) use (&$_gthis) {
+		return Promise_Impl_::next(Promise_Impl_::inParallel(\Array_hx::wrap($result)), function ($results) use (&$_gthis) {
 			$_gthis1 = $_gthis;
 			$_g = new \Array_hx();
 			$_g_current = 0;
@@ -186,7 +194,7 @@ class Finder {
 					$_g->arr[$_g->length++] = $x1;
 				}
 			}
-			return $_gthis1->arrayUnique($_g);
+			return new SyncFuture(new LazyConst(Outcome::Success($_gthis1->arrayUnique($_g))));
 		});
 	}
 
@@ -196,7 +204,7 @@ class Finder {
 	 * @param string $directory
 	 * @param string $command
 	 * 
-	 * @return Thenable
+	 * @return FutureObject
 	 */
 	public function findExecutables ($directory, $command) {
 		$_gthis = $this;
@@ -220,7 +228,7 @@ class Finder {
 		while ($_g_current < $_g_length) {
 			$result[] = $_gthis->isExecutable($data[$_g_current++]);
 		}
-		return Promise_Impl_::then(PromiseTools::all(\Array_hx::wrap($result)), function ($results) use (&$paths) {
+		return Promise_Impl_::next(Promise_Impl_::inParallel(\Array_hx::wrap($result)), function ($results) use (&$paths) {
 			$_g = new \Array_hx();
 			$_g1_current = 0;
 			while ($_g1_current < $results->length) {
@@ -229,7 +237,7 @@ class Finder {
 					$_g->arr[$_g->length++] = $paths1;
 				}
 			}
-			return $_g;
+			return new SyncFuture(new LazyConst(Outcome::Success($_g)));
 		});
 	}
 
@@ -238,18 +246,18 @@ class Finder {
 	 * 
 	 * @param string $file
 	 * 
-	 * @return Thenable
+	 * @return FutureObject
 	 */
 	public function isExecutable ($file) {
 		\clearstatcache(true, $file);
 		if (!\file_exists($file) || FileSystem::isDirectory($file)) {
-			return Promise_Impl_::resolve(false);
+			return new SyncFuture(new LazyConst(Outcome::Success(false)));
 		}
 		if (is_executable($file)) {
-			return Promise_Impl_::resolve(true);
+			return new SyncFuture(new LazyConst(Outcome::Success(true)));
 		}
 		if (Finder::get_isWindows()) {
-			return Promise_Impl_::resolve($this->checkFileExtension($file));
+			return new SyncFuture(new LazyConst(Outcome::Success($this->checkFileExtension($file))));
 		} else {
 			return $this->checkFilePermissions(FileSystem::stat($file));
 		}

@@ -8,29 +8,23 @@ import php.NativeStructArray;
 /** Provides static extensions. **/
 @:expose class FinderTools {
 
-	/** Finds the first instance of the specified `command` in the system path. **/
-	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end): Promise<Dynamic> {
-		#if php
-			final all = options != null && isset(options["all"]) ? options["all"] : false;
-			final onError = options != null && isset(options["onError"]) ? options["onError"] : null;
-		#else
-			final all = options != null && options.all != null ? options.all : false;
-			final onError = options != null && options.onError != null ? options.onError : null;
-		#end
-
+	/** Finds all instances of the specified `command` in the system path. **/
+	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end) {
 		final finder = new Finder(options);
-		return finder.find(command).then(executables ->
-			if (executables.length > 0) all ? executables : cast executables[0]
-			else onError != null ? onError(command) : throw new FinderException(command, finder)
+		final onError = options != null && #if php isset(options["onError"]) ? options["onError"] #else options.onError != null ? options.onError #end : null;
+		return finder.find(command).next(executables ->
+			if (executables.length > 0) executables
+			else onError != null ? onError(command) : new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).')
 		);
 	}
+
+	/** Finds the first instance of the specified `command` in the system path. **/
+	public static function whichOne(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end)
+		return which(command, options).next(executables -> executables[0]);
 }
 
 /** Defines the options of the `FinderTools.which()` method. **/
 typedef WhichOptions = Finder.FinderOptions & {
-
-	/** Value indicating whether to return an array of all executables found, instead of just the first one. **/
-	var ?all: Bool;
 
 	/** An optional error handler. **/
 	var ?onError: String -> Dynamic;

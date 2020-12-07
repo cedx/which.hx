@@ -35,32 +35,20 @@ import php.Syntax;
 
 	/** <command> : The name of the command to find. **/
 	@:defaultCommand
-	public function run(rest: Rest<String>): Promise<Dynamic> {
+	public function run(rest: Rest<String>): Promise<Noise> {
 		if (help || version) {
 			Sys.println(help ? Cli.getDoc(this) : Version.getPackageVersion());
-			Sys.exit(0);
+			return Noise;
 		}
 
 		final requiredArgs = 1;
-		if (rest.length < requiredArgs || (Sys.getEnv("HAXELIB_RUN") == "1" && rest.length < requiredArgs + 1)) {
-			Sys.println("You must provide the name of a command to find.");
-			Sys.exit(64);
-		}
+		if (rest.length < requiredArgs || (Sys.getEnv("HAXELIB_RUN") == "1" && rest.length < requiredArgs + 1))
+			return new Error(BadRequest, "You must provide the name of a command to find.");
 
-		return rest[0].which({all: all})
-			.then(executables -> if (!silent) {
-				if (Std.isOfType(executables, String)) executables = cast [executables];
-				Lambda.iter(executables, Sys.println);
-			})
-			.catchError(e -> {
-				if (Std.isOfType(e, FinderException)) {
-					if (!silent) Sys.println('No "${rest[0]}" in (${(e: FinderException).finder.path.join(Finder.isWindows ? ";" : ":")}).');
-					Sys.exit(1);
-				}
-				else {
-					Sys.println(e);
-					Sys.exit(2);
-				}
-			});
+		final promise = all ? rest[0].which() : rest[0].whichOne().next(executable -> Success([executable]));
+		return promise.next(executables -> {
+			Lambda.iter(executables, Sys.println);
+			Noise;
+		});
 	}
 }

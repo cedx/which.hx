@@ -5,10 +5,17 @@
 
 namespace which;
 
+use \php\_Boot\HxAnon;
+use \tink\core\_Future\SyncFuture;
+use \tink\io\RealSourceTools;
 use \php\Boot;
-use \thenshim\_Promise\Promise_Impl_;
-use \thenshim\Thenable;
-use \sys\io\Process as IoProcess;
+use \tink\core\TypedError;
+use \tink\core\Outcome;
+use \tink\core\_Lazy\LazyConst;
+use \tink\core\_Future\Future_Impl_;
+use \tink\core\_Promise\Promise_Impl_;
+use \tink\core\FutureObject;
+use \asys\io\Process as IoProcess;
 
 /**
  * Provides information about the current process.
@@ -20,26 +27,55 @@ class Process {
 	 * 
 	 * @param string $identity
 	 * 
-	 * @return Thenable
+	 * @return FutureObject
 	 */
 	public static function getProcessId ($identity) {
 		if (Finder::get_isWindows()) {
-			return Promise_Impl_::resolve(-1);
+			return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(null, "Not supported on Windows platform.", new HxAnon([
+				"fileName" => "src/which/Process.hx",
+				"lineNumber" => 41,
+				"className" => "which.Process",
+				"methodName" => "getProcessId",
+			])))));
 		}
 		$process = new IoProcess("id", \Array_hx::wrap(["-" . ($identity??'null')]));
-		$id = ($process->exitCode() !== 0 ? null : \Std::parseInt($process->stdout->readLine()));
-		$process->close();
-		return Promise_Impl_::resolve(($id !== null ? $id : -1));
+		return Promise_Impl_::next(Future_Impl_::next($process->exitCode(), function ($exitCode) use (&$process) {
+			if ($exitCode !== 0) {
+				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(null, "Process exited with a non-zero code.", new HxAnon([
+					"fileName" => "src/which/Process.hx",
+					"lineNumber" => 45,
+					"className" => "which.Process",
+					"methodName" => "getProcessId",
+				])))));
+			} else {
+				return Promise_Impl_::next(RealSourceTools::all($process->stdout), function ($chunk) {
+					$id = \Std::parseInt(\rtrim($chunk->toString()));
+					if ($id !== null) {
+						return new SyncFuture(new LazyConst(Outcome::Success($id)));
+					} else {
+						return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(null, "Unable to parse the process output.", new HxAnon([
+							"fileName" => "src/which/Process.hx",
+							"lineNumber" => 47,
+							"className" => "which.Process",
+							"methodName" => "getProcessId",
+						])))));
+					}
+				});
+			}
+		}), function ($processId) use (&$process) {
+			$process->close();
+			return new SyncFuture(new LazyConst(Outcome::Success($processId)));
+		});
 	}
 
 	/**
 	 * Gets the identifier of the current process's group.
 	 * 
-	 * @return Thenable
+	 * @return FutureObject
 	 */
 	public static function get_gid () {
 		if (\function_exists("posix_getgid")) {
-			return Promise_Impl_::resolve(posix_getgid());
+			return posix_getgid();
 		}
 		return Process::getProcessId("g");
 	}
@@ -47,11 +83,11 @@ class Process {
 	/**
 	 * Gets the identifier of the current process's user.
 	 * 
-	 * @return Thenable
+	 * @return FutureObject
 	 */
 	public static function get_uid () {
 		if (\function_exists("posix_getuid")) {
-			return Promise_Impl_::resolve(posix_getuid());
+			return posix_getuid();
 		}
 		return Process::getProcessId("u");
 	}

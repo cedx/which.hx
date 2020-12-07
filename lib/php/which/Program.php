@@ -6,16 +6,18 @@
 namespace which;
 
 use \tink\Cli;
-use \thenshim\PromiseTools;
+use \php\_Boot\HxAnon;
 use \tink\core\_Future\SyncFuture;
 use \php\Boot;
+use \tink\core\Noise;
+use \tink\core\TypedError;
 use \tink\core\Outcome;
 use \tink\cli\prompt\RetryPrompt;
 use \tink\cli\Doc0;
 use \tink\core\_Lazy\LazyConst;
 use \tink\cli\doc\DefaultFormatter;
 use \tink\cli\Router0;
-use \thenshim\_Promise\Promise_Impl_;
+use \tink\core\_Promise\Promise_Impl_;
 use \tink\core\FutureObject;
 
 /**
@@ -68,33 +70,24 @@ class Program {
 	 * @return FutureObject
 	 */
 	public function run ($rest) {
-		$_gthis = $this;
 		if ($this->help || $this->version) {
 			echo((\Std::string(($this->help ? (new DefaultFormatter())->format(Doc0::get()) : "1.0.2"))??'null') . \PHP_EOL);
-			exit(0);
+			return new SyncFuture(new LazyConst(Outcome::Success(Noise::Noise())));
 		}
 		if (($rest->length < 1) || ((\Sys::getEnv("HAXELIB_RUN") === "1") && ($rest->length < 2))) {
-			echo("You must provide the name of a command to find." . \PHP_EOL);
-			exit(64);
+			return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(400, "You must provide the name of a command to find.", new HxAnon([
+				"fileName" => "src/which/Program.hx",
+				"lineNumber" => 46,
+				"className" => "which.Program",
+				"methodName" => "run",
+			])))));
 		}
-		return new SyncFuture(new LazyConst(Outcome::Success(PromiseTools::catch_(Promise_Impl_::then(FinderTools::which(($rest->arr[0] ?? null), ["all" => $this->all]), function ($executables) use (&$_gthis) {
-			if (!$_gthis->silent) {
-				if (is_string($executables)) {
-					$executables = \Array_hx::wrap([$executables]);
-				}
-				\Lambda::iter($executables, Boot::getStaticClosure(\Sys::class, 'println'));
-			}
-		}), function ($e) use (&$rest, &$_gthis) {
-			if (($e instanceof FinderException)) {
-				if (!$_gthis->silent) {
-					echo((\Std::string("No \"" . (($rest->arr[0] ?? null)??'null') . "\" in (" . ($e->finder->path->join((Finder::get_isWindows() ? ";" : ":"))??'null') . ").")??'null') . \PHP_EOL);
-				}
-				exit(1);
-			} else {
-				echo((\Std::string($e)??'null') . \PHP_EOL);
-				exit(2);
-			}
-		}))));
+		return Promise_Impl_::next(($this->all ? FinderTools::which(($rest->arr[0] ?? null)) : Promise_Impl_::next(FinderTools::whichOne(($rest->arr[0] ?? null)), function ($executable) {
+			return new SyncFuture(new LazyConst(Outcome::Success(\Array_hx::wrap([$executable]))));
+		})), function ($executables) {
+			\Lambda::iter($executables, Boot::getStaticClosure(\Sys::class, 'println'));
+			return new SyncFuture(new LazyConst(Outcome::Success(Noise::Noise())));
+		});
 	}
 }
 
