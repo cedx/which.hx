@@ -34,7 +34,7 @@
 	"require": {
 		"php": ">=7.4.0",
 		"ext-mbstring": "*",
-		"cedx/haxe": "^1.6.1"
+		"cedx/haxe": "^1.6.2"
 	},
 	"scripts": {
 		"coverage": "composer global exec coveralls var/lcov.info"
