@@ -52,7 +52,7 @@ using haxe.io.Path;
 		return FileSystem.exists(file)
 			.next(exists -> exists ? FileSystem.isDirectory(file) : new Error(NotFound, file))
 			.next(isDirectory -> isDirectory ? new Error(UnprocessableEntity, file) : file)
-			.next(_ -> isWindows ? checkFileExtension(file) : FileSystem.stat(file).next(stat -> checkFilePermissions(stat)))
+			.next(_ -> isWindows ? checkFileExtension(file) : FileSystem.stat(file).next(checkFilePermissions))
 			.recover(_ -> false);
 
 	/** Removes the duplicate values from the specified `array`. **/

@@ -12,6 +12,7 @@ use \tink\core\TypedError;
 use \tink\core\Outcome;
 use \tink\core\_Lazy\LazyConst;
 use \php\_Boot\HxString;
+use \tink\core\_Promise\Next_Impl_;
 use \tink\core\_Future\Future_Impl_;
 use \tink\core\_Promise\Promise_Impl_;
 use \asys\FileSystem;
@@ -285,9 +286,7 @@ class Finder {
 			if (Finder::get_isWindows()) {
 				return new SyncFuture(new LazyConst(Outcome::Success($_gthis->checkFileExtension($file))));
 			} else {
-				return Promise_Impl_::next(FileSystem::stat($file), function ($stat) use (&$_gthis) {
-					return $_gthis->checkFilePermissions($stat)->map(Boot::getStaticClosure(Outcome::class, 'Success'))->gather();
-				});
+				return Promise_Impl_::next(FileSystem::stat($file), Next_Impl_::ofSync(Boot::getInstanceClosure($_gthis, 'checkFilePermissions')));
 			}
 		})->flatMap(function ($o) {
 			$__hx__switch = ($o->index);
