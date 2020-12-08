@@ -1,5 +1,6 @@
 package which;
 
+import tink.streams.IdealStream;
 import tink.streams.RealStream;
 
 #if php
@@ -18,16 +19,18 @@ import php.NativeStructArray;
 typedef WhichOptions = Finder.FinderOptions;
 
 /** TODO **/
-@:forward
-abstract WhichResult(RealStream<String>) from RealStream<String> {
+abstract WhichResult(IdealStream<String>) from IdealStream<String> {
 
 	/** TODO **/
 	public function all(): Promise<Array<String>>
-		return this.collect().next(executables -> executables.length > 0 ? arrayUnique(executables) : new Error(NotFound, "Command not found."));
+		return this.collect().next(executables -> {
+			trace('executables: $executables');
+			executables.length > 0 ? arrayUnique(executables) : new Error(NotFound, "Command not found.");
+		});
 
 	/** TODO **/
 	public function first(): Promise<String>
-		return this.next().map(step -> switch step {
+		return this.next().map(step -> switch step { // TODO: pas next()!!!! foreach()!!!!
 			case Link(value, _): Success(value);
 			default: Failure(new Error(NotFound, "Command not found."));
 		});

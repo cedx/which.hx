@@ -8,16 +8,21 @@ namespace which;
 use \php\_Boot\HxAnon;
 use \tink\core\_Future\SyncFuture;
 use \php\Boot;
+use \tink\streams\_Stream\Stream_Impl_;
+use \haxe\Log;
 use \tink\core\TypedError;
+use \tink\streams\StreamObject;
 use \tink\core\Outcome;
 use \tink\core\_Lazy\LazyConst;
 use \php\_Boot\HxString;
-use \tink\core\_Promise\Next_Impl_;
+use \tink\streams\Empty_hx;
 use \tink\core\_Future\Future_Impl_;
 use \tink\core\_Promise\Promise_Impl_;
 use \asys\FileSystem;
+use \tink\streams\_Stream\Filter_Impl_;
 use \tink\core\FutureObject;
 use \haxe\io\Path;
+use \haxe\iterators\ArrayIterator;
 
 /**
  * Finds the instances of an executable in the system path.
@@ -166,14 +171,7 @@ class Finder {
 			} else {
 				return new SyncFuture(new LazyConst(Outcome::Success($processUid === 0)));
 			}
-		})->flatMap(function ($o) {
-			$__hx__switch = ($o->index);
-			if ($__hx__switch === 0) {
-				return new SyncFuture(new LazyConst($o->params[0]));
-			} else if ($__hx__switch === 1) {
-				return new SyncFuture(new LazyConst(false));
-			}
-		})->gather();
+		});
 	}
 
 	/**
@@ -181,31 +179,16 @@ class Finder {
 	 * 
 	 * @param string $command
 	 * 
-	 * @return FutureObject
+	 * @return StreamObject
 	 */
 	public function find ($command) {
-		$_gthis = $this;
-		$_this = Boot::deref(((Finder::get_isWindows() ? \Array_hx::wrap([\Sys::getCwd()]) : new \Array_hx())))->concat($this->path);
-		$result = [];
-		$data = $_this->arr;
-		$_g_current = 0;
-		$_g_length = \count($data);
-		while ($_g_current < $_g_length) {
-			$result[] = $_gthis->findExecutables($data[$_g_current++], $command);
+		$stream = Empty_hx::$inst;
+		$_g = 0;
+		$_g1 = Boot::deref(((Finder::get_isWindows() ? \Array_hx::wrap([\Sys::getCwd()]) : new \Array_hx())))->concat($this->path);
+		while ($_g < $_g1->length) {
+			$stream = $stream->append($this->findExecutables(($_g1->arr[$_g++] ?? null), $command));
 		}
-		return Promise_Impl_::next(Promise_Impl_::inParallel(\Array_hx::wrap($result)), function ($results) use (&$_gthis) {
-			$_gthis1 = $_gthis;
-			$_g = new \Array_hx();
-			$_g_current = 0;
-			while ($_g_current < $results->length) {
-				$x = ($results->arr[$_g_current++] ?? null)->iterator();
-				while ($x->hasNext()) {
-					$x1 = $x->next();
-					$_g->arr[$_g->length++] = $x1;
-				}
-			}
-			return new SyncFuture(new LazyConst(Outcome::Success($_gthis1->arrayUnique($_g))));
-		});
+		return $stream;
 	}
 
 	/**
@@ -214,7 +197,7 @@ class Finder {
 	 * @param string $directory
 	 * @param string $command
 	 * 
-	 * @return FutureObject
+	 * @return StreamObject
 	 */
 	public function findExecutables ($directory, $command) {
 		$_gthis = $this;
@@ -230,25 +213,22 @@ class Finder {
 				"" . ($command??'null') . ($data[$_g_current++]??'null'),
 			])), "/", (Finder::get_isWindows() ? "\\" : "/"));
 		}
-		$paths = \Array_hx::wrap($result);
-		$result = [];
-		$data = $paths->arr;
-		$_g_current = 0;
-		$_g_length = \count($data);
-		while ($_g_current < $_g_length) {
-			$result[] = $_gthis->isExecutable($data[$_g_current++]);
-		}
-		return Promise_Impl_::next(Promise_Impl_::inParallel(\Array_hx::wrap($result)), function ($results) use (&$paths) {
-			$_g = new \Array_hx();
-			$_g1_current = 0;
-			while ($_g1_current < $results->length) {
-				if (($results->arr[$_g1_current++] ?? null)) {
-					$paths1 = ($paths->arr[$_g1_current - 1] ?? null);
-					$_g->arr[$_g->length++] = $paths1;
+		return Stream_Impl_::ofIterator(new ArrayIterator(\Array_hx::wrap($result)))->filter(Filter_Impl_::ofAsync(function ($item) use (&$_gthis) {
+			(Log::$trace)($item, new HxAnon([
+				"fileName" => "src/which/Finder.hx",
+				"lineNumber" => 86,
+				"className" => "which.Finder",
+				"methodName" => "findExecutables",
+			]));
+			return $_gthis->isExecutable($item)->flatMap(function ($o) {
+				$__hx__switch = ($o->index);
+				if ($__hx__switch === 0) {
+					return new SyncFuture(new LazyConst($o->params[0]));
+				} else if ($__hx__switch === 1) {
+					return new SyncFuture(new LazyConst(false));
 				}
-			}
-			return new SyncFuture(new LazyConst(Outcome::Success($_g)));
-		});
+			})->gather();
+		}));
 	}
 
 	/**
@@ -266,7 +246,7 @@ class Finder {
 			} else {
 				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(404, $file, new HxAnon([
 					"fileName" => "src/which/Finder.hx",
-					"lineNumber" => 53,
+					"lineNumber" => 57,
 					"className" => "which.Finder",
 					"methodName" => "isExecutable",
 				])))));
@@ -275,7 +255,7 @@ class Finder {
 			if ($isDirectory) {
 				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(422, $file, new HxAnon([
 					"fileName" => "src/which/Finder.hx",
-					"lineNumber" => 54,
+					"lineNumber" => 58,
 					"className" => "which.Finder",
 					"methodName" => "isExecutable",
 				])))));
@@ -286,16 +266,9 @@ class Finder {
 			if (Finder::get_isWindows()) {
 				return new SyncFuture(new LazyConst(Outcome::Success($_gthis->checkFileExtension($file))));
 			} else {
-				return Promise_Impl_::next(FileSystem::stat($file), Next_Impl_::ofSync(Boot::getInstanceClosure($_gthis, 'checkFilePermissions')));
+				return Promise_Impl_::next(FileSystem::stat($file), Boot::getInstanceClosure($_gthis, 'checkFilePermissions'));
 			}
-		})->flatMap(function ($o) {
-			$__hx__switch = ($o->index);
-			if ($__hx__switch === 0) {
-				return new SyncFuture(new LazyConst($o->params[0]));
-			} else if ($__hx__switch === 1) {
-				return new SyncFuture(new LazyConst(false));
-			}
-		})->gather()->map(Boot::getStaticClosure(Outcome::class, 'Success'))->gather();
+		});
 	}
 }
 

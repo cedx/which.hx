@@ -2,6 +2,7 @@ package which;
 
 import asys.FileSystem;
 import asys.FileStat;
+import tink.streams.IdealStream;
 import tink.streams.RealStream;
 import tink.streams.Stream;
 
@@ -44,9 +45,9 @@ using haxe.io.Path;
 	};
 
 	/** Finds the instances of the specified `command` in the system path. **/
-	public function find(command: String): RealStream<String> {
+	public function find(command: String): IdealStream<String> {
 		var stream = Empty.make();
-		for (item in (isWindows ? [Sys.getCwd()] : [])) stream = stream.append(findExecutables(item, command));
+		for (item in (isWindows ? [Sys.getCwd()] : []).concat(path)) stream = stream.append(findExecutables(item, command));
 		return stream;
 	}
 
@@ -78,13 +79,13 @@ using haxe.io.Path;
 	}
 
 	/** Finds the instances of the specified `command` in the given `directory`. **/
-	function findExecutables(directory: String, command: String): RealStream<String> {
+	function findExecutables(directory: String, command: String): IdealStream<String> {
 		final basePath = FileSystem.absolutePath(directory);
 		final paths = [""].concat(isWindows ? extensions : []).map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"));
-
-		var stream = Stream.ofIterator(cast paths.iterator); // TODO: how to remove the cast?
-		stream = stream.filter(item -> isExecutable(item));
-		return stream;
+		return Stream.ofIterator(paths.iterator()).filter(item -> {
+			trace(item);
+			isExecutable(item).recover(_ -> false);
+		});
 	}
 }
 
