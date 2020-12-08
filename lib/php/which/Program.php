@@ -70,6 +70,7 @@ class Program {
 	 * @return FutureObject
 	 */
 	public function run ($rest) {
+		$_gthis = $this;
 		if ($this->help || $this->version) {
 			echo((\Std::string(($this->help ? (new DefaultFormatter())->format(Doc0::get()) : "2.0.0"))??'null') . \PHP_EOL);
 			return new SyncFuture(new LazyConst(Outcome::Success(Noise::Noise())));
@@ -82,10 +83,8 @@ class Program {
 				"methodName" => "run",
 			])))));
 		}
-		return Promise_Impl_::next(($this->all ? FinderTools::which(($rest->arr[0] ?? null)) : Promise_Impl_::next(FinderTools::whichOne(($rest->arr[0] ?? null)), function ($executable) {
-			return new SyncFuture(new LazyConst(Outcome::Success(\Array_hx::wrap([$executable]))));
-		})), function ($executables) {
-			\Lambda::iter($executables, Boot::getStaticClosure(\Sys::class, 'println'));
+		return Promise_Impl_::next(FinderTools::which(($rest->arr[0] ?? null)), function ($executables) use (&$_gthis) {
+			\Lambda::iter(($_gthis->all ? $executables : $executables->slice(0, 1)), Boot::getStaticClosure(\Sys::class, 'println'));
 			return new SyncFuture(new LazyConst(Outcome::Success(Noise::Noise())));
 		});
 	}

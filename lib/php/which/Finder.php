@@ -5,14 +5,16 @@
 
 namespace which;
 
+use \php\_Boot\HxAnon;
 use \tink\core\_Future\SyncFuture;
 use \php\Boot;
+use \tink\core\TypedError;
 use \tink\core\Outcome;
 use \tink\core\_Lazy\LazyConst;
 use \php\_Boot\HxString;
 use \tink\core\_Future\Future_Impl_;
 use \tink\core\_Promise\Promise_Impl_;
-use \sys\FileSystem;
+use \asys\FileSystem;
 use \tink\core\FutureObject;
 use \haxe\io\Path;
 
@@ -134,36 +136,43 @@ class Finder {
 	/**
 	 * Checks that the file represented by the specified `stats` is executable according to its permissions.
 	 * 
-	 * @param object $stats
+	 * @param object $stat
 	 * 
 	 * @return FutureObject
 	 */
-	public function checkFilePermissions ($stats) {
-		$procUid = -1;
-		return Promise_Impl_::next(Promise_Impl_::next(Future_Impl_::next(new SyncFuture(new LazyConst(($stats->mode & 1) !== 0)), function ($isExec) use (&$stats) {
-			if ($isExec || (($stats->mode & 8) === 0)) {
-				return new SyncFuture(new LazyConst(Outcome::Success($isExec)));
+	public function checkFilePermissions ($stat) {
+		$processUid = -1;
+		return Promise_Impl_::next(Promise_Impl_::next(Future_Impl_::next(new SyncFuture(new LazyConst(($stat->mode & 1) !== 0)), function ($isExec) use (&$stat) {
+			if ($isExec || (($stat->mode & 8) === 0)) {
+				return new SyncFuture(new LazyConst(Outcome::Success(true)));
 			} else {
-				return Promise_Impl_::next(Process::get_gid(), function ($gid) use (&$stats) {
-					return new SyncFuture(new LazyConst(Outcome::Success($stats->gid === $gid)));
+				return Promise_Impl_::next(Process::get_gid(), function ($gid) use (&$stat) {
+					return new SyncFuture(new LazyConst(Outcome::Success($stat->gid === $gid)));
 				});
 			}
-		}), function ($isExec) use (&$stats, &$procUid) {
-			if ($isExec || (($stats->mode & 64) === 0)) {
-				return new SyncFuture(new LazyConst(Outcome::Success($isExec)));
+		}), function ($isExec) use (&$stat, &$processUid) {
+			if ($isExec || (($stat->mode & 64) === 0)) {
+				return new SyncFuture(new LazyConst(Outcome::Success(true)));
 			} else {
-				return Promise_Impl_::next(Process::get_uid(), function ($uid) use (&$stats, &$procUid) {
-					$procUid = $uid;
-					return new SyncFuture(new LazyConst(Outcome::Success($stats->uid === $uid)));
+				return Promise_Impl_::next(Process::get_uid(), function ($uid) use (&$stat, &$processUid) {
+					$processUid = $uid;
+					return new SyncFuture(new LazyConst(Outcome::Success($stat->uid === $uid)));
 				});
 			}
-		}), function ($isExec) use (&$stats, &$procUid) {
-			if ($isExec || (($stats->mode & 72) === 0)) {
-				return new SyncFuture(new LazyConst(Outcome::Success($isExec)));
+		}), function ($isExec) use (&$stat, &$processUid) {
+			if ($isExec || (($stat->mode & 72) === 0)) {
+				return new SyncFuture(new LazyConst(Outcome::Success(true)));
 			} else {
-				return new SyncFuture(new LazyConst(Outcome::Success($procUid === 0)));
+				return new SyncFuture(new LazyConst(Outcome::Success($processUid === 0)));
 			}
-		});
+		})->flatMap(function ($o) {
+			$__hx__switch = ($o->index);
+			if ($__hx__switch === 0) {
+				return new SyncFuture(new LazyConst($o->params[0]));
+			} else if ($__hx__switch === 1) {
+				return new SyncFuture(new LazyConst(false));
+			}
+		})->gather();
 	}
 
 	/**
@@ -249,18 +258,45 @@ class Finder {
 	 * @return FutureObject
 	 */
 	public function isExecutable ($file) {
-		\clearstatcache(true, $file);
-		if (!\file_exists($file) || FileSystem::isDirectory($file)) {
-			return new SyncFuture(new LazyConst(Outcome::Success(false)));
-		}
-		if (is_executable($file)) {
-			return new SyncFuture(new LazyConst(Outcome::Success(true)));
-		}
-		if (Finder::get_isWindows()) {
-			return new SyncFuture(new LazyConst(Outcome::Success($this->checkFileExtension($file))));
-		} else {
-			return $this->checkFilePermissions(FileSystem::stat($file));
-		}
+		$_gthis = $this;
+		return Promise_Impl_::next(Promise_Impl_::next(Future_Impl_::next(FileSystem::exists($file), function ($exists) use (&$file) {
+			if ($exists) {
+				return FileSystem::isDirectory($file)->map(Boot::getStaticClosure(Outcome::class, 'Success'))->gather();
+			} else {
+				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(404, $file, new HxAnon([
+					"fileName" => "src/which/Finder.hx",
+					"lineNumber" => 53,
+					"className" => "which.Finder",
+					"methodName" => "isExecutable",
+				])))));
+			}
+		}), function ($isDirectory) use (&$file) {
+			if ($isDirectory) {
+				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(422, $file, new HxAnon([
+					"fileName" => "src/which/Finder.hx",
+					"lineNumber" => 54,
+					"className" => "which.Finder",
+					"methodName" => "isExecutable",
+				])))));
+			} else {
+				return new SyncFuture(new LazyConst(Outcome::Success($file)));
+			}
+		}), function ($_) use (&$file, &$_gthis) {
+			if (Finder::get_isWindows()) {
+				return new SyncFuture(new LazyConst(Outcome::Success($_gthis->checkFileExtension($file))));
+			} else {
+				return Promise_Impl_::next(FileSystem::stat($file), function ($stat) use (&$_gthis) {
+					return $_gthis->checkFilePermissions($stat)->map(Boot::getStaticClosure(Outcome::class, 'Success'))->gather();
+				});
+			}
+		})->flatMap(function ($o) {
+			$__hx__switch = ($o->index);
+			if ($__hx__switch === 0) {
+				return new SyncFuture(new LazyConst($o->params[0]));
+			} else if ($__hx__switch === 1) {
+				return new SyncFuture(new LazyConst(false));
+			}
+		})->gather()->map(Boot::getStaticClosure(Outcome::class, 'Success'))->gather();
 	}
 }
 

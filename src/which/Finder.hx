@@ -1,18 +1,11 @@
 package which;
 
-import sys.FileSystem;
-import sys.FileStat;
+import asys.FileSystem;
+import asys.FileStat;
 
 using Lambda;
 using StringTools;
 using haxe.io.Path;
-
-#if nodejs
-import js.node.Fs;
-import js.node.Util;
-#elseif php
-import php.Syntax;
-#end
 
 /** Finds the instances of an executable in the system path. **/
 @:expose class Finder {
@@ -55,19 +48,12 @@ import php.Syntax;
 	}
 
 	/** Gets a value indicating whether the specified `file` is executable. **/
-	public function isExecutable(file: String): Promise<Bool> {
-		#if nodejs
-			final stat = Util.promisify(Fs.stat);
-			return stat(file).then(stats ->
-				if (stats.isFile()) isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(stats)
-				else Promise.resolve(false)
-			).catchError(_ -> false);
-		#else
-			if (!FileSystem.exists(file) || FileSystem.isDirectory(file)) return Promise.resolve(false);
-			#if php if (Syntax.code("is_executable({0})", file)) return Promise.resolve(true); #end
-			return isWindows ? Promise.resolve(checkFileExtension(file)) : checkFilePermissions(FileSystem.stat(file));
-		#end
-	}
+	public function isExecutable(file: String): Promise<Bool>
+		return FileSystem.exists(file)
+			.next(exists -> exists ? FileSystem.isDirectory(file) : new Error(NotFound, file))
+			.next(isDirectory -> isDirectory ? new Error(UnprocessableEntity, file) : file)
+			.next(_ -> isWindows ? checkFileExtension(file) : FileSystem.stat(file).next(stat -> checkFilePermissions(stat)))
+			.recover(_ -> false);
 
 	/** Removes the duplicate values from the specified `array`. **/
 	function arrayUnique<T>(array: Array<T>): Array<T> {
@@ -81,12 +67,13 @@ import php.Syntax;
 		return extensions.contains('.${file.extension().toLowerCase()}');
 
 	/** Checks that the file represented by the specified `stats` is executable according to its permissions. **/
-	function checkFilePermissions(stats: FileStat) {
-		var procUid = -1;
-		return Future.sync(stats.mode & 1 != 0)
-			.next(isExec -> isExec || (stats.mode & 8 == 0) ? isExec : Process.gid.next(gid -> stats.gid == gid))
-			.next(isExec -> isExec || (stats.mode & 64 == 0) ? isExec : Process.uid.next(uid -> { procUid = uid; stats.uid == uid; }))
-			.next(isExec -> isExec || (stats.mode & (64 | 8) == 0) ? isExec : procUid == 0);
+	function checkFilePermissions(stat: FileStat) {
+		var processUid = -1;
+		return Future.sync(stat.mode & 1 != 0)
+			.next(isExec -> isExec || (stat.mode & 8 == 0) ? true : Process.gid.next(gid -> stat.gid == gid))
+			.next(isExec -> isExec || (stat.mode & 64 == 0) ? true : Process.uid.next(uid -> { processUid = uid; stat.uid == uid; }))
+			.next(isExec -> isExec || (stat.mode & (64 | 8) == 0) ? true : processUid == 0)
+			.recover(_ -> false);
 	}
 
 	/** Finds the instances of the specified `command` in the given `directory`. **/

@@ -45,9 +45,8 @@ import php.Syntax;
 		if (rest.length < requiredArgs || (Sys.getEnv("HAXELIB_RUN") == "1" && rest.length < requiredArgs + 1))
 			return new Error(BadRequest, "You must provide the name of a command to find.");
 
-		final promise = all ? rest[0].which() : rest[0].whichOne().next(executable -> Success([executable]));
-		return promise.next(executables -> {
-			Lambda.iter(executables, Sys.println);
+		return rest[0].which().next(executables -> {
+			Lambda.iter(all ? executables : executables.slice(0, 1), Sys.println);
 			Noise;
 		});
 	}
