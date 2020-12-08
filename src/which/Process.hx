@@ -38,7 +38,7 @@ class Process {
 
 	/** Gets the numeric `identity` of the current process. **/
 	static function getProcessId(identity: ProcessIdentity): Promise<Int> {
-		if (Finder.isWindows) return Failure(new Error("Not supported on Windows platform."));
+		if (Finder.isWindows) return Failure(new Error(MethodNotAllowed, "Not supported on Windows platform."));
 
 		final process = new AsyncProcess("id", ['-$identity']);
 		return process.exitCode()

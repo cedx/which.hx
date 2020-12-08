@@ -31,7 +31,7 @@ class Process {
 	 */
 	public static function getProcessId ($identity) {
 		if (Finder::get_isWindows()) {
-			return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(null, "Not supported on Windows platform.", new HxAnon([
+			return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(405, "Not supported on Windows platform.", new HxAnon([
 				"fileName" => "src/which/Process.hx",
 				"lineNumber" => 41,
 				"className" => "which.Process",

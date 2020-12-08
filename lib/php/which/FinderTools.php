@@ -28,17 +28,14 @@ class FinderTools {
 	 */
 	public static function which ($command, $options = null) {
 		$finder = new Finder(new HxAnon($options));
-		$onError = (($options !== null) && isset($options["onError"]) ? $options["onError"] : null);
-		return Promise_Impl_::next($finder->find($command), function ($executables) use (&$finder, &$command, &$onError) {
+		return Promise_Impl_::next($finder->find($command), function ($executables) use (&$finder, &$command) {
 			if ($executables->length > 0) {
 				return new SyncFuture(new LazyConst(Outcome::Success($executables)));
-			} else if ($onError !== null) {
-				return $onError($command);
 			} else {
 				$e = "No \"" . ($command??'null') . "\" in (" . ($finder->path->join((Finder::get_isWindows() ? ";" : ":"))??'null') . ").";
 				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(404, $e, new HxAnon([
 					"fileName" => "src/which/FinderTools.hx",
-					"lineNumber" => 17,
+					"lineNumber" => 15,
 					"className" => "which.FinderTools",
 					"methodName" => "which",
 				])))));
