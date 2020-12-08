@@ -57,7 +57,7 @@ using haxe.io.Path;
 
 	/** Removes the duplicate values from the specified `array`. **/
 	function arrayUnique<T>(array: Array<T>): Array<T> {
-		var list = [];
+		final list = [];
 		for (value in array) if (!list.contains(value)) list.push(value);
 		return list;
 	}
@@ -70,9 +70,9 @@ using haxe.io.Path;
 	function checkFilePermissions(stat: FileStat) {
 		var processUid = -1;
 		return Future.sync(stat.mode & 1 != 0)
-			.next(isExec -> isExec || (stat.mode & 8 == 0) ? true : Process.gid.next(gid -> stat.gid == gid))
-			.next(isExec -> isExec || (stat.mode & 64 == 0) ? true : Process.uid.next(uid -> { processUid = uid; stat.uid == uid; }))
-			.next(isExec -> isExec || (stat.mode & (64 | 8) == 0) ? true : processUid == 0)
+			.next(isExec -> isExec || (stat.mode & 8 == 0) ? isExec : Process.gid.next(gid -> stat.gid == gid))
+			.next(isExec -> isExec || (stat.mode & 64 == 0) ? isExec : Process.uid.next(uid -> { processUid = uid; stat.uid == uid; }))
+			.next(isExec -> isExec || (stat.mode & (64 | 8) == 0) ? isExec : processUid == 0)
 			.recover(_ -> false);
 	}
 

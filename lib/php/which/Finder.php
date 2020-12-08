@@ -144,7 +144,7 @@ class Finder {
 		$processUid = -1;
 		return Promise_Impl_::next(Promise_Impl_::next(Future_Impl_::next(new SyncFuture(new LazyConst(($stat->mode & 1) !== 0)), function ($isExec) use (&$stat) {
 			if ($isExec || (($stat->mode & 8) === 0)) {
-				return new SyncFuture(new LazyConst(Outcome::Success(true)));
+				return new SyncFuture(new LazyConst(Outcome::Success($isExec)));
 			} else {
 				return Promise_Impl_::next(Process::get_gid(), function ($gid) use (&$stat) {
 					return new SyncFuture(new LazyConst(Outcome::Success($stat->gid === $gid)));
@@ -152,7 +152,7 @@ class Finder {
 			}
 		}), function ($isExec) use (&$stat, &$processUid) {
 			if ($isExec || (($stat->mode & 64) === 0)) {
-				return new SyncFuture(new LazyConst(Outcome::Success(true)));
+				return new SyncFuture(new LazyConst(Outcome::Success($isExec)));
 			} else {
 				return Promise_Impl_::next(Process::get_uid(), function ($uid) use (&$stat, &$processUid) {
 					$processUid = $uid;
@@ -161,7 +161,7 @@ class Finder {
 			}
 		}), function ($isExec) use (&$stat, &$processUid) {
 			if ($isExec || (($stat->mode & 72) === 0)) {
-				return new SyncFuture(new LazyConst(Outcome::Success(true)));
+				return new SyncFuture(new LazyConst(Outcome::Success($isExec)));
 			} else {
 				return new SyncFuture(new LazyConst(Outcome::Success($processUid === 0)));
 			}
