@@ -6,25 +6,47 @@ jobs:
   eval:
     runs-on: ubuntu-latest
     steps:
+      - name: Fetch sources
+        uses: actions/checkout@v2
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v1
         with:
           haxe-version: 4.1.4
       - name: Check environment
-        run: |
-          haxe --version
-          haxelib version
-      - name: Fetch sources
-        uses: actions/checkout@v2
+        run: haxe --version
       - name: Install dependencies
         run: |
           haxelib install all --always
           haxelib set tink_core 1.27.1 --always
       - name: Run tests
         run: haxe test_eval.hxml
+  hl:
+    runs-on: windows-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v2
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.1.4
+      - name: Set up HashLink
+        run: |
+          Invoke-WebRequest https://github.com/HaxeFoundation/hashlink/releases/download/1.11/hl-1.11.0-win.zip -OutFile var/hashlink.zip
+          Expand-Archive var/hashlink.zip var/hashlink
+          Add-Content $Env:GITHUB_PATH (Resolve-Path var/hashlink/hl-1.11.0-win) -NoNewline
+      - name: Check environment
+        run: hl --version
+      - name: Install dependencies
+        run: |
+          haxelib install all --always
+          haxelib set tink_core 1.27.1 --always
+      - name: Run tests
+        run: haxe test_hl.hxml
   js:
     runs-on: ubuntu-latest
     steps:
+      - name: Fetch sources
+        uses: actions/checkout@v2
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v1
         with:
@@ -34,11 +56,7 @@ jobs:
         with:
           node-version: 14
       - name: Check environment
-        run: |
-          node --version
-          npm --version
-      - name: Fetch sources
-        uses: actions/checkout@v2
+        run: node --version
       - name: Install dependencies
         run: |
           haxelib install all --always
@@ -54,6 +72,8 @@ jobs:
   php:
     runs-on: windows-latest
     steps:
+      - name: Fetch sources
+        uses: actions/checkout@v2
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v1
         with:
@@ -65,11 +85,7 @@ jobs:
           coverage: xdebug
           extensions: mbstring, simplexml
       - name: Check environment
-        run: |
-          php --version
-          composer --version
-      - name: Fetch sources
-        uses: actions/checkout@v2
+        run: php --version
       - name: Install dependencies
         run: |
           haxelib install all --always
