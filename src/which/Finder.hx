@@ -79,10 +79,14 @@ using haxe.io.Path;
 	}
 
 	/** Finds the instances of the specified `command` in the given `directory`. **/
-	function findExecutables(directory: String, command: String): IdealStream<String> {
+	function findExecutables(directory: String, command: String) {
 		final basePath = FileSystem.absolutePath(directory);
-		final paths = [""].concat(isWindows ? extensions : []).map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"));
-		return Stream.ofIterator(paths.iterator()).filter(item -> {
+		final stream: IdealStream<String> = [""]
+			.concat(isWindows ? extensions : [])
+			.map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"))
+			.iterator();
+
+		return stream.filter(item -> {
 			trace(item);
 			isExecutable(item).recover(_ -> false);
 		});
