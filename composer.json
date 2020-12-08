@@ -33,7 +33,7 @@
 	],
 	"require": {
 		"php": ">=7.0.0",
-		"cedx/haxe": "^1.6.3"
+		"cedx/haxe": "^1.7.0"
 	},
 	"scripts": {
 		"coverage": "composer global exec coveralls var/lcov.info"
