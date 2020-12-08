@@ -19,7 +19,7 @@ use \tink\core\FutureObject;
  */
 class FinderTools {
 	/**
-	 * Finds all instances of the specified `command` in the system path.
+	 * Finds the instances of the specified `command` in the system path.
 	 * 
 	 * @param string $command
 	 * @param mixed $options
@@ -40,20 +40,6 @@ class FinderTools {
 					"methodName" => "which",
 				])))));
 			}
-		});
-	}
-
-	/**
-	 * Finds the first instance of the specified `command` in the system path.
-	 * 
-	 * @param string $command
-	 * @param mixed $options
-	 * 
-	 * @return FutureObject
-	 */
-	public static function whichOne ($command, $options = null) {
-		return Promise_Impl_::next(FinderTools::which($command, $options), function ($executables) {
-			return new SyncFuture(new LazyConst(Outcome::Success(($executables->arr[0] ?? null))));
 		});
 	}
 }
