@@ -1,5 +1,8 @@
 # Changelog
 
+## Version [2.0.0](https://git.belin.io/cedx/which.hx/compare/v1.0.2...v2.0.0)
+- Ported the documentation to [docsify](https://docsify.js.org).
+
 ## Version [1.0.2](https://git.belin.io/cedx/which.hx/compare/v1.0.1...v1.0.2)
 - `haxelib run`: replaced the [Neko](https://nekovm.org) binary by the `Run` module.
 
