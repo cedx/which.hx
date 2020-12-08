@@ -1,5 +1,7 @@
 package which;
 
+import tink.streams.RealStream;
+
 #if php
 import php.NativeStructArray;
 #end
@@ -8,24 +10,32 @@ import php.NativeStructArray;
 @:expose class FinderTools {
 
 	/** Finds the instances of the specified `command` in the system path. **/
-	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end): WhichResult {
-		final finder = new Finder(options);
-		return finder.find(command).next(executables -> executables.length > 0
-			? executables
-			: new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).')
-		);
-	}
+	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end): WhichResult
+		return new Finder(options).find(command);
 }
 
 /** Defines the options of the `FinderTools.which()` method. **/
 typedef WhichOptions = Finder.FinderOptions;
 
 /** TODO **/
-abstract WhichResult(Promise<Array<String>>) from Promise<Array<String>> {
+@:forward
+abstract WhichResult(RealStream<String>) from RealStream<String> {
 
 	/** TODO **/
-	public inline function all() return this;
+	public function all(): Promise<Array<String>>
+		return this.collect().next(executables -> executables.length > 0 ? arrayUnique(executables) : new Error(NotFound, "Command not found."));
 
 	/** TODO **/
-	public inline function first() return this.next(executables -> executables[0]);
+	public function first(): Promise<String>
+		return this.next().map(step -> switch step {
+			case Link(value, _): Success(value);
+			default: Failure(new Error(NotFound, "Command not found."));
+		});
+
+	/** Removes the duplicate values from the specified `array`. **/
+	function arrayUnique<T>(array: Array<T>): Array<T> {
+		final list = [];
+		for (value in array) if (!list.contains(value)) list.push(value);
+		return list;
+	}
 }

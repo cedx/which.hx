@@ -2,6 +2,8 @@ package which;
 
 import asys.FileSystem;
 import asys.FileStat;
+import tink.streams.RealStream;
+import tink.streams.Stream;
 
 using Lambda;
 using StringTools;
@@ -42,18 +44,18 @@ using haxe.io.Path;
 	};
 
 	/** Finds the instances of the specified `command` in the system path. **/
-	public function find(command: String): Promise<Array<String>> {
-		final paths = isWindows ? [Sys.getCwd()] : [];
-		return paths.concat(path).map(item -> findExecutables(item, command)).inParallel().next(results -> arrayUnique(results.flatten()));
+	public function find(command: String): RealStream<String> {
+		var stream = Empty.make();
+		for (item in (isWindows ? [Sys.getCwd()] : [])) stream = stream.append(findExecutables(item, command));
+		return stream;
 	}
 
 	/** Gets a value indicating whether the specified `file` is executable. **/
-	public function isExecutable(file: String): Promise<Bool>
+	public function isExecutable(file: String)
 		return FileSystem.exists(file)
 			.next(exists -> exists ? FileSystem.isDirectory(file) : new Error(NotFound, file))
 			.next(isDirectory -> isDirectory ? new Error(UnprocessableEntity, file) : file)
-			.next(_ -> isWindows ? checkFileExtension(file) : FileSystem.stat(file).next(checkFilePermissions))
-			.recover(_ -> false);
+			.next(_ -> isWindows ? checkFileExtension(file) : FileSystem.stat(file).next(checkFilePermissions));
 
 	/** Removes the duplicate values from the specified `array`. **/
 	function arrayUnique<T>(array: Array<T>): Array<T> {
@@ -72,15 +74,17 @@ using haxe.io.Path;
 		return Future.sync(stat.mode & 1 != 0)
 			.next(isExec -> isExec || (stat.mode & 8 == 0) ? isExec : Process.gid.next(gid -> stat.gid == gid))
 			.next(isExec -> isExec || (stat.mode & 64 == 0) ? isExec : Process.uid.next(uid -> { processUid = uid; stat.uid == uid; }))
-			.next(isExec -> isExec || (stat.mode & (64 | 8) == 0) ? isExec : processUid == 0)
-			.recover(_ -> false);
+			.next(isExec -> isExec || (stat.mode & (64 | 8) == 0) ? isExec : processUid == 0);
 	}
 
 	/** Finds the instances of the specified `command` in the given `directory`. **/
-	function findExecutables(directory: String, command: String) {
+	function findExecutables(directory: String, command: String): RealStream<String> {
 		final basePath = FileSystem.absolutePath(directory);
 		final paths = [""].concat(isWindows ? extensions : []).map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"));
-		return paths.map(item -> isExecutable(item)).inParallel().next(results -> Success([for (index => isExec in results) if (isExec) paths[index]]));
+
+		var stream = Stream.ofIterator(cast paths.iterator); // TODO: how to remove the cast?
+		stream = stream.filter(item -> isExecutable(item));
+		return stream;
 	}
 }
 
