@@ -219,7 +219,7 @@ class Finder {
 			} else {
 				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(404, $file, new HxAnon([
 					"fileName" => "src/which/Finder.hx",
-					"lineNumber" => 56,
+					"lineNumber" => 55,
 					"className" => "which.Finder",
 					"methodName" => "isExecutable",
 				])))));
@@ -228,7 +228,7 @@ class Finder {
 			if ($isDirectory) {
 				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(422, $file, new HxAnon([
 					"fileName" => "src/which/Finder.hx",
-					"lineNumber" => 57,
+					"lineNumber" => 56,
 					"className" => "which.Finder",
 					"methodName" => "isExecutable",
 				])))));

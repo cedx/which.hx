@@ -13,7 +13,7 @@ import haxe.Exception;
 
 	/** Creates a new finder exception. **/
 	public function new(command: String, finder: Finder, ?previous: Exception) {
-		super('Command "$command" not found.', previous);
+		super('No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).', previous);
 		this.command = command;
 		this.finder = finder;
 	}

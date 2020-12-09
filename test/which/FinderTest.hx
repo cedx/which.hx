@@ -1,5 +1,6 @@
 package which;
 
+import tink.streams.Stream;
 using StringTools;
 
 /** Tests the features of the `Finder` class. **/
@@ -9,14 +10,18 @@ using StringTools;
 	public function new() {}
 
 	/** Tests the `find()` method. **/
-	@:variant("executable", which.Finder.isWindows ? 1 : 0, "\\test\\fixtures\\executable.cmd")
-	@:variant("executable.sh", which.Finder.isWindows ? 0 : 1, "/test/fixtures/executable.sh")
-	public function testFind(input: String, length: Int, output: String) {
-		new Finder({path: ["test/fixtures"]}).find(input).next(paths -> {
-			asserts.assert(paths.length == length);
-			if (length > 0) asserts.assert(paths[0].endsWith(output));
-			Noise;
-		}).handle(asserts.handle);
+	@:variant("executable", which.Finder.isWindows ? "\\test\\fixtures\\executable.cmd" : null)
+	@:variant("executable.sh", which.Finder.isWindows ? null : "/test/fixtures/executable.sh")
+	public function testFind(input: String, output: Null<String>) {
+		var executable: Null<String> = null;
+		new Finder({path: ["test/fixtures"]}).find(input).forEach(path -> {
+			executable = path;
+			Resume;
+		}).handle(conclusion -> {
+			asserts.assert(output != null ? executable.endsWith(output) : executable == null);
+			asserts.assert(conclusion == Depleted);
+			asserts.done();
+		});
 
 		return asserts;
 	}

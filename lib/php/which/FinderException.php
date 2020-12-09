@@ -33,7 +33,7 @@ class FinderException extends Exception {
 	 * @return void
 	 */
 	public function __construct ($command, $finder, $previous = null) {
-		parent::__construct("Command \"" . ($command??'null') . "\" not found.", $previous);
+		parent::__construct("No \"" . ($command??'null') . "\" in (" . ($finder->path->join((Finder::get_isWindows() ? ";" : ":"))??'null') . ").", $previous);
 		$this->command = $command;
 		$this->finder = $finder;
 	}

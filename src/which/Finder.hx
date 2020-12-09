@@ -3,9 +3,8 @@ package which;
 import asys.FileSystem;
 import asys.FileStat;
 import tink.streams.IdealStream;
-import tink.streams.Stream.Empty;
+import tink.streams.Stream;
 
-using Lambda;
 using StringTools;
 using haxe.io.Path;
 

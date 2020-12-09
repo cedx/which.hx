@@ -3,6 +3,7 @@ package which;
 import tink.Cli;
 import tink.cli.Rest;
 
+using Lambda;
 using which.FinderTools;
 
 #if nodejs
@@ -47,7 +48,7 @@ import php.Syntax;
 
 		final promise = all ? rest[0].which().all() : rest[0].which().first().next(executable -> Success([executable]));
 		return promise.next(executables -> {
-			Lambda.iter(executables, Sys.println);
+			executables.iter(Sys.println);
 			Noise;
 		});
 	}

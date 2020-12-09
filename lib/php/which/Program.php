@@ -77,7 +77,7 @@ class Program {
 		if (($rest->length < 1) || ((\Sys::getEnv("HAXELIB_RUN") === "1") && ($rest->length < 2))) {
 			return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(400, "You must provide the name of a command to find.", new HxAnon([
 				"fileName" => "src/which/Program.hx",
-				"lineNumber" => 46,
+				"lineNumber" => 47,
 				"className" => "which.Program",
 				"methodName" => "run",
 			])))));

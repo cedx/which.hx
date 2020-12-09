@@ -1,6 +1,6 @@
 package which;
 
-import tink.streams.Stream.Handled;
+import tink.streams.Stream;
 
 #if php
 import php.NativeStructArray;
@@ -37,7 +37,7 @@ private class WhichResult {
 		final executables = [];
 		return finder.find(command).forEach(path -> {
 			if (!executables.contains(path)) executables.push(path);
-			Handled.Resume;
+			Resume;
 		}).next(_ -> executables.length > 0 ? executables : new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).'));
 	}
 
@@ -46,7 +46,7 @@ private class WhichResult {
 		var executable = "";
 		return finder.find(command).forEach(path -> {
 			executable = path;
-			Handled.Finish;
+			Finish;
 		}).next(_ -> executable.length > 0 ? executable : new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).'));
 	}
 }
