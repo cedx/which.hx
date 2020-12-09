@@ -7,7 +7,6 @@ namespace which;
 
 use \php\_Boot\HxAnon;
 use \php\Boot;
-use \tink\streams\StreamObject;
 
 /**
  * Provides static extensions.
@@ -19,10 +18,10 @@ class FinderTools {
 	 * @param string $command
 	 * @param mixed $options
 	 * 
-	 * @return StreamObject
+	 * @return WhichResult
 	 */
 	public static function which ($command, $options = null) {
-		return (new Finder(new HxAnon($options)))->find($command);
+		return new WhichResult(new Finder(new HxAnon($options)), $command);
 	}
 }
 
