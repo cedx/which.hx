@@ -4,7 +4,7 @@ on:
   - push
 jobs:
   eval:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
       - name: Run tests
         run: haxe test_hl.hxml
   js:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
