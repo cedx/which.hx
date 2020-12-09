@@ -27,12 +27,20 @@ using StringTools;
 	}
 
 	/** Tests the `isExecutable()` method. **/
-	@:variant("foo/bar/baz.qux", false)
-	@:variant("test/fixtures/not_executable.sh", false)
-	@:variant("test/fixtures/executable.sh", !which.Finder.isWindows)
 	@:variant("test/fixtures/executable.cmd", which.Finder.isWindows)
-	public function testIsExecutable(input: String, output: Bool) {
-		new Finder().isExecutable(input).next(isExec -> asserts.assert(isExec == output)).handle(asserts.handle);
+	@:variant("test/fixtures/executable.sh", !which.Finder.isWindows)
+	@:variant("test/fixtures/not_executable.sh", false)
+	@:variant("foo/bar/baz.qux", null)
+	public function testIsExecutable(input: String, output: Null<Bool>) {
+		new Finder().isExecutable(input).handle(outcome -> {
+			switch outcome {
+				case Success(isExec): asserts.assert(output != null && isExec == output);
+				case Failure(error): asserts.assert(output == null && error.code == NotFound);
+			}
+
+			asserts.done();
+		});
+
 		return asserts;
 	}
 }
