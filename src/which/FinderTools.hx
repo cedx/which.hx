@@ -6,19 +6,8 @@ import tink.streams.Stream;
 import php.NativeStructArray;
 #end
 
-/** Provides static extensions. **/
-@:expose class FinderTools {
-
-	/** Finds the instances of the specified `command` in the system path. **/
-	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end)
-		return new WhichResult(command, new Finder(options));
-}
-
-/** Defines the options of the `FinderTools.which()` method. **/
-typedef WhichOptions = Finder.FinderOptions;
-
-/** Represents the results of a command search. **/
-@:expose class WhichResult {
+/** Provides convenient access to the stream of search results. **/
+private class FinderStream {
 
 	/** The searched command. **/
 	final command: String;
@@ -26,7 +15,7 @@ typedef WhichOptions = Finder.FinderOptions;
 	/** The object used to perform the search. **/
 	final finder: Finder;
 
-	/** Creates a new search result. **/
+	/** Creates a new finder stream. **/
 	public function new(command: String, finder: Finder) {
 		this.command = command;
 		this.finder = finder;
@@ -49,4 +38,12 @@ typedef WhichOptions = Finder.FinderOptions;
 			Finish;
 		}).next(_ -> executable.length > 0 ? executable : new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).'));
 	}
+}
+
+/** Provides helper methods for handling `Finder` instances. **/
+@:expose class FinderTools {
+
+	/** Finds the instances of the specified `command` in the system path. **/
+	public static function which(command: String, ?options: #if php NativeStructArray<Finder.FinderOptions> #else Finder.FinderOptions #end)
+		return new FinderStream(command, new Finder(options));
 }

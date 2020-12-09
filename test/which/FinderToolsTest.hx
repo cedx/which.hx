@@ -3,7 +3,7 @@ package which;
 using StringTools;
 using which.FinderTools;
 
-/** Tests the features of the `Tools` class. **/
+/** Tests the features of the `FinderTools` class. **/
 @:asserts class FinderToolsTest {
 
 	/** Creates a new test. **/
@@ -13,7 +13,7 @@ using which.FinderTools;
 	@:variant("executable", {path: ["test/fixtures"]}, which.Finder.isWindows ? "\\test\\fixtures\\executable.cmd" : null)
 	@:variant("executable.sh", {path: ["test/fixtures"]}, which.Finder.isWindows ? null : "/test/fixtures/executable.sh")
 	@:variant("foo", {}, null)
-	public function testWhichAll(command: String, options: WhichOptions, output: Null<String>) {
+	public function testWhichAll(command: String, options: Finder.FinderOptions, output: Null<String>) {
 		command.which(options).all().handle(outcome -> switch outcome {
 			case Success(paths): output != null
 				? { asserts.assert(paths.length == 1); asserts.assert(paths[0].endsWith(output)); asserts.done(); }
@@ -30,7 +30,7 @@ using which.FinderTools;
 	@:variant("executable", {path: ["test/fixtures"]}, which.Finder.isWindows ? "\\test\\fixtures\\executable.cmd" : null)
 	@:variant("executable.sh", {path: ["test/fixtures"]}, which.Finder.isWindows ? null : "/test/fixtures/executable.sh")
 	@:variant("foo", {}, null)
-	public function testWhichFirst(command: String, options: WhichOptions, output: Null<String>) {
+	public function testWhichFirst(command: String, options: Finder.FinderOptions, output: Null<String>) {
 		command.which(options).first().handle(outcome -> switch outcome {
 			case Success(path): output != null
 				? { asserts.assert(path.endsWith(output)); asserts.done(); }
