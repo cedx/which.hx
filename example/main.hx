@@ -1,4 +1,4 @@
-import which.FinderException;
+using tink.CoreApi;
 using which.FinderTools;
 
 /** A sample class. **/
@@ -6,9 +6,9 @@ class Example {
 
 	/** Finds the first instance of an executable. */
 	static function main() {
-		"foobar".which().then(
-			path -> Sys.println('The command "foobar" is located at: $path'),
-			e -> Sys.println('The command "${(e: FinderException).command}" was not found.')
-		);
+		"foobar".which().first().handle(outcome -> switch outcome {
+			case Success(path): Sys.println('The command "foobar" is located at: $path');
+			case Failure(error): Sys.println(error.message);
+		});
 	}
 }

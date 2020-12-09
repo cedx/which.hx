@@ -18,7 +18,7 @@ import php.NativeStructArray;
 typedef WhichOptions = Finder.FinderOptions;
 
 /** Represents the results of a command search. **/
-private class WhichResult {
+@:expose class WhichResult {
 
 	/** The searched command. **/
 	final command: String;
