@@ -8,12 +8,12 @@ namespace which\_FinderTools;
 use \php\_Boot\HxAnon;
 use \tink\core\_Future\SyncFuture;
 use \php\Boot;
-use \tink\streams\_IdealStream\IdealStream_Impl_;
-use \haxe\Log;
 use \tink\core\TypedError;
 use \tink\streams\StreamObject;
 use \tink\core\Outcome;
+use \tink\streams\Handled;
 use \tink\core\_Lazy\LazyConst;
+use \tink\streams\_Stream\Handler_Impl_;
 use \tink\core\_Future\Future_Impl_;
 use \tink\core\FutureObject;
 
@@ -26,45 +26,24 @@ final class WhichResult_Impl_ {
 	 * @return FutureObject
 	 */
 	public static function all ($this1) {
-		return Future_Impl_::next(IdealStream_Impl_::collect($this1), function ($executables) use (&$this1) {
-			(Log::$trace)("executables: " . (\Std::string($executables)??'null'), new HxAnon([
-				"fileName" => "src/which/FinderTools.hx",
-				"lineNumber" => 27,
-				"className" => "which._FinderTools.WhichResult_Impl_",
-				"methodName" => "all",
-			]));
+		$executables = new \Array_hx();
+		return Future_Impl_::next($this1->forEach(Handler_Impl_::ofSafe(function ($executable) use (&$executables) {
+			if ($executables->indexOf($executable) === -1) {
+				$executables->arr[$executables->length++] = $executable;
+			}
+			return new SyncFuture(new LazyConst(Handled::Resume()));
+		})), function ($_) use (&$executables) {
 			if ($executables->length > 0) {
-				return new SyncFuture(new LazyConst(Outcome::Success(WhichResult_Impl_::arrayUnique($this1, $executables))));
+				return new SyncFuture(new LazyConst(Outcome::Success($executables)));
 			} else {
 				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(404, "Command not found.", new HxAnon([
 					"fileName" => "src/which/FinderTools.hx",
-					"lineNumber" => 28,
+					"lineNumber" => 30,
 					"className" => "which._FinderTools.WhichResult_Impl_",
 					"methodName" => "all",
 				])))));
 			}
 		});
-	}
-
-	/**
-	 * Removes the duplicate values from the specified `array`.
-	 * 
-	 * @param StreamObject $this
-	 * @param \Array_hx $array
-	 * 
-	 * @return \Array_hx
-	 */
-	public static function arrayUnique ($this1, $array) {
-		$list = new \Array_hx();
-		$_g = 0;
-		while ($_g < $array->length) {
-			$value = ($array->arr[$_g] ?? null);
-			++$_g;
-			if ($list->indexOf($value) === -1) {
-				$list->arr[$list->length++] = $value;
-			}
-		}
-		return $list;
 	}
 
 	/**
@@ -75,18 +54,22 @@ final class WhichResult_Impl_ {
 	 * @return FutureObject
 	 */
 	public static function first ($this1) {
-		return $this1->next()->map(function ($step) {
-			if ($step->index === 0) {
-				return Outcome::Success($step->params[0]);
+		$executable = null;
+		return Future_Impl_::next($this1->forEach(Handler_Impl_::ofSafe(function ($exec) use (&$executable) {
+			$executable = $exec;
+			return new SyncFuture(new LazyConst(Handled::Finish()));
+		})), function ($_) use (&$executable) {
+			if ($executable !== null) {
+				return new SyncFuture(new LazyConst(Outcome::Success($executable)));
 			} else {
-				return Outcome::Failure(new TypedError(404, "Command not found.", new HxAnon([
+				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(404, "Command not found.", new HxAnon([
 					"fileName" => "src/which/FinderTools.hx",
-					"lineNumber" => 35,
+					"lineNumber" => 40,
 					"className" => "which._FinderTools.WhichResult_Impl_",
 					"methodName" => "first",
-				])));
+				])))));
 			}
-		})->gather();
+		});
 	}
 }
 

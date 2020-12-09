@@ -109,26 +109,6 @@ class Finder {
 	}
 
 	/**
-	 * Removes the duplicate values from the specified `array`.
-	 * 
-	 * @param \Array_hx $array
-	 * 
-	 * @return \Array_hx
-	 */
-	public function arrayUnique ($array) {
-		$list = new \Array_hx();
-		$_g = 0;
-		while ($_g < $array->length) {
-			$value = ($array->arr[$_g] ?? null);
-			++$_g;
-			if ($list->indexOf($value) === -1) {
-				$list->arr[$list->length++] = $value;
-			}
-		}
-		return $list;
-	}
-
-	/**
 	 * Checks that the specified `file` is executable according to the executable file extensions.
 	 * 
 	 * @param string $file
@@ -216,7 +196,7 @@ class Finder {
 		return Stream_Impl_::ofIterator(new ArrayIterator(\Array_hx::wrap($result)))->filter(Filter_Impl_::ofAsync(function ($item) use (&$_gthis) {
 			(Log::$trace)($item, new HxAnon([
 				"fileName" => "src/which/Finder.hx",
-				"lineNumber" => 86,
+				"lineNumber" => 82,
 				"className" => "which.Finder",
 				"methodName" => "findExecutables",
 			]));
@@ -246,7 +226,7 @@ class Finder {
 			} else {
 				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(404, $file, new HxAnon([
 					"fileName" => "src/which/Finder.hx",
-					"lineNumber" => 57,
+					"lineNumber" => 56,
 					"className" => "which.Finder",
 					"methodName" => "isExecutable",
 				])))));
@@ -255,7 +235,7 @@ class Finder {
 			if ($isDirectory) {
 				return new SyncFuture(new LazyConst(Outcome::Failure(new TypedError(422, $file, new HxAnon([
 					"fileName" => "src/which/Finder.hx",
-					"lineNumber" => 58,
+					"lineNumber" => 57,
 					"className" => "which.Finder",
 					"methodName" => "isExecutable",
 				])))));
