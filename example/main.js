@@ -6,12 +6,11 @@ import {which} from "@cedx/which.hx";
  */
 async function main() {
 	try {
-		const path = await which("foobar");
-		console.log(`The command 'foobar' is located at: ${path}`);
+		const path = await which("foobar").first();
+		console.log(`The "foobar" command is located at: ${path}`);
 	}
 
 	catch (error) {
-		// `error` is an instance of `FinderException`.
-		console.log(`The command '${error.command}' was not found`);
+		console.log(error.message);
 	}
 }
