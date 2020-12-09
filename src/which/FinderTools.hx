@@ -11,7 +11,7 @@ import php.NativeStructArray;
 
 	/** Finds the instances of the specified `command` in the system path. **/
 	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end)
-		return new WhichResult(new Finder(options), command);
+		return new WhichResult(command, new Finder(options));
 }
 
 /** Defines the options of the `FinderTools.which()` method. **/
@@ -27,12 +27,12 @@ typedef WhichOptions = Finder.FinderOptions;
 	final finder: Finder;
 
 	/** Creates a new search result. **/
-	public function new(finder: Finder, command: String) {
+	public function new(command: String, finder: Finder) {
 		this.command = command;
 		this.finder = finder;
 	}
 
-	/** Returns all the instances of the searched command. **/
+	/** Returns all instances of the searched command. **/
 	public function all() {
 		final executables = [];
 		return finder.find(command).forEach(path -> {
