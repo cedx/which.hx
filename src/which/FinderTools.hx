@@ -1,7 +1,7 @@
 package which;
 
 import tink.streams.IdealStream;
-import tink.streams.RealStream;
+import tink.streams.Stream.Handled;
 
 #if php
 import php.NativeStructArray;
@@ -22,23 +22,20 @@ typedef WhichOptions = Finder.FinderOptions;
 abstract WhichResult(IdealStream<String>) from IdealStream<String> {
 
 	/** TODO **/
-	public function all(): Promise<Array<String>>
-		return this.collect().next(executables -> {
-			trace('executables: $executables');
-			executables.length > 0 ? arrayUnique(executables) : new Error(NotFound, "Command not found.");
-		});
+	public function all() {
+    final executables = [];
+		return this.forEach(path -> {
+      if (!executables.contains(path)) executables.push(path);
+      Resume;
+    }).next(_ -> executables.length > 0 ? executables : new Error(NotFound, "Command not found."));
+	}
 
 	/** TODO **/
-	public function first(): Promise<String>
-		return this.next().map(step -> switch step { // TODO: pas next()!!!! foreach()!!!!
-			case Link(value, _): Success(value);
-			default: Failure(new Error(NotFound, "Command not found."));
-		});
-
-	/** Removes the duplicate values from the specified `array`. **/
-	function arrayUnique<T>(array: Array<T>): Array<T> {
-		final list = [];
-		for (value in array) if (!list.contains(value)) list.push(value);
-		return list;
+	public function first() {
+		var executable = "";
+		return this.forEach(path -> {
+			executable = path;
+			Finish;
+		}).next(_ -> executable.length > 0 ? executable : new Error(NotFound, "Command not found."));
 	}
 }

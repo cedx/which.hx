@@ -3,8 +3,7 @@ package which;
 import asys.FileSystem;
 import asys.FileStat;
 import tink.streams.IdealStream;
-import tink.streams.RealStream;
-import tink.streams.Stream;
+import tink.streams.Stream.Empty;
 
 using Lambda;
 using StringTools;
@@ -57,13 +56,6 @@ using haxe.io.Path;
 			.next(exists -> exists ? FileSystem.isDirectory(file) : new Error(NotFound, file))
 			.next(isDirectory -> isDirectory ? new Error(UnprocessableEntity, file) : file)
 			.next(_ -> isWindows ? checkFileExtension(file) : FileSystem.stat(file).next(checkFilePermissions));
-
-	/** Removes the duplicate values from the specified `array`. **/
-	function arrayUnique<T>(array: Array<T>): Array<T> {
-		final list = [];
-		for (value in array) if (!list.contains(value)) list.push(value);
-		return list;
-	}
 
 	/** Checks that the specified `file` is executable according to the executable file extensions. **/
 	function checkFileExtension(file: String)
