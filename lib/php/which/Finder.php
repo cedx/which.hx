@@ -9,7 +9,6 @@ use \php\_Boot\HxAnon;
 use \tink\core\_Future\SyncFuture;
 use \php\Boot;
 use \tink\streams\_Stream\Stream_Impl_;
-use \haxe\Log;
 use \tink\core\TypedError;
 use \tink\streams\StreamObject;
 use \tink\core\Outcome;
@@ -194,12 +193,6 @@ class Finder {
 			])), "/", (Finder::get_isWindows() ? "\\" : "/"));
 		}
 		return Stream_Impl_::ofIterator(new ArrayIterator(\Array_hx::wrap($result)))->filter(Filter_Impl_::ofAsync(function ($item) use (&$_gthis) {
-			(Log::$trace)($item, new HxAnon([
-				"fileName" => "src/which/Finder.hx",
-				"lineNumber" => 82,
-				"className" => "which.Finder",
-				"methodName" => "findExecutables",
-			]));
 			return $_gthis->isExecutable($item)->flatMap(function ($o) {
 				$__hx__switch = ($o->index);
 				if ($__hx__switch === 0) {

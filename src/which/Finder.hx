@@ -44,7 +44,7 @@ using haxe.io.Path;
 	};
 
 	/** Finds the instances of the specified `command` in the system path. **/
-	public function find(command: String): IdealStream<String> {
+	public function find(command: String) {
 		var stream = Empty.make();
 		for (item in (isWindows ? [Sys.getCwd()] : []).concat(path)) stream = stream.append(findExecutables(item, command));
 		return stream;
@@ -78,10 +78,7 @@ using haxe.io.Path;
 			.map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"))
 			.iterator();
 
-		return stream.filter(item -> {
-			trace(item);
-			isExecutable(item).recover(_ -> false);
-		});
+		return stream.filter(item -> isExecutable(item).recover(_ -> false));
 	}
 }
 

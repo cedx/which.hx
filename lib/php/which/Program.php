@@ -8,10 +8,8 @@ namespace which;
 use \tink\Cli;
 use \php\_Boot\HxAnon;
 use \tink\core\_Future\SyncFuture;
-use \which\_FinderTools\WhichResult_Impl_;
 use \php\Boot;
 use \tink\core\Noise;
-use \haxe\Log;
 use \tink\core\TypedError;
 use \tink\core\Outcome;
 use \tink\cli\prompt\RetryPrompt;
@@ -72,7 +70,6 @@ class Program {
 	 * @return FutureObject
 	 */
 	public function run ($rest) {
-		$_gthis = $this;
 		if ($this->help || $this->version) {
 			echo((\Std::string(($this->help ? (new DefaultFormatter())->format(Doc0::get()) : "2.0.0"))??'null') . \PHP_EOL);
 			return new SyncFuture(new LazyConst(Outcome::Success(Noise::Noise())));
@@ -85,22 +82,10 @@ class Program {
 				"methodName" => "run",
 			])))));
 		}
-		(Log::$trace)("Search in progress...", new HxAnon([
-			"fileName" => "src/which/Program.hx",
-			"lineNumber" => 48,
-			"className" => "which.Program",
-			"methodName" => "run",
-		]));
-		return Promise_Impl_::next(($this->all ? WhichResult_Impl_::all(FinderTools::which(($rest->arr[0] ?? null))) : Promise_Impl_::next(WhichResult_Impl_::first(FinderTools::which(($rest->arr[0] ?? null))), function ($executable) {
+		return Promise_Impl_::next(($this->all ? FinderTools::which(($rest->arr[0] ?? null))->all() : Promise_Impl_::next(FinderTools::which(($rest->arr[0] ?? null))->first(), function ($executable) {
 			return new SyncFuture(new LazyConst(Outcome::Success(\Array_hx::wrap([$executable]))));
-		})), function ($executables) use (&$_gthis) {
-			(Log::$trace)("executables: " . (\Std::string($executables)??'null'), new HxAnon([
-				"fileName" => "src/which/Program.hx",
-				"lineNumber" => 51,
-				"className" => "which.Program",
-				"methodName" => "run",
-			]));
-			\Lambda::iter(($_gthis->all ? $executables : $executables->slice(0, 1)), Boot::getStaticClosure(\Sys::class, 'println'));
+		})), function ($executables) {
+			\Lambda::iter($executables, Boot::getStaticClosure(\Sys::class, 'println'));
 			return new SyncFuture(new LazyConst(Outcome::Success(Noise::Noise())));
 		});
 	}

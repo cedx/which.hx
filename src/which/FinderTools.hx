@@ -1,6 +1,5 @@
 package which;
 
-import tink.streams.IdealStream;
 import tink.streams.Stream.Handled;
 
 #if php
@@ -11,31 +10,43 @@ import php.NativeStructArray;
 @:expose class FinderTools {
 
 	/** Finds the instances of the specified `command` in the system path. **/
-	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end): WhichResult
-		return new Finder(options).find(command);
+	public static function which(command: String, ?options: #if php NativeStructArray<WhichOptions> #else WhichOptions #end)
+		return new WhichResult(new Finder(options), command);
 }
 
 /** Defines the options of the `FinderTools.which()` method. **/
 typedef WhichOptions = Finder.FinderOptions;
 
-/** TODO **/
-abstract WhichResult(IdealStream<String>) from IdealStream<String> {
+/** Represents the results of a command search. **/
+private class WhichResult {
 
-	/** TODO **/
-	public function all() {
-    final executables = [];
-		return this.forEach(path -> {
-      if (!executables.contains(path)) executables.push(path);
-      Resume;
-    }).next(_ -> executables.length > 0 ? executables : new Error(NotFound, "Command not found."));
+	/** The searched command. **/
+	final command: String;
+
+	/** The object used to perform the search. **/
+	final finder: Finder;
+
+	/** Creates a new search result. **/
+	public function new(finder: Finder, command: String) {
+		this.command = command;
+		this.finder = finder;
 	}
 
-	/** TODO **/
+	/** Returns all the instances of the searched command. **/
+	public function all() {
+		final executables = [];
+		return finder.find(command).forEach(path -> {
+			if (!executables.contains(path)) executables.push(path);
+			Handled.Resume;
+		}).next(_ -> executables.length > 0 ? executables : new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).'));
+	}
+
+	/** Returns the first instance of the searched command. **/
 	public function first() {
 		var executable = "";
-		return this.forEach(path -> {
+		return finder.find(command).forEach(path -> {
 			executable = path;
-			Finish;
-		}).next(_ -> executable.length > 0 ? executable : new Error(NotFound, "Command not found."));
+			Handled.Finish;
+		}).next(_ -> executable.length > 0 ? executable : new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).'));
 	}
 }
