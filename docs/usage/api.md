@@ -1,32 +1,28 @@
 # Application programming interface
 This package provides a single function, `which()`, allowing to locate a command in the system path.
 
-If the command could be located, this function returns an object with the following two methods :
+This function takes the name of the command to locate, and returns an object with the following two methods :
 - `all()` : get all instances of the searched command.
 - `first()` : get the first instance of the searched command.
 
-If the command could not be located, the `which()` function raises an error.
-
 ?> **Haxe:** the function is provided by the `FinderTools` class,
-that can act as a [static extension](https://haxe.org/manual/lf-static-extension.html) to the `String` class
-(with the `using which.FinderTools` statement).
+that can act as a [static extension](https://haxe.org/manual/lf-static-extension.html) to the `String` class.
 
 ### **which(command).all()**
-This method allows to get the absolute paths of all instances of an executable available on the system path.
 
 <!-- tabs:start -->
 
 #### **Haxe**
-The `all()` method returns a `Promise` that resolves with all paths of the executables found.
+The `all()` method returns a `Promise` that resolves with the absolute paths of all instances of an executable available on the system path.
 If the executable could not be located, the promise rejects with a `NotFound` error.
 
 ```haxe
-import which.FinderTools;
 using tink.CoreApi;
+using which.FinderTools;
 
 class Main {
 	static function main() {
-		FinderTools.which("foobar").all().handle(outcome -> switch outcome {
+		"foobar".which().all().handle(outcome -> switch outcome {
 			case Success(paths):
 				Sys.println('The "foobar" command is available at these locations:');
 				for (path in paths) Sys.println('- $path');
@@ -40,7 +36,7 @@ class Main {
 !> The `Promise` implementation is provided by the [Tinkerbell Core](https://haxetink.github.io/tink_core) library.
 
 #### **JavaScript**
-The `all()` method returns a `Promise` that resolves with all paths of the executables found.
+The `all()` method returns a `Promise` that resolves with the absolute paths of all instances of an executable available on the system path.
 If the executable could not be located, the promise rejects with a `FinderException`.
 
 ```javascript
@@ -60,7 +56,7 @@ async function main() {
 ```
 
 #### **PHP**
-The `all()` method returns an array of `string` providing all paths of the executables found.
+The `all()` method returns an array of `string` providing the absolute paths of all instances of an executable available on the system path.
 If the executable could not be located, a `FinderException` is thrown.
 
 ```php
@@ -83,21 +79,20 @@ function main(): void {
 <!-- tabs:end -->
 
 ### **which(command).first()**
-This method allows to get the absolute path of the first instance of an executable available on the system path.
 
 <!-- tabs:start -->
 
 #### **Haxe**
-The `first()` method returns a `Promise` that resolves with the first path of the executables found.
+The `first()` method returns a `Promise` that resolves with the absolute path of the first instance of an executable available on the system path.
 If the executable could not be located, the promise rejects with a `NotFound` error.
 
 ```haxe
-import which.FinderTools;
 using tink.CoreApi;
+using which.FinderTools;
 
 class Main {
 	static function main() {
-		FinderTools.which("foobar").first().handle(outcome -> switch outcome {
+		"foobar".which().first().handle(outcome -> switch outcome {
 			case Success(path): Sys.println('The "foobar" command is located at: $path');
 			case Failure(error): Sys.println(error.message);
 		});
@@ -108,7 +103,7 @@ class Main {
 !> The `Promise` implementation is provided by the [Tinkerbell Core](https://haxetink.github.io/tink_core) library.
 
 #### **JavaScript**
-The `first()` method returns a `Promise` that resolves with the first path of the executables found.
+The `first()` method returns a `Promise` that resolves with the absolute path of the first instance of an executable available on the system path.
 If the executable could not be located, the promise rejects with a `FinderException`.
 
 ```javascript
@@ -127,7 +122,7 @@ async function main() {
 ```
 
 #### **PHP**
-The `first()` method returns a `string` providing the first path of the executables found.
+The `first()` method returns a `string` providing the absolute path of the first instance of an executable available on the system path.
 If the executable could not be located, a `FinderException` is thrown.
 
 ```php
