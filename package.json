@@ -6,7 +6,7 @@
 	"main": "./lib/js/index.js",
 	"name": "@cedx/which.hx",
 	"type": "commonjs",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"author": {
 		"email": "cedric@belin.io",
 		"name": "Cédric Belin",
