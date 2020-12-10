@@ -2,6 +2,7 @@
 
 ## Version [2.0.0](https://git.belin.io/cedx/which.hx/compare/v1.0.2...v2.0.0)
 - Breaking change: ported the iteration to [Tinkerbell streams](https://github.com/haxetink/tink_streams).
+- Breaking change: raised the [PHP](https://www.php.net) constraint.
 - Breaking change: removed the `--silent` option from the command line interface.
 - Breaking change: removed the `WhichOptions` type definition.
 - Breaking change: the `which()` function returns an object instead of a string or an array of strings. 

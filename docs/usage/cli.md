@@ -55,13 +55,13 @@ $ which --help
 
 Find the instances of an executable in the system path.
 
-	<command> : The name of the command to find.
+    <command> : The name of the command to find.
 
-	Flags:
-		    --all, -a : List all instances of executables found (instead of just the first one).
-		   --help, -h : Output usage information.
-		 --silent, -s : Silence the output, just return the exit code (0 if any executable is found, otherwise 1).
-		--version, -v : Output the version number.
+
+  Flags:
+          --all, -a : List all instances of executables found (instead of just the first one).
+         --help, -h : Output usage information.
+      --version, -v : Output the version number.
 ```
 
 For example:
@@ -76,9 +76,6 @@ haxelib run which haxe
 haxelib run which --all haxe
 # /usr/bin/haxe
 # /usr/local/bin/haxe
-
-haxelib run which --silent haxe
-# Exit code 0 if "haxe" is found, otherwise 1
 ```
 
 #### **JavaScript**
@@ -89,9 +86,6 @@ which node
 which --all node
 # /usr/bin/node
 # /usr/local/bin/node
-
-which --silent node
-# Exit code 0 if "node" is found, otherwise 1
 ```
 
 #### **PHP**
@@ -102,9 +96,6 @@ which php
 which --all php
 # /usr/bin/php
 # /usr/local/bin/php
-
-which --silent php
-# Exit code 0 if "php" is found, otherwise 1
 ```
 
 <!-- tabs:end -->
