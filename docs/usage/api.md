@@ -1,54 +1,67 @@
 # Application programming interface
 This package provides a single function, `which()`, allowing to locate a command in the system path.
 
-<!-- tabs:start -->
+If the command could be located, this function returns an object with the following two methods :
+- `all()` : get all instances of the searched command.
+- `first()` : get the first instance of the searched command.
 
-#### **Haxe**
-The function is provided by the `FinderTools` class,
+If the command could not be located, the `which()` function raises an error.
+
+?> **Haxe:** the function is provided by the `FinderTools` class,
 that can act as a [static extension](https://haxe.org/manual/lf-static-extension.html) to the `String` class
 (with the `using which.FinderTools` statement).
 
-It returns a `Promise` that resolves with the absolute path of the first instance of the executables found.
-If the command could not be located, the promise rejects with a `FinderException`.
+### **which(command).all()**
+This method allows to get the absolute paths of all instances of an executable available on the system path.
+
+<!-- tabs:start -->
+
+#### **Haxe**
+The `all()` method returns a `Promise` that resolves with all paths of the executables found.
+If the executable could not be located, the promise rejects with a `NotFound` error.
 
 ```haxe
-import which.FinderException;
 import which.FinderTools;
+using tink.CoreApi;
 
 class Main {
 	static function main() {
-		FinderTools.which("foobar").handle(
-			path -> Sys.println('The command "foobar" is located at: $path'),
-			e -> Sys.println('The command "${(e: FinderException).command}" was not found.')
-		);
+		FinderTools.which("foobar").all().handle(outcome -> switch outcome {
+			case Success(paths):
+				Sys.println('The "foobar" command is available at these locations:');
+				for (path in paths) Sys.println('- $path');
+			case Failure(error):
+				Sys.println(error.message);
+		});
 	}
 }
 ```
 
-?> The `Promise` implementation is provided by the [Tinkerbell Core](https://haxetink.github.io/tink_core) library.
+!> The `Promise` implementation is provided by the [Tinkerbell Core](https://haxetink.github.io/tink_core) library.
 
 #### **JavaScript**
-The function returns a `Promise` that resolves with the absolute path of the first instance of the executables found.
-If the command could not be located, the promise rejects with a `FinderException`.
+The `all()` method returns a `Promise` that resolves with all paths of the executables found.
+If the executable could not be located, the promise rejects with a `FinderException`.
 
 ```javascript
 import {which} from "@cedx/which.hx";
 
 async function main() {
 	try {
-		const path = await which("foobar");
-		console.log(`The command 'foobar' is located at: ${path}`);
+		const paths = await which("foobar").all();
+		console.log(`The "foobar" command is available at these locations: ${path}`);
+		for (path of paths) console.log(`- ${path}`);
 	}
 
 	catch (error) {
-		console.log(`The command '${error.command}' was not found.`);
+		console.log(error.message);
 	}
 }
 ```
 
 #### **PHP**
-The function returns a `string` specifying the absolute path of the first instance of the executables found.
-If the command could not be located, a `FinderException` is thrown.
+The `all()` method returns an array of `string` providing all paths of the executables found.
+If the executable could not be located, a `FinderException` is thrown.
 
 ```php
 use function which\which;
@@ -56,12 +69,79 @@ use which\FinderException;
 
 function main(): void {
 	try {
-		$path = which("foobar");
-		print "The command 'foobar' is located at: $path";
+		$paths = which("foobar")->all();
+		print "The 'foobar' command is available at these locations:" . PHP_EOL;
+		for ($paths as $path) print "- $path" . PHP_EOL;
 	}
 
 	catch (FinderException $e) {
-		print "The command '{$e->command}' was not found.";
+		print $e->getMessage();
+	}
+}
+```
+
+<!-- tabs:end -->
+
+### **which(command).first()**
+This method allows to get the absolute path of the first instance of an executable available on the system path.
+
+<!-- tabs:start -->
+
+#### **Haxe**
+The `first()` method returns a `Promise` that resolves with the first path of the executables found.
+If the executable could not be located, the promise rejects with a `NotFound` error.
+
+```haxe
+import which.FinderTools;
+using tink.CoreApi;
+
+class Main {
+	static function main() {
+		FinderTools.which("foobar").first().handle(outcome -> switch outcome {
+			case Success(path): Sys.println('The "foobar" command is located at: $path');
+			case Failure(error): Sys.println(error.message);
+		});
+	}
+}
+```
+
+!> The `Promise` implementation is provided by the [Tinkerbell Core](https://haxetink.github.io/tink_core) library.
+
+#### **JavaScript**
+The `first()` method returns a `Promise` that resolves with the first path of the executables found.
+If the executable could not be located, the promise rejects with a `FinderException`.
+
+```javascript
+import {which} from "@cedx/which.hx";
+
+async function main() {
+	try {
+		const path = await which("foobar").first();
+		console.log(`The "foobar" command is located at: ${path}`);
+	}
+
+	catch (error) {
+		console.log(error.message);
+	}
+}
+```
+
+#### **PHP**
+The `first()` method returns a `string` providing the first path of the executables found.
+If the executable could not be located, a `FinderException` is thrown.
+
+```php
+use function which\which;
+use which\FinderException;
+
+function main(): void {
+	try {
+		$path = which("foobar")->first();
+		print "The 'foobar' command is located at: $path";
+	}
+
+	catch (FinderException $e) {
+		print $e->getMessage();
 	}
 }
 ```
@@ -70,51 +150,6 @@ function main(): void {
 
 ## Options
 The behavior of the `which()` function can be customized using the following options.
-
-### **all**: Bool
-A value indicating whether to return all executables found, instead of just the first one.
-
-If you pass `true` as option value, the function will return an array of strings providing all paths found, instead of a single string:
-
-<!-- tabs:start -->
-
-#### **Haxe**
-```haxe
-using which.FinderTools;
-
-class Main {
-	static function main() {
-		"foobar".which({all: true}).handle((paths: Array<String>) -> {
-			Sys.println("The command 'foobar' was found at these locations:");
-			for (path in paths) Sys.println(path);
-		});
-	}
-}
-```
-
-#### **JavaScript**
-```javascript
-import {which} from "@cedx/which.hx";
-
-async function main() {
-	const paths = await which("foobar", {all: true});
-	console.log("The command 'foobar' was found at these locations:");
-	for (const path of paths) console.log(path);
-}
-```
-
-#### **PHP**
-```php
-use function which\which;
-
-function main(): void {
-	$paths = which("foobar", ["all" => true]);
-	print "The command 'foobar' was found at these locations:" . PHP_EOL;
-	foreach ($paths as $path) print $path . PHP_EOL;
-}
-```
-
-<!-- tabs:end -->
 
 ### **extensions**: Array&lt;String&gt;
 An array of strings specifying the list of executable file extensions.
@@ -140,52 +175,6 @@ which("foobar", ["extensions" => [".foo", ".exe", ".cmd"]]);
 <!-- tabs:end -->
 
 ?> The `extensions` option is only meaningful on the Windows platform, where the executability of a file is determined from its extension.
-
-### **onError**: (command: String) -> Dynamic
-By default, when the specified command cannot be located, a `FinderException` is raised. You can disable this exception by providing your own error handler:
-
-<!-- tabs:start -->
-
-#### **Haxe**
-```haxe
-using which.FinderTools;
-
-class Main {
-	static function main() {
-		"foobar".which({onError: command -> ""}).handle((path: String) -> {
-			if (path.length == 0) Sys.println("The command 'foobar' was not found.");
-			else Sys.println('The command "foobar" is located at: $path');
-		});
-	}
-}
-```
-
-#### **JavaScript**
-```javascript
-import {which} from "@cedx/which.hx";
-
-async function main() {
-	const path = await which("foobar", {onError: command => ""});
-	if (!path.length) console.log("The command 'foobar' was not found.");
-	else console.log(`The command 'foobar' is located at: ${path}`);
-}
-```
-
-#### **PHP**
-```php
-use function which\which;
-
-function main(): void {
-	$path = which("foobar", ["onError" => fn($command) => ""]);
-	if (!strlen($path)) print "The command 'foobar' was not found.";
-	else print "The command 'foobar' is located at: $path";
-}
-```
-
-<!-- tabs:end -->
-
-When an `onError` handler is provided, it is called with the command as argument, and its return value is used instead.
-This is sometimes preferable than immediately handling the `FinderException`.
 
 ### **path**: Array&lt;String&gt;
 An array of strings specifying the system path from which the given command will be searched.
