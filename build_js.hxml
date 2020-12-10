@@ -7,4 +7,4 @@ share/build.hxml
 --main which.Program
 
 --next
---js lib/js/which.js
+--js lib/js/bundle.js

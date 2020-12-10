@@ -4,19 +4,18 @@ namespace which;
 use which\_FinderTools\FinderStream as _FinderStream;
 
 /**
- * Finds the first instance of the specified `command` in the system path.
+ * Finds the instances of the specified `command` in the system path.
  * @param string $command The command to be resolved.
  * @param array $options Options used to customize the function behavior.
- * @return FinderStream TODO A string, or an array of strings, specifying the path(s) of the found executable(s).
+ * @return FinderStream An object providing the stream of search results.
  * @throws FinderException The specified command was not found.
  */
 function which(string $command, array $options = []): FinderStream {
-	// TODO ? return new class(FinderTools::which($command, $options)) extends FinderStream {};
-	return new FinderStream(FinderTools::which($command, $options));
+	return new class(FinderTools::which($command, $options)) extends FinderStream {};
 }
 
 /** Provides convenient access to the stream of search results. */
-/* TODO ? abstract */ class FinderStream {
+abstract class FinderStream {
 
 	/**
 	 * Creates a new finder stream.
@@ -27,10 +26,10 @@ function which(string $command, array $options = []): FinderStream {
 	/**
 	 * Returns all instances of the searched command.
 	 * @return string[] All instances of the searched command.
-	 * @throws FinderException TODO
+	 * @throws FinderException The command was not found.
 	 */
 	function all(): array {
-		$executables = null;
+		$executables = [];
 		$exception = null;
 
 		$this->stream->all()->handle(function($outcome) use (&$executables, &$exception) {
@@ -44,10 +43,10 @@ function which(string $command, array $options = []): FinderStream {
 	/**
 	 * Returns the first instance of the searched command.
 	 * @return string The first instance of the searched command.
-	 * @throws FinderException TODO
+	 * @throws FinderException The command was not found.
 	 */
 	function first(): string {
-		$executable = null;
+		$executable = "";
 		$exception = null;
 
 		$this->stream->first()->handle(function($outcome) use (&$executable, &$exception) {
