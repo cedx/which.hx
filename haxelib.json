@@ -5,7 +5,7 @@
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
 	"license": "MIT",
 	"name": "which",
-	"releasenote": "`haxelib run`: replaced the Neko binary by the `Run` module.",
+	"releasenote": "Ported the iteration to Tinkerbell streams.",
 	"tags": ["cross", "find", "path", "system", "utility", "which"],
 	"url": "https://docs.belin.io/which.hx",
 	"version": "2.0.0"
