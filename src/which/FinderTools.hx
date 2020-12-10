@@ -7,7 +7,7 @@ import php.NativeStructArray;
 #end
 
 /** Provides convenient access to the stream of search results. **/
-@:expose private class FinderStream {
+@:expose class FinderStream {
 
 	/** The searched command. **/
 	final command: String;

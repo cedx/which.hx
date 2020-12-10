@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 namespace which;
 
-use which\_FinderTools\FinderStream as _FinderStream;
-
 /**
  * Finds the instances of the specified `command` in the system path.
  * @param string $command The command to be resolved.
@@ -10,18 +8,18 @@ use which\_FinderTools\FinderStream as _FinderStream;
  * @return FinderStream An object providing the stream of search results.
  * @throws FinderException The specified command was not found.
  */
-function which(string $command, array $options = []): FinderStream {
-	return new class(FinderTools::which($command, $options)) extends FinderStream {};
+function which(string $command, array $options = []): _FinderStream {
+	return new _FinderStream(FinderTools::which($command, $options));
 }
 
 /** Provides convenient access to the stream of search results. */
-abstract class FinderStream {
+class _FinderStream {
 
 	/**
 	 * Creates a new finder stream.
-	 * @param _FinderStream $stream The object providing the stream of search results.
+	 * @param FinderStream $stream The object providing the stream of search results.
 	 */
-	function __construct(private _FinderStream $stream) {}
+	function __construct(private FinderStream $stream) {}
 
 	/**
 	 * Returns all instances of the searched command.

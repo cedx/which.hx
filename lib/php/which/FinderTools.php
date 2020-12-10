@@ -7,7 +7,6 @@ namespace which;
 
 use \php\_Boot\HxAnon;
 use \php\Boot;
-use \which\_FinderTools\FinderStream;
 
 /**
  * Provides helper methods for handling `Finder` instances.
