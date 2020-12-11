@@ -5,7 +5,7 @@ namespace which;
  * Finds the instances of the specified `command` in the system path.
  * @param string $command The command to be resolved.
  * @param array $options Options used to customize the function behavior.
- * @return FinderStream An object providing the stream of search results.
+ * @return _FinderStream An object providing the stream of search results.
  * @throws FinderException The specified command was not found.
  */
 function which(string $command, array $options = []): _FinderStream {
