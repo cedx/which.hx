@@ -5,6 +5,7 @@
 --library instrument:1.1.0
 --library tink_cli:0.5.1
 --library tink_core:1.27.1
+--library tink_streams:0.3.3
 --library tink_unittest:0.7.0
 --macro instrument.Instrumentation.coverage(['which'], ['src'])
 --main TestAll

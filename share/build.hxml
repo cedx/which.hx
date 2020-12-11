@@ -4,6 +4,7 @@
 --library asys:0.4.0
 --library tink_cli:0.5.1
 --library tink_core:1.27.1
+--library tink_streams:0.3.3
 
 which.Finder
 which.FinderException

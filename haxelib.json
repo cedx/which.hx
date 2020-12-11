@@ -1,7 +1,7 @@
 {
 	"classPath": "src/",
 	"contributors": ["cedx"],
-	"dependencies": {"asys": "0.4.0", "tink_cli": "0.5.1", "tink_core": "1.27.1"},
+	"dependencies": {"asys": "0.4.0", "tink_cli": "0.5.1", "tink_core": "1.27.1", "tink_streams": "0.3.3"},
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
 	"license": "MIT",
 	"name": "which",
