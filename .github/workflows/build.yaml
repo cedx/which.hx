@@ -42,6 +42,27 @@ jobs:
           haxelib set tink_core 1.27.1 --always
       - name: Run tests
         run: haxe test_hl.hxml
+  jvm:
+    runs-on: windows-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v2
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.1.4
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+      - name: Check environment
+        run: java --version
+      - name: Install dependencies
+        run: |
+          haxelib install all --always
+          haxelib set tink_core 1.27.1 --always
+      - name: Run tests
+        run: haxe test_jvm.hxml
   js:
     runs-on: windows-latest
     steps:

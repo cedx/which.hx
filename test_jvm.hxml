@@ -1,0 +1,4 @@
+--jvm var/tests.jar
+--library hxjava:3.2.0
+share/test.hxml
+--cmd java -jar var/tests.jar
