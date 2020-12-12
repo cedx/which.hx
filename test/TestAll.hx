@@ -8,7 +8,7 @@ import php.Const;
 import php.Global.error_reporting;
 #end
 
-/** Runs the test suites. **/
+/** Runs the test suite. **/
 class TestAll {
 
 	/** Application entry point. **/
