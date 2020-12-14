@@ -1,5 +1,4 @@
 "use strict";
-
 const assert = require("assert/strict");
 const path = require("path");
 const {FinderException, which} = require("../../lib/js/index.js");
