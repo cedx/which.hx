@@ -1,5 +1,10 @@
 # Changelog
 
+## Version [2.0.2](https://git.belin.io/cedx/which.hx/compare/v2.0.1...v2.0.2)
+- Added support for JVM testing.
+- Fixed the [PHP](https://www.php.net) typings.
+- Updated the package dependencies.
+
 ## Version [2.0.1](https://git.belin.io/cedx/which.hx/compare/v2.0.0...v2.0.1)
 - The `FinderStream` class is now public.
 
