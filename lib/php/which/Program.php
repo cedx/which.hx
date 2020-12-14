@@ -71,7 +71,7 @@ class Program {
 	 */
 	public function run ($rest) {
 		if ($this->help || $this->version) {
-			echo((\Std::string(($this->help ? (new DefaultFormatter())->format(Doc0::get()) : "2.0.1"))??'null') . \PHP_EOL);
+			echo((\Std::string(($this->help ? (new DefaultFormatter())->format(Doc0::get()) : "2.0.2"))??'null') . \PHP_EOL);
 			return new SyncFuture(new LazyConst(Outcome::Success(Noise::Noise())));
 		}
 		if (($rest->length < 1) || ((\Sys::getEnv("HAXELIB_RUN") === "1") && ($rest->length < 2))) {

@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"name": "cedx/which.hx",
 	"type": "library",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"authors": [
 		{"email": "cedric@belin.io", "homepage": "https://belin.io", "name": "Cédric Belin"}
 	],

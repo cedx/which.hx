@@ -5,8 +5,8 @@
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
 	"license": "MIT",
 	"name": "which",
-	"releasenote": "The `FinderStream` class is now public.",
-	"tags": ["cross", "find", "path", "system", "utility", "which"],
+	"releasenote": "Fixed the PHP typings, updated the package dependencies.",
+	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://docs.belin.io/which.hx",
-	"version": "2.0.1"
+	"version": "2.0.2"
 }
