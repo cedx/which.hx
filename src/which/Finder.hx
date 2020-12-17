@@ -5,6 +5,12 @@ import asys.FileStat;
 import tink.streams.IdealStream;
 import tink.streams.Stream;
 
+#if php
+import php.Global.isset;
+import php.NativeIndexedArray;
+import php.NativeStructArray;
+#end
+
 using StringTools;
 using haxe.io.Path;
 
@@ -21,7 +27,7 @@ using haxe.io.Path;
 	public final path: Array<String>;
 
 	/** Creates a new finder. **/
-	public function new(?options: FinderOptions) {
+	public function new(?options: #if php NativeStructArray<FinderOptions> #else FinderOptions #end) {
 		final separator = isWindows ? ";" : ":";
 
 		final pathExt = Sys.getEnv("PATHEXT");
@@ -31,8 +37,13 @@ using haxe.io.Path;
 		path = pathEnv != null ? pathEnv.split(separator) : [];
 
 		if (options != null) {
-			if (options.extensions != null) extensions = options.extensions.map(item -> item.toLowerCase());
-			if (options.path != null) path = options.path;
+			#if php
+				if (isset(options["extensions"])) extensions = (options["extensions"]: Array<String>).map(item -> item.toLowerCase());
+				if (isset(options["path"])) path = options["path"];
+			#else
+				if (options.extensions != null) extensions = options.extensions.map(item -> item.toLowerCase());
+				if (options.path != null) path = options.path;
+			#end
 		}
 	}
 
@@ -85,7 +96,7 @@ using haxe.io.Path;
 typedef FinderOptions = {
 
 	/** The list of executable file extensions. **/
-	var ?extensions: Array<String>;
+	var ?extensions: #if php NativeIndexedArray<String> #else Array<String> #end;
 
 	/** The list of system paths. **/
 	var ?path: Array<String>;
