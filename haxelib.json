@@ -7,6 +7,6 @@
 	"name": "which",
 	"releasenote": "Fixed the PHP typings, updated the package dependencies.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
-	"url": "https://docs.belin.io/which.hx",
+	"url": "https://cedx.github.io/which.hx",
 	"version": "2.0.2"
 }

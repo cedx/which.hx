@@ -8,8 +8,8 @@
 > in [Haxe](https://haxe.org), [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) and [PHP](https://www.php.net).
 
 ## Documentation
-- [User guide](https://docs.belin.io/which.hx)
-- [API reference](https://api.belin.io/which.hx)
+- [User guide](https://cedx.github.io/which.hx)
+- [API reference](https://cedx.github.io/which.hx/api)
 
 ## Packages
 - Haxe: `which` on [Haxelib](https://lib.haxe.org/p/which)
@@ -17,8 +17,8 @@
 - PHP: `cedx/which.hx` on [Packagist](https://packagist.org/packages/cedx/which.hx)
 
 ## Development
-- [Git repository](https://git.belin.io/cedx/which.hx)
-- [Submit an issue](https://git.belin.io/cedx/which.hx/issues)
+- [Git repository](https://github.com/cedx/which.hx)
+- [Submit an issue](https://github.com/cedx/which.hx/issues)
 
 ## License
-[Which.hx](https://docs.belin.io/which.hx) is distributed under the MIT License.
+[Which.hx](https://cedx.github.io/which.hx) is distributed under the MIT License.

@@ -1,10 +1,11 @@
 {
-	"bugs": "https://git.belin.io/cedx/which.hx/issues",
+	"bugs": "https://github.com/cedx/which.hx/issues",
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
-	"homepage": "https://docs.belin.io/which.hx",
+	"homepage": "https://cedx.github.io/which.hx",
 	"license": "MIT",
 	"main": "./lib/js/index.js",
 	"name": "@cedx/which.hx",
+	"repository": "cedx/which.hx",
 	"type": "commonjs",
 	"version": "2.0.2",
 	"author": {
@@ -40,10 +41,6 @@
 		"utility",
 		"which"
 	],
-	"repository": {
-		"type": "git",
-		"url": "https://git.belin.io/cedx/which.hx.git"
-	},
 	"scripts": {
 		"coverage": "coveralls var/lcov.info",
 		"dist": "terser --config-file=etc/terser.json --output=bin/which.js bin/which.js",

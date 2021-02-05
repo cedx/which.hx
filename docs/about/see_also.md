@@ -1,8 +1,8 @@
 # See also
 
 ## Development
-- [API reference](https://api.belin.io/which.hx)
-- [Submit an issue](https://git.belin.io/cedx/which.hx/issues)
+- [API reference](https://cedx.github.io/which.hx/api)
+- [Submit an issue](https://github.com/cedx/which.hx/issues)
 
 ## Packages
 - Haxe: `which` on [Haxelib](https://lib.haxe.org/p/which)

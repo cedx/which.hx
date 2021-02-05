@@ -1,6 +1,6 @@
 {
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
-	"homepage": "https://docs.belin.io/which.hx",
+	"homepage": "https://cedx.github.io/which.hx",
 	"license": "MIT",
 	"name": "cedx/which.hx",
 	"type": "library",
@@ -39,7 +39,7 @@
 		"coverage": "composer global exec coveralls var/lcov.info"
 	},
 	"support": {
-		"docs": "https://api.belin.io/which.hx",
-		"issues": "https://git.belin.io/cedx/which.hx/issues"
+		"docs": "https://cedx.github.io/which.hx/api",
+		"issues": "https://github.com/cedx/which.hx/issues"
 	}
 }
