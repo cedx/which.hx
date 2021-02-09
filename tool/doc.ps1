@@ -4,7 +4,7 @@ Set-Location (Split-Path $PSScriptRoot)
 
 $version = (Get-Content haxelib.json | ConvertFrom-Json).version
 haxe build_doc.hxml
-haxelib run dox `
+lix run dox `
 	--define description "Find the instances of an executable in the system path, in Haxe, JavaScript and PHP. Like the `which` Linux command." `
 	--define source-path "https://github.com/cedx/which.hx/blob/main/src" `
 	--define themeColor 0xffc105 `

@@ -1,5 +1,5 @@
 --define js-es=6
---library hxnodejs:12.1.0
+--library hxnodejs
 share/build.hxml
 
 --each

@@ -1,4 +1,4 @@
 --jvm var/tests.jar
---library hxjava:4.2.0
+--library hxjava
 share/test.hxml
 --cmd java -jar var/tests.jar
