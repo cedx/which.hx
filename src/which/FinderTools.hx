@@ -1,6 +1,6 @@
 package which;
 
-import tink.streams.Stream;
+import tink.streams.Stream.Handled;
 
 #if php
 import php.NativeStructArray;

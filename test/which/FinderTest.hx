@@ -1,6 +1,6 @@
 package which;
 
-import tink.streams.Stream;
+import tink.streams.Stream.Handled;
 using StringTools;
 
 /** Tests the features of the `Finder` class. **/

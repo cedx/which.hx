@@ -4,7 +4,8 @@
 		"path": "RELATIVE_TO_SOURCE",
 		"ConditionalCompilation": ["which/Process", "which/Program:main"],
 		"MemberName": ["which/ProcessIdentity"],
-		"ReturnCount": ["which/Finder:isExecutable", "which/Process", "which/Program:run"]
+		"ReturnCount": ["which/Finder:isExecutable", "which/Process", "which/Program:run"],
+		"UnusedImport": ["which/FinderTest", "which/FinderTools"]
 	},
 	"checks": [
 		{"type": "BlockBreakingConditional"},

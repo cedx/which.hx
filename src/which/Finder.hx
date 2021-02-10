@@ -3,7 +3,7 @@ package which;
 import asys.FileSystem;
 import asys.FileStat;
 import tink.streams.IdealStream;
-import tink.streams.Stream;
+import tink.streams.Stream.Empty;
 
 #if php
 import php.Global.isset;
