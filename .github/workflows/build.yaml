@@ -3,39 +3,20 @@ on:
   - pull_request
   - push
 jobs:
-  eval:
-    runs-on: windows-latest
-    steps:
-      - name: Fetch sources
-        uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - name: Install dependencies
-        run: |
-          npm install --global lix
-          lix download
-      - name: Run tests
-        run: haxe test_eval.hxml
   hl:
     runs-on: windows-latest
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
       - name: Set up HashLink
         run: |
           Invoke-WebRequest https://github.com/HaxeFoundation/hashlink/releases/download/1.11/hl-1.11.0-win.zip -OutFile var/hashlink.zip
           Expand-Archive var/hashlink.zip var/hashlink
           Add-Content $Env:GITHUB_PATH (Resolve-Path var/hashlink/hl-1.11.0-win) -NoNewline
       - name: Install dependencies
-        run: |
-          npm install --global lix
-          lix download
+        run: lix download
       - name: Run tests
         run: haxe test_hl.hxml
   js:
@@ -43,13 +24,14 @@ jobs:
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 14
       - name: Install dependencies
         run: |
-          npm install --global lix
           lix download
           npm install
       - name: Run tests
@@ -64,18 +46,14 @@ jobs:
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
       - name: Set up Java
         uses: actions/setup-java@v1
         with:
           java-version: 15
       - name: Install dependencies
-        run: |
-          npm install --global lix
-          lix download
+        run: lix download
       - name: Run tests
         run: haxe test_jvm.hxml
   php:
@@ -83,10 +61,8 @@ jobs:
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -95,7 +71,6 @@ jobs:
           extensions: curl, intl, mbstring, simplexml
       - name: Install dependencies
         run: |
-          npm install --global lix
           lix download
           composer global require cedx/coveralls
           composer update
