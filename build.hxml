@@ -1,0 +1,3 @@
+--define js-es=6
+--hl var/build.hl
+share/build.hxml

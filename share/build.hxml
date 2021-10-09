@@ -2,12 +2,8 @@
 --dce full
 --define analyzer-optimize
 --library asys
---library tink_cli
---library tink_core
 --library tink_streams
 
 which.Finder
-which.FinderException
-which.FinderTools
+# which.FinderTools
 which.Process
-which.ProcessIdentity

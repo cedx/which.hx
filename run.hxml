@@ -1,3 +1,5 @@
+--define no-deprecation-warnings
+--library tink_cli
 --main which.Program
 --neko run.n
 share/build.hxml

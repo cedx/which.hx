@@ -1,4 +1,0 @@
---jvm bin/which.jar
---library hxjava
---main which.Program
-share/build.hxml
