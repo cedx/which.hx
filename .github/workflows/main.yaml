@@ -1,4 +1,4 @@
-name: build
+name: main
 on:
   - pull_request
   - push
@@ -11,14 +11,17 @@ jobs:
       - name: Set up Lix
         uses: lix-pm/setup-lix@master
       - name: Set up HashLink
-        run: |
-          Invoke-WebRequest https://github.com/HaxeFoundation/hashlink/releases/download/1.11/hl-1.11.0-win.zip -OutFile var/hashlink.zip
-          Expand-Archive var/hashlink.zip var/hashlink
-          Add-Content $Env:GITHUB_PATH (Resolve-Path var/hashlink/hl-1.11.0-win) -NoNewline
+        uses: pxshadow/setup-hashlink@master
       - name: Install dependencies
         run: lix download
       - name: Run tests
         run: haxe test_hl.hxml
+      - name: Collect code coverage
+        if: success()
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path-to-lcov: var/lcov.info
   js:
     runs-on: windows-latest
     steps:
@@ -29,18 +32,17 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16
       - name: Install dependencies
-        run: |
-          lix download
-          npm install
+        run: lix download
       - name: Run tests
         run: haxe test_js.hxml
       - name: Collect code coverage
-        env:
-          COVERALLS_REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
         if: success()
-        run: npm run coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path-to-lcov: var/lcov.info
   jvm:
     runs-on: windows-latest
     steps:
@@ -51,11 +53,17 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v1
         with:
-          java-version: 15
+          java-version: 16
       - name: Install dependencies
         run: lix download
       - name: Run tests
         run: haxe test_jvm.hxml
+      - name: Collect code coverage
+        if: success()
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path-to-lcov: var/lcov.info
   php:
     runs-on: windows-latest
     steps:
@@ -67,17 +75,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.0
-          coverage: xdebug
           extensions: curl, intl, mbstring, simplexml
       - name: Install dependencies
-        run: |
-          lix download
-          composer global require cedx/coveralls
-          composer update
+        run: lix download
       - name: Run tests
         run: haxe test_php.hxml
       - name: Collect code coverage
-        env:
-          COVERALLS_REPO_TOKEN: ${{secrets.GITHUB_TOKEN}}
         if: success()
-        run: composer run coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path-to-lcov: var/lcov.info
