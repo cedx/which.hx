@@ -22,7 +22,7 @@ class FinderStream {
 		final executables = [];
 		return finder.find(command).forEach(path -> {
 			if (!executables.contains(path)) executables.push(path);
-			Resume;
+			Handled.Resume;
 		}).next(_ -> executables.length > 0 ? executables : new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).'));
 	}
 
@@ -31,7 +31,7 @@ class FinderStream {
 		var executable = "";
 		return finder.find(command).forEach(path -> {
 			executable = path;
-			Finish;
+			Handled.Finish;
 		}).next(_ -> executable.length > 0 ? executable : new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).'));
 	}
 }

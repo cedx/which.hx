@@ -5,7 +5,7 @@ import tink.unit.TestBatch;
 /** Runs the test suite. **/
 function main() {
 	final tests = TestBatch.make([
-		//new which.FinderTest(),
+		new which.FinderTest(),
 		//new which.FinderToolsTest(),
 		new which.ProcessTest()
 	]);

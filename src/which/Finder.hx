@@ -73,7 +73,7 @@ class Finder {
 		final basePath = FileSystem.absolutePath(directory);
 		final stream: IdealStream<String> = [""]
 			.concat(isWindows ? extensions : [])
-			.map(item -> Path.join([basePath, '$command$item']).replace("/", isWindows ? "\\" : "/"))
+			.map(extension -> Path.join([basePath, '$command$extension']).replace("/", isWindows ? "\\" : "/"))
 			.iterator();
 
 		return stream.filter(item -> isExecutable(item).recover(_ -> false));
