@@ -1,3 +1,5 @@
+package which;
+
 #if macro
 import haxe.Json;
 import haxe.macro.Context;
