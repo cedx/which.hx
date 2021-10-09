@@ -1,22 +1,17 @@
 * text=auto
 .* text
 
-*.cjs text
 *.http text
 *.hx text
 *.hxml text
-*.js text
+*.info text
 *.json text
 *.md text
-*.mjs text
-*.php text diff=php
 *.txt text
 *.yaml text
 *.yml text
 
-*.hl binary
 *.ico binary
-*.jar binary
 *.jpg binary
 *.n binary
 *.pdf binary

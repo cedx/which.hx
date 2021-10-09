@@ -1,9 +1,8 @@
-/build/
-/node_modules/
-/lib/res/
+/lib/
+/res/
 /var/
 
 /*.code-workspace
 /*.iml
 /**/.DS_Store
-/lib/js/bundle.*
+/index.php
