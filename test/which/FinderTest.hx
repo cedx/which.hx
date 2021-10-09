@@ -18,7 +18,7 @@ using StringTools;
 			.find(input)
 			.forEach(path -> { executable = path; Handled.Resume; })
 			.handle(conclusion -> {
-				asserts.assert(output != null ? executable.endsWith(output) : executable == null);
+				asserts.assert(output != null ? executable != null && executable.endsWith(output) : executable == null);
 				asserts.assert(conclusion == Depleted);
 				asserts.done();
 			});
