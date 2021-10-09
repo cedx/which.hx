@@ -2,6 +2,7 @@
 --dce full
 --define analyzer-optimize
 --library asys
+--library tink_cli
 --library tink_streams
 
 which.Finder

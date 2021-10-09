@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html dir="ltr" lang="en">
 	<head>
-		<meta charset="UTF-8">
-		<title>Which.hx</title>
+		<meta charset="UTF-8"/>
+		<title>Which for Haxe</title>
 
-		<meta name="application-name" content="Which.hx">
-		<meta name="author" content="Cédric Belin - cedric@belin.io">
-		<meta name="description" content="Find the instances of an executable in the system path, in Haxe, JavaScript and PHP.">
-		<meta name="format-detection" content="telephone=no">
-		<meta name="referrer" content="same-origin">
-		<meta name="theme-color" content="#ea8220">
-		<meta name="viewport" content="initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no, width=device-width">
+		<meta name="application-name" content="Which for Haxe"/>
+		<meta name="author" content="Cédric Belin - cedric@belin.io"/>
+		<meta name="description" content="Find the instances of an executable in the system path, in Haxe."/>
+		<meta name="format-detection" content="telephone=no"/>
+		<meta name="referrer" content="same-origin"/>
+		<meta name="theme-color" content="#ea8220"/>
+		<meta name="viewport" content="initial-scale=1, width=device-width"/>
 
-		<link rel="icon" href="favicon.ico" sizes="16x16 20x20 24x24 32x32 48x48 64x64 256x256" type="image/x-icon">
-		<link rel="icon" href="favicon.png" sizes="192x192" type="image/png">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css">
+		<link rel="icon" href="favicon.svg"/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css"/>
 
 		<script>
 			window.$docsify = {
 				alias: {"/.*/_sidebar.md": "/_sidebar.md"},
 				auto2top: true,
 				loadSidebar: true,
-				name: "Which.hx",
+				name: "Which for Haxe",
 				repo: "cedx/which.hx",
+				search: "auto",
 				themeColor: "#ea8220"
 			};
 		</script>
 
 		<script defer src="https://cdn.jsdelivr.net/npm/docsify"></script>
-		<script defer src="https://cdn.jsdelivr.net/npm/docsify-tabs"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
 		<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 		<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-haxe.min.js"></script>
-		<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-php.min.js"></script>
 	</head>
 
 	<body>
+		<nav>
+			<a href="https://cedx.github.io/which.hx/api">API Reference</a>
+			<a href="https://lib.haxe.org/p/which">Haxelib</a>
+		</nav>
+
 		<div id="app"></div>
 	</body>
 </html>

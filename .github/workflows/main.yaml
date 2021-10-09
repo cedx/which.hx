@@ -4,10 +4,10 @@ on:
   - push
 jobs:
   hl:
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.platform}}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        platform: [ubuntu-latest, windows-latest]
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
@@ -26,10 +26,10 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           path-to-lcov: var/lcov.info
   js:
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.platform}}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        platform: [ubuntu-latest, windows-latest]
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
@@ -50,10 +50,10 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           path-to-lcov: var/lcov.info
   jvm:
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.platform}}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        platform: [ubuntu-latest, windows-latest]
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
@@ -74,10 +74,10 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           path-to-lcov: var/lcov.info
   php:
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.platform}}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        platform: [ubuntu-latest, windows-latest]
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2

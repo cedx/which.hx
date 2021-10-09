@@ -26,13 +26,11 @@ abstract class Process {
 
 		final process = new AsyncProcess("id", ['-$identity']);
 		return process.exitCode()
-			.next(exitCode -> exitCode != 0 ? new Error('Process exited with a $exitCode code.') : process.stdout.all().next(chunk -> {
-				final processId = Std.parseInt(chunk.toString().trim());
-				processId != null ? processId : new Error("Unable to parse the process output.");
-			}))
-			.next(processId -> {
+			.next(exitCode -> exitCode == 0 ? process.stdout.all() : Failure(new Error('Process exited with a $exitCode code.')))
+			.next(stdout -> {
 				process.close();
-				processId;
+				final processId = Std.parseInt(stdout.toString().trim());
+				processId != null ? Success(processId) : Failure(new Error("Unable to parse the process output."));
 			});
 	}
 }

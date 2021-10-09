@@ -7,29 +7,39 @@ Start by installing the `which` executable globally with your package manager.
 From a command prompt, run:
 
 ```shell
+# haxelib
 haxelib --global install which
+
+# lix
+lix install --global haxelib:which
 ```
 
 Now in your terminal, you can use:
 
 ```shell
+# haxelib
 haxelib run which --version
+
+# lix
+lix run which --version
 ```
 
 #### **JavaScript**
 From a command prompt, run:
 
 ```shell
+# npm
 npm install --global @cedx/which.hx
+
+# yarn
+yarn global add @cedx/which.hx
 ```
 
 Now in your terminal, you can use:
 
 ```shell
-which --version
+npx which --version
 ```
-
-?> Consider adding the `npm install --global` executables directory to your system path.
 
 #### **PHP**
 From a command prompt, run:
@@ -41,10 +51,8 @@ composer global require cedx/which.hx
 Now in your terminal, you can use:
 
 ```shell
-composer global exec which --version
+composer exec which --version
 ```
-
-?> Consider adding the `composer global` executables directory to your system path.
 
 <!-- tabs:end -->
 
