@@ -1,25 +1,12 @@
 {
 	"classPath": "src/",
 	"contributors": ["cedx"],
-	"dependencies": {
-		"asys": "",
-		"tink_cli": "",
-		"tink_core": "",
-		"tink_streams": ""
-	},
+	"dependencies": {"asys": "", "tink_cli": "", "tink_streams": ""},
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
 	"license": "MIT",
 	"name": "which",
 	"releasenote": "Fixed the PHP typings, updated the package dependencies.",
-	"tags": [
-		"cross",
-		"find",
-		"path",
-		"system",
-		"tink",
-		"utility",
-		"which"
-	],
+	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://cedx.github.io/which.hx",
 	"version": "2.0.2"
 }
