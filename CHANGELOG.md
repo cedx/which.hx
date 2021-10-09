@@ -1,7 +1,7 @@
 # Changelog
 
 ## Version [2.0.2](https://github.com/cedx/which.hx/compare/v2.0.1...v2.0.2)
-- Added support for JVM testing.
+- Added support for [JVM](https://www.java.com) testing.
 - Fixed the [PHP](https://www.php.net) typings.
 - Updated the package dependencies.
 

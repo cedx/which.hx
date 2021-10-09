@@ -13,15 +13,11 @@ using StringTools;
 	@:variant("executable", which.Finder.isWindows ? "\\test\\fixtures\\executable.cmd" : null)
 	@:variant("executable.sh", which.Finder.isWindows ? null : "/test/fixtures/executable.sh")
 	public function testFind(input: String, output: Null<String>) {
-		var executable: Null<String> = null;
 		new Finder({path: ["test/fixtures"]})
 			.find(input)
-			.forEach(path -> { executable = path; trace(path); Handled.Resume; })
-			.handle(conclusion -> {
-				asserts.assert(output != null ? executable != null && executable.endsWith(output) : executable == null);
-				asserts.assert(conclusion == Depleted);
-				asserts.done();
-			});
+			.collect()
+			.next(paths -> asserts.assert(output != null ? paths.length == 1 && paths[0].endsWith(output) : paths.length == 0))
+			.handle(asserts.handle);
 
 		return asserts;
 	}

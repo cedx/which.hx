@@ -2,7 +2,7 @@ package which;
 
 import asys.FileSystem;
 import asys.FileStat;
-import tink.streams.IdealStream;
+import tink.streams.RealStream;
 import tink.streams.Stream.Empty;
 
 using StringTools;
@@ -39,11 +39,11 @@ class Finder {
 	/** Gets a value indicating whether the current platform is Windows. **/
 	static function get_isWindows() return Sys.systemName() == "Windows" || {
 		final osType = Sys.getEnv("OSTYPE");
-		osType == "cygwin" || osType == "msys";
+		["cygwin", "msys"].contains(osType);
 	};
 
 	/** Finds the instances of the specified `command` in the system path. **/
-	public function find(command: String) {
+	public function find(command: String): RealStream<String> {
 		var stream = Empty.make();
 		for (item in (isWindows ? [Sys.getCwd()] : []).concat(path)) stream = stream.append(findExecutables(item, command));
 		return stream;
@@ -69,14 +69,14 @@ class Finder {
 	}
 
 	/** Finds the instances of the specified `command` in the given `directory`. **/
-	function findExecutables(directory: String, command: String) {
+	function findExecutables(directory: String, command: String): RealStream<String> {
 		final basePath = FileSystem.absolutePath(directory);
-		final stream: IdealStream<String> = [""]
+		final stream: RealStream<String> = [""]
 			.concat(isWindows ? extensions : [])
 			.map(extension -> Path.join([basePath, '$command$extension']).replace("/", isWindows ? "\\" : "/"))
 			.iterator();
 
-		return stream.filter(item -> isExecutable(item).recover(_ -> false));
+		return stream.filter(item -> isExecutable(item).tryRecover(_ -> false));
 	}
 }
 
