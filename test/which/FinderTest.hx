@@ -16,7 +16,7 @@ using StringTools;
 		var executable: Null<String> = null;
 		new Finder({path: ["test/fixtures"]})
 			.find(input)
-			.forEach(path -> { executable = path; Handled.Resume; })
+			.forEach(path -> { executable = path; trace(path); Handled.Resume; })
 			.handle(conclusion -> {
 				asserts.assert(output != null ? executable != null && executable.endsWith(output) : executable == null);
 				asserts.assert(conclusion == Depleted);
