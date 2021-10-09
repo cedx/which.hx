@@ -1,11 +1,12 @@
 --class-path src
 --class-path test
+--dce full
+--define analyzer-optimize
 --define coverage-lcov-reporter=var/lcov.info
 --library asys
 --library instrument
 --library tink_cli
---library tink_core
 --library tink_streams
 --library tink_unittest
 --macro instrument.Instrumentation.coverage(['which'], ['src'])
---main TestAll
+--main RunTests
