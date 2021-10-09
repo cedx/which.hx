@@ -56,7 +56,8 @@ class Finder {
 		.next(_ -> isWindows ? checkFileExtension(file) : FileSystem.stat(file).next(checkFilePermissions));
 
 	/** Checks that the specified `file` is executable according to the executable file extensions. **/
-	function checkFileExtension(file: String) return extensions.contains('.${file.extension().toLowerCase()}');
+	function checkFileExtension(file: String)
+		return Promise.resolve(extensions.contains('.${file.extension().toLowerCase()}'));
 
 	/** Checks that the file represented by the specified `stats` is executable according to its permissions. **/
 	function checkFilePermissions(stat: FileStat) {
