@@ -21,7 +21,7 @@ abstract class Process {
 	static inline function get_uid() return getProcessId("u");
 
 	/** Gets the numeric identity of the current process. **/
-	static function getProcessId(identity: String) {
+	static function getProcessId(identity: String): Promise<Int> {
 		if (Finder.isWindows) return Promise.reject(new Error(MethodNotAllowed, "Not supported on Windows platform."));
 
 		final process = new AsyncProcess("id", ['-$identity']);

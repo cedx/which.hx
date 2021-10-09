@@ -2,12 +2,8 @@ package which;
 
 import tink.streams.Stream.Handled;
 
-#if php
-import php.NativeStructArray;
-#end
-
 /** Provides convenient access to the stream of search results. **/
-@:expose class FinderStream {
+class FinderStream {
 
 	/** The searched command. **/
 	final command: String;
@@ -41,9 +37,9 @@ import php.NativeStructArray;
 }
 
 /** Provides helper methods for handling `Finder` instances. **/
-@:expose class FinderTools {
+abstract class FinderTools {
 
 	/** Finds the instances of the specified `command` in the system path. **/
-	public static function which(command: String, ?options: #if php NativeStructArray<Finder.FinderOptions> #else Finder.FinderOptions #end)
+	public static inline function which(command: String, ?options: Finder.FinderOptions)
 		return new FinderStream(command, new Finder(options));
 }

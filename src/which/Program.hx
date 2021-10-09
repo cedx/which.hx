@@ -6,12 +6,6 @@ import tink.cli.Rest;
 using Lambda;
 using which.FinderTools;
 
-#if nodejs
-import js.Node;
-#elseif php
-import php.Syntax;
-#end
-
 /** Find the instances of an executable in the system path. **/
 @:noDoc class Program {
 
@@ -28,11 +22,7 @@ import php.Syntax;
 	public function new() {}
 
 	/** Application entry point. **/
-	public static function main() {
-		#if nodejs Node.process.title = "Which.hx";
-		#elseif php Syntax.code("cli_set_process_title({0})", "Which.hx"); #end
-		Cli.process(Sys.args(), new Program()).handle(Cli.exit);
-	}
+	static function main() Cli.process(Sys.args(), new Program()).handle(Cli.exit);
 
 	/** <command> : The name of the command to find. **/
 	@:defaultCommand
