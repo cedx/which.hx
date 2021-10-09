@@ -1,3 +1,0 @@
---define doc-gen
---xml var/api.xml
-share/build.hxml
