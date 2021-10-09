@@ -8,5 +8,5 @@
 	"releasenote": "Fixed the PHP typings, updated the package dependencies.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://cedx.github.io/which.hx",
-	"version": "2.0.2"
+	"version": "3.0.0"
 }
