@@ -1,5 +1,7 @@
 package which;
 
+using AssertionTools;
+
 /** Tests the features of the `Process` class. **/
 @:asserts class ProcessTest {
 
@@ -8,25 +10,17 @@ package which;
 
 	/** Tests the `gid` property. **/
 	public function testGid() {
-		Process.gid.handle(outcome -> switch outcome {
-			case Success(gid):
-				Finder.isWindows ? asserts.fail("Promise not rejected.") : { asserts.assert(gid >= 0); asserts.done(); }
-			case Failure(error):
-				Finder.isWindows ? { asserts.assert(error.code == MethodNotAllowed); asserts.done(); } : asserts.fail(error.message);
-		});
-
+		final promise = Process.gid;
+		if (Finder.isWindows) asserts.rejects(promise, MethodNotAllowed).handle(asserts.handle);
+		else promise.next(gid -> gid >= 0).handle(asserts.handle);
 		return asserts;
 	}
 
 	/** Tests the `uid` property. **/
 	public function testUid() {
-		Process.gid.handle(outcome -> switch outcome {
-			case Success(uid):
-				Finder.isWindows ? asserts.fail("Promise not rejected.") : { asserts.assert(uid >= 0); asserts.done(); }
-			case Failure(error):
-				Finder.isWindows ? { asserts.assert(error.code == MethodNotAllowed); asserts.done(); } : asserts.fail(error.message);
-		});
-
+		final promise = Process.uid;
+		if (Finder.isWindows) asserts.rejects(promise, MethodNotAllowed).handle(asserts.handle);
+		else promise.next(uid -> uid >= 0).handle(asserts.handle);
 		return asserts;
 	}
 }

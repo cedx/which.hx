@@ -1,6 +1,8 @@
 package which;
 
 import which.Finder.which;
+
+using AssertionTools;
 using StringTools;
 
 /** Tests the features of the `ResultSet` class. **/
@@ -14,14 +16,13 @@ using StringTools;
 	@:variant("executable.sh", which.Finder.isWindows ? null : "/test/fixtures/executable.sh")
 	@:variant("foo", null)
 	public function testAll(input: String, output: Null<String>) {
-		which(input, {path: ["test/fixtures"]}).all().handle(outcome -> switch outcome {
-			case Success(paths): output != null
-				? { asserts.assert(paths.length == 1); asserts.assert(paths[0].endsWith(output)); asserts.done(); }
-				: asserts.fail("Promise not rejected.");
-			case Failure(error): output != null
-				? asserts.fail(error.message)
-				: { asserts.assert(error.code == NotFound); asserts.done(); }
-		});
+		final promise = which(input, {path: ["test/fixtures"]}).all();
+
+		if (output == null) asserts.rejects(promise, NotFound).handle(asserts.handle);
+		else promise.next(paths -> {
+			asserts.assert(paths.length == 1);
+			asserts.assert(paths[0].endsWith(output));
+		}).handle(asserts.handle);
 
 		return asserts;
 	}
@@ -31,13 +32,9 @@ using StringTools;
 	@:variant("executable.sh", which.Finder.isWindows ? null : "/test/fixtures/executable.sh")
 	@:variant("foo", null)
 	public function testFirst(input: String, output: Null<String>) {
-		which(input, {path: ["test/fixtures"]}).first().handle(outcome -> switch outcome {
-			case Success(path):
-				output != null ? { asserts.assert(path.endsWith(output)); asserts.done(); } : asserts.fail("Promise not rejected.");
-			case Failure(error):
-				output != null ? asserts.fail(error.message) : { asserts.assert(error.code == NotFound); asserts.done(); }
-		});
-
+		final promise = which(input, {path: ["test/fixtures"]}).first();
+		if (output == null) asserts.rejects(promise, NotFound).handle(asserts.handle);
+		else promise.next(path -> asserts.assert(path.endsWith(output))).handle(asserts.handle);
 		return asserts;
 	}
 
