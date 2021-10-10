@@ -6,8 +6,8 @@ import tink.unit.TestBatch;
 function main() {
 	final tests = TestBatch.make([
 		new which.FinderTest(),
-		//new which.FinderToolsTest(),
-		new which.ProcessTest()
+		new which.ProcessTest(),
+		new which.ResultSetTest()
 	]);
 
 	Runner.run(tests).handle(outcome -> {

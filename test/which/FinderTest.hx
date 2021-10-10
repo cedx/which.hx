@@ -11,10 +11,9 @@ using StringTools;
 	/** Tests the `find()` method. **/
 	@:variant("executable", which.Finder.isWindows ? "\\test\\fixtures\\executable.cmd" : null)
 	@:variant("executable.sh", which.Finder.isWindows ? null : "/test/fixtures/executable.sh")
+	@:variant("foo", null)
 	public function testFind(input: String, output: Null<String>) {
-		new Finder({path: ["test/fixtures"]})
-			.find(input)
-			.collect()
+		new Finder({path: ["test/fixtures"]}).find(input).collect()
 			.next(paths -> asserts.assert(output != null ? paths.length == 1 && paths[0].endsWith(output) : paths.length == 0))
 			.handle(asserts.handle);
 

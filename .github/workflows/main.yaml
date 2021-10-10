@@ -49,31 +49,32 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           path-to-lcov: var/lcov.info
-  # https://github.com/HaxeFoundation/haxe/issues/10423
-  # jvm:
-  #   runs-on: ${{matrix.platform}}
-  #   strategy:
-  #     matrix:
-  #       platform: [ubuntu-latest, windows-latest]
-  #   steps:
-  #     - name: Fetch sources
-  #       uses: actions/checkout@v2
-  #     - name: Set up Lix
-  #       uses: lix-pm/setup-lix@master
-  #     - name: Set up Java
-  #       uses: actions/setup-java@v1
-  #       with:
-  #         java-version: 16
-  #     - name: Install dependencies
-  #       run: lix download
-  #     - name: Run tests
-  #       run: haxe test_jvm.hxml
-  #     - name: Collect code coverage
-  #       if: success()
-  #       uses: coverallsapp/github-action@master
-  #       with:
-  #         github-token: ${{secrets.GITHUB_TOKEN}}
-  #         path-to-lcov: var/lcov.info
+  jvm:
+    # https://github.com/HaxeFoundation/haxe/issues/10423
+    # runs-on: ${{matrix.platform}}
+    # strategy:
+    #   matrix:
+    #     platform: [ubuntu-latest, windows-latest]
+    runs-on: windows-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v2
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 16
+      - name: Install dependencies
+        run: lix download
+      - name: Run tests
+        run: haxe test_jvm.hxml
+      - name: Collect code coverage
+        if: success()
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path-to-lcov: var/lcov.info
   php:
     runs-on: ${{matrix.platform}}
     strategy:

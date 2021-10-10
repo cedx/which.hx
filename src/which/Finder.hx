@@ -12,7 +12,14 @@ using haxe.io.Path;
 class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
-	public static var isWindows(get, never): Bool;
+	#if instrument
+		public static var isWindows(get, never): Bool;
+	#else
+		public static final isWindows = Sys.systemName() == "Windows" || {
+			final osType = Sys.getEnv("OSTYPE");
+			["cygwin", "msys"].contains(osType);
+		};
+	#end
 
 	/** The list of executable file extensions. **/
 	public final extensions: Array<String>;
@@ -36,11 +43,13 @@ class Finder {
 		}
 	}
 
+	#if instrument
 	/** Gets a value indicating whether the current platform is Windows. **/
 	static function get_isWindows() return Sys.systemName() == "Windows" || {
 		final osType = Sys.getEnv("OSTYPE");
 		["cygwin", "msys"].contains(osType);
 	};
+	#end
 
 	/** Finds the instances of the specified `command` in the system path. **/
 	public function find(command: String) {
@@ -54,6 +63,10 @@ class Finder {
 		.next(exists -> exists ? FileSystem.isDirectory(file) : new Error(NotFound, file))
 		.next(isDirectory -> isDirectory ? new Error(UnprocessableEntity, file) : file)
 		.next(_ -> isWindows ? checkFileExtension(file) : FileSystem.stat(file).next(checkFilePermissions));
+
+	/** Finds the instances of the specified `command` in the system path. **/
+	public static inline function which(command: String, ?options: FinderOptions)
+		return new ResultSet(command, new Finder(options));
 
 	/** Checks that the specified `file` is executable according to the executable file extensions. **/
 	function checkFileExtension(file: String)
