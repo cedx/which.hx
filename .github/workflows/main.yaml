@@ -21,7 +21,7 @@ jobs:
         if: success()
         uses: coverallsapp/github-action@master
         with:
-          flag-name: HashLink
+          flag-name: HashLink (${{matrix.platform}})
           github-token: ${{secrets.GITHUB_TOKEN}}
           parallel: true
           path-to-lcov: var/lcov.info
@@ -47,7 +47,7 @@ jobs:
         if: success()
         uses: coverallsapp/github-action@master
         with:
-          flag-name: JavaScript
+          flag-name: JavaScript (${{matrix.platform}})
           github-token: ${{secrets.GITHUB_TOKEN}}
           parallel: true
           path-to-lcov: var/lcov.info
@@ -75,7 +75,8 @@ jobs:
         if: success()
         uses: coverallsapp/github-action@master
         with:
-          flag-name: Java
+          # flag-name: Java (${{matrix.platform}})
+          flag-name: Java (windows-latest)
           github-token: ${{secrets.GITHUB_TOKEN}}
           parallel: true
           path-to-lcov: var/lcov.info
@@ -102,7 +103,7 @@ jobs:
         if: success()
         uses: coverallsapp/github-action@master
         with:
-          flag-name: PHP
+          flag-name: PHP (${{matrix.platform}})
           github-token: ${{secrets.GITHUB_TOKEN}}
           parallel: true
           path-to-lcov: var/lcov.info
