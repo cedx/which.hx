@@ -1,9 +1,5 @@
 # Command line interface
 Start by installing the `which` executable globally with your package manager.
-
-<!-- tabs:start -->
-
-#### **Haxe**
 From a command prompt, run:
 
 ```shell
@@ -24,38 +20,6 @@ haxelib run which --version
 lix run which --version
 ```
 
-#### **JavaScript**
-From a command prompt, run:
-
-```shell
-# npm
-npm install --global @cedx/which.hx
-
-# yarn
-yarn global add @cedx/which.hx
-```
-
-Now in your terminal, you can use:
-
-```shell
-npx which --version
-```
-
-#### **PHP**
-From a command prompt, run:
-
-```shell
-composer global require cedx/which.hx
-```
-
-Now in your terminal, you can use:
-
-```shell
-composer exec which --version
-```
-
-<!-- tabs:end -->
-
 Then invoke it to find the instances of an executable command:
 
 ```shell
@@ -74,9 +38,6 @@ Find the instances of an executable in the system path.
 
 For example:
 
-<!-- tabs:start -->
-
-#### **Haxe**
 ```shell
 haxelib run which haxe
 # /usr/bin/haxe
@@ -85,25 +46,3 @@ haxelib run which --all haxe
 # /usr/bin/haxe
 # /usr/local/bin/haxe
 ```
-
-#### **JavaScript**
-```shell
-which node
-# /usr/bin/node
-
-which --all node
-# /usr/bin/node
-# /usr/local/bin/node
-```
-
-#### **PHP**
-```shell
-which php
-# /usr/bin/php
-
-which --all php
-# /usr/bin/php
-# /usr/local/bin/php
-```
-
-<!-- tabs:end -->
