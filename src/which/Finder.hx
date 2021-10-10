@@ -43,8 +43,8 @@ class Finder {
 	};
 
 	/** Finds the instances of the specified `command` in the system path. **/
-	public function find(command: String): RealStream<String> {
-		var stream = Empty.make();
+	public function find(command: String) {
+		var stream: RealStream<String> = Empty.make();
 		for (item in (isWindows ? [Sys.getCwd()] : []).concat(path)) stream = stream.append(findExecutables(item, command));
 		return stream;
 	}
@@ -69,7 +69,7 @@ class Finder {
 	}
 
 	/** Finds the instances of the specified `command` in the given `directory`. **/
-	function findExecutables(directory: String, command: String): RealStream<String> {
+	function findExecutables(directory: String, command: String) {
 		final basePath = FileSystem.absolutePath(directory);
 		final stream: RealStream<String> = [""]
 			.concat(isWindows ? extensions : [])
