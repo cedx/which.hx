@@ -7,7 +7,7 @@ From a command prompt, run:
 haxelib --global install which
 
 # lix
-lix install --global haxelib:which
+lix +lib --global which
 ```
 
 Now in your terminal, you can use:
@@ -28,7 +28,6 @@ $ which --help
 Find the instances of an executable in the system path.
 
     <command> : The name of the command to find.
-
 
   Flags:
           --all, -a : List all instances of executables found (instead of just the first one).
