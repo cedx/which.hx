@@ -5,6 +5,12 @@ import asys.FileStat;
 import tink.streams.RealStream;
 import tink.streams.Stream.Empty;
 
+#if java
+import java.NativeArray;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+#end
+
 using StringTools;
 using haxe.io.Path;
 
@@ -62,7 +68,7 @@ class Finder {
 	public function isExecutable(file: String) return FileSystem.exists(file)
 		.next(exists -> exists ? FileSystem.isDirectory(file) : new Error(NotFound, file))
 		.next(isDirectory -> isDirectory ? new Error(UnprocessableEntity, file) : file)
-		.next(_ -> isWindows ? checkFileExtension(file) : FileSystem.stat(file).next(checkFilePermissions));
+		.next(_ -> isWindows ? checkFileExtension(file) : #if java stat(file) #else FileSystem.stat(file) #end.next(checkFilePermissions));
 
 	/** Finds the instances of the specified `command` in the system path. **/
 	public static inline function which(command: String, ?options: FinderOptions)
@@ -91,6 +97,14 @@ class Finder {
 
 		return stream.filter(item -> isExecutable(item).tryRecover(_ -> false));
 	}
+
+	#if java
+	/** Returns `FileStat` information for the specified `file`. **/
+	static function stat(file: String): Promise<FileStat> {
+		final attributes = Files.readAttributes(Paths.get(file, NativeArray.make()), "unix:gid,mode,uid", NativeArray.make());
+		return Promise.resolve(cast {gid: attributes.get("gid"), mode: attributes.get("mode"), uid: attributes.get("uid")});
+	}
+	#end
 }
 
 /** Defines the options of a `Finder` instance. **/

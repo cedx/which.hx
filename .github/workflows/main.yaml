@@ -52,12 +52,10 @@ jobs:
           parallel: true
           path-to-lcov: var/lcov.info
   jvm:
-    # https://github.com/HaxeFoundation/haxe/issues/10423
-    # runs-on: ${{matrix.platform}}
-    # strategy:
-    #   matrix:
-    #     platform: [ubuntu-latest, windows-latest]
-    runs-on: windows-latest
+    runs-on: ${{matrix.platform}}
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, windows-latest]
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
@@ -75,8 +73,7 @@ jobs:
         if: success()
         uses: coverallsapp/github-action@master
         with:
-          # flag-name: Java (${{matrix.platform}})
-          flag-name: Java (windows-latest)
+          flag-name: Java (${{matrix.platform}})
           github-token: ${{secrets.GITHUB_TOKEN}}
           parallel: true
           path-to-lcov: var/lcov.info
