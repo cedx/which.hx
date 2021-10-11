@@ -1,29 +1,8 @@
 # Command line interface
-Start by installing the `which` executable globally with your package manager.
-From a command prompt, run:
+From a command prompt, verify that the `which` program is properly installed by running the following command:
 
 ```shell
-# haxelib
-haxelib --global install which
-
-# lix
-lix +lib --global which
-```
-
-Now in your terminal, you can use:
-
-```shell
-# haxelib
-haxelib run which --version
-
-# lix
-lix run which --version
-```
-
-Then invoke it to find the instances of an executable command:
-
-```shell
-$ which --help
+$ lix run which --help
 
 Find the instances of an executable in the system path.
 
@@ -35,13 +14,13 @@ Find the instances of an executable in the system path.
       --version, -v : Output the version number.
 ```
 
-For example:
+Then, invoke it to find the instances of an executable command:
 
 ```shell
-haxelib run which haxe
+lix run which haxe
 # /usr/bin/haxe
 
-haxelib run which --all haxe
+lix run which --all haxe
 # /usr/bin/haxe
 # /usr/local/bin/haxe
 ```
