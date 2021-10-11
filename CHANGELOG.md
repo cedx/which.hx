@@ -1,8 +1,9 @@
 # Changelog
 
 ## Version [3.0.0](https://github.com/cedx/which.hx/compare/v2.0.2...v3.0.0)
+- Breaking change: renamed the `Finder.path` property to `paths`.
 - Breaking change: renamed the `FinderStream` class to `ResultSet`.
-- Breaking change: removed the `FinderException` class.
+- Breaking change: removed the `FinderException` and `FinderTools` classes.
 - Breaking change: removed the `ProcessIdentity` enumeration.
 - Dropped the [Composer](https://getcomposer.org) and [npm](https://www.npmjs.com) packages.
 - Fixed the [JVM](https://www.java.com) target on Unix platforms.
