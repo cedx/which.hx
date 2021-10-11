@@ -12,7 +12,7 @@ using AssertionTools;
 	public function testGid() {
 		final promise = Process.gid;
 		if (Finder.isWindows) asserts.rejects(promise, MethodNotAllowed).handle(asserts.handle);
-		else promise.next(gid -> gid >= 0).handle(asserts.handle);
+		else promise.next(gid -> asserts.assert(gid >= 0)).handle(asserts.handle);
 		return asserts;
 	}
 
@@ -20,7 +20,7 @@ using AssertionTools;
 	public function testUid() {
 		final promise = Process.uid;
 		if (Finder.isWindows) asserts.rejects(promise, MethodNotAllowed).handle(asserts.handle);
-		else promise.next(uid -> uid >= 0).handle(asserts.handle);
+		else promise.next(uid -> asserts.assert(uid >= 0)).handle(asserts.handle);
 		return asserts;
 	}
 }
