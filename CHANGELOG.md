@@ -1,5 +1,15 @@
 # Changelog
 
+## Version [3.0.0](https://github.com/cedx/which.hx/compare/v2.0.2...v3.0.0)
+- Breaking change: renamed the `FinderStream` class to `ResultSet`.
+- Breaking change: removed the `FinderException` class.
+- Breaking change: removed the `ProcessIdentity` enumeration.
+- Dropped the [Composer](https://getcomposer.org) and [npm](https://www.npmjs.com) packages.
+- Fixed the [JVM](https://www.java.com) target on Unix platforms.
+- Replaced the build system based on [PowerShell](https://docs.microsoft.com/en-us/powershell) by [lix](https://github.com/lix-pm/lix.client) scripts.
+- Restored the [Neko](https://nekovm.org) binary.
+- Updated the package dependencies.
+
 ## Version [2.0.2](https://github.com/cedx/which.hx/compare/v2.0.1...v2.0.2)
 - Added support for [JVM](https://www.java.com) testing.
 - Fixed the [PHP](https://www.php.net) typings.

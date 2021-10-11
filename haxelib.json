@@ -5,7 +5,7 @@
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
 	"license": "MIT",
 	"name": "which",
-	"releasenote": "Fixed the PHP typings, updated the package dependencies.",
+	"releasenote": "Fixed the JVM target on Unix platforms, renamed the `FinderStream` class to `ResultSet`, removed the `FinderException` class, restored the Neko binary, updated the package dependencies.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://cedx.github.io/which.hx",
 	"version": "3.0.0"
