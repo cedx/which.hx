@@ -18,7 +18,7 @@ class ResultSet {
 	public function new(command: String, finder: Finder) {
 		this.command = command;
 		this.finder = finder;
-		error = new Error(NotFound, 'No "$command" in (${finder.path.join(Finder.isWindows ? ";" : ":")}).');
+		error = new Error(NotFound, 'No "$command" in (${finder.paths.join(Finder.isWindows ? ";" : ":")}).');
 	}
 
 	/** Returns all instances of the searched command. **/

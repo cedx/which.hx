@@ -13,7 +13,7 @@ using StringTools;
 	@:variant("executable.sh", which.Finder.isWindows ? null : "/test/fixture/executable.sh")
 	@:variant("foo", null)
 	public function testFind(input: String, output: Null<String>) {
-		new Finder({path: ["test/fixture"]}).find(input).collect()
+		new Finder({paths: ["test/fixture"]}).find(input).collect()
 			.next(paths -> asserts.assert(output != null ? paths.length == 1 && paths[0].endsWith(output) : paths.length == 0))
 			.handle(asserts.handle);
 

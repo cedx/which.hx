@@ -31,7 +31,7 @@ class Finder {
 	public final extensions: Array<String>;
 
 	/** The list of system paths. **/
-	public final path: Array<String>;
+	public final paths: Array<String>;
 
 	/** Creates a new finder. **/
 	public function new(?options: FinderOptions) {
@@ -41,11 +41,11 @@ class Finder {
 		extensions = pathExt != null ? pathExt.split(separator).map(item -> item.toLowerCase()) : [".exe", ".cmd", ".bat", ".com"];
 
 		final pathEnv = Sys.getEnv("PATH");
-		path = pathEnv != null ? pathEnv.split(separator) : [];
+		paths = pathEnv != null ? pathEnv.split(separator) : [];
 
 		if (options != null) {
 			if (options.extensions != null) extensions = options.extensions.map(item -> item.toLowerCase());
-			if (options.path != null) path = options.path;
+			if (options.paths != null) paths = options.paths;
 		}
 	}
 
@@ -60,7 +60,7 @@ class Finder {
 	/** Finds the instances of the specified `command` in the system path. **/
 	public function find(command: String) {
 		var stream: RealStream<String> = Empty.make();
-		for (item in (isWindows ? [Sys.getCwd()] : []).concat(path)) stream = stream.append(findExecutables(item, command));
+		for (item in (isWindows ? [Sys.getCwd()] : []).concat(paths)) stream = stream.append(findExecutables(item, command));
 		return stream;
 	}
 
@@ -114,5 +114,5 @@ typedef FinderOptions = {
 	var ?extensions: Array<String>;
 
 	/** The list of system paths. **/
-	var ?path: Array<String>;
+	var ?paths: Array<String>;
 }
