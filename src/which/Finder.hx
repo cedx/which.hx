@@ -12,7 +12,7 @@ using haxe.io.Path;
 class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
-	#if instrument
+	#if (instrument && php)
 		public static var isWindows(get, never): Bool;
 	#else
 		public static final isWindows = Sys.systemName() == "Windows" || {
@@ -43,7 +43,7 @@ class Finder {
 		}
 	}
 
-	#if instrument
+	#if (instrument && php)
 	/** Gets a value indicating whether the current platform is Windows. **/
 	static function get_isWindows() return Sys.systemName() == "Windows" || {
 		final osType = Sys.getEnv("OSTYPE");
