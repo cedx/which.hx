@@ -1,4 +1,3 @@
---define no-deprecation-warnings
 --main which.Program
 --neko run.n
 share/build.hxml

@@ -1,11 +1,11 @@
 --class-path src
 --dce full
 --define analyzer-optimize
+--define no-deprecation-warnings
 --library asys
 --library tink_cli
 --library tink_streams
 
 which.Finder
-# which.FinderTools
 which.Process
-which.Program
+which.ResultSet
