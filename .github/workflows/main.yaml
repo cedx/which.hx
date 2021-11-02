@@ -2,28 +2,13 @@ name: main
 on: [pull_request, push]
 jobs:
   hl:
-    runs-on: ${{matrix.platform}}
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, windows-latest]
+    runs-on: windows-latest
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
       - name: Set up Lix
         uses: lix-pm/setup-lix@master
       - name: Set up HashLink
-        if: matrix.platform == 'ubuntu-latest'
-        run: |
-          sudo apt install libmbedtls-dev libopenal-dev libpng-dev libsdl2-dev libturbojpeg0-dev libuv1-dev libvorbis-dev
-          wget https://github.com/HaxeFoundation/hashlink/archive/refs/tags/1.11.zip --output-document=var/hashlink.zip
-          unzip var/hashlink.zip -d var/hashlink
-          cd var/hashlink/hashlink-1.11
-          make
-          make all
-          sudo make install
-          sudo ldconfig
-      - name: Set up HashLink
-        if: matrix.platform == 'windows-latest'
         run: |
           Invoke-WebRequest https://github.com/HaxeFoundation/hashlink/releases/download/1.11/hl-1.11.0-win.zip -OutFile var/hashlink.zip
           Expand-Archive var/hashlink.zip var/hashlink
@@ -36,7 +21,7 @@ jobs:
         if: success()
         uses: coverallsapp/github-action@master
         with:
-          flag-name: HashLink (${{matrix.platform}})
+          flag-name: HashLink (windows-latest)
           github-token: ${{secrets.GITHUB_TOKEN}}
           parallel: true
           path-to-lcov: var/lcov.info
