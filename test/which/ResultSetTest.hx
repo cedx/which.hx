@@ -16,14 +16,12 @@ using StringTools;
 	@:variant("executable.sh", which.Finder.isWindows ? null : "/test/fixture/executable.sh")
 	@:variant("foo", null)
 	public function testAll(input: String, output: Null<String>) {
-		final promise = which(input, {paths: ["test/fixture"]}).all();
+		final paths = which(input, {paths: ["test/fixture"]}).all();
+		final promise = output == null
+			? asserts.rejects(paths, NotFound)
+			: paths.next(values -> { asserts.assert(values.length == 1); asserts.assert(values[0].endsWith(output)); }).noise();
 
-		if (output == null) asserts.rejects(promise, NotFound).handle(asserts.handle);
-		else promise.next(paths -> {
-			asserts.assert(paths.length == 1);
-			asserts.assert(paths[0].endsWith(output));
-		}).handle(asserts.handle);
-
+		promise.handle(asserts.handle);
 		return asserts;
 	}
 
@@ -32,9 +30,12 @@ using StringTools;
 	@:variant("executable.sh", which.Finder.isWindows ? null : "/test/fixture/executable.sh")
 	@:variant("foo", null)
 	public function testFirst(input: String, output: Null<String>) {
-		final promise = which(input, {paths: ["test/fixture"]}).first();
-		if (output == null) asserts.rejects(promise, NotFound).handle(asserts.handle);
-		else promise.next(path -> asserts.assert(path.endsWith(output))).handle(asserts.handle);
+		final path = which(input, {paths: ["test/fixture"]}).first();
+		final promise = output == null
+			? asserts.rejects(path, NotFound)
+			: path.next(value -> asserts.assert(value.endsWith(output))).noise();
+
+		promise.handle(asserts.handle);
 		return asserts;
 	}
 

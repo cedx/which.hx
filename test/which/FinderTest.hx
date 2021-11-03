@@ -26,13 +26,13 @@ using StringTools;
 	@:variant("test/fixture/not_executable.sh", false)
 	@:variant("foo/bar/baz.qux", null)
 	public function testIsExecutable(input: String, output: Null<Bool>) {
-		new Finder().isExecutable(input).handle(outcome -> switch outcome {
-			case Success(isExec):
-				asserts.assert(output != null && isExec == output);
-				asserts.done();
-			case Failure(error):
-				asserts.assert(output == null && error.code == NotFound);
-				asserts.done();
+		new Finder().isExecutable(input).handle(outcome -> {
+			switch outcome {
+				case Success(isExec): asserts.assert(output != null && isExec == output);
+				case Failure(error): asserts.assert(output == null && error.code == NotFound);
+			}
+
+			asserts.done();
 		});
 
 		return asserts;

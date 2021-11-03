@@ -68,7 +68,7 @@ class Finder {
 	public function isExecutable(file: String) return FileSystem.exists(file)
 		.next(exists -> exists ? FileSystem.isDirectory(file) : new Error(NotFound, file))
 		.next(isDirectory -> isDirectory ? new Error(UnprocessableEntity, file) : file)
-		.next(_ -> isWindows ? checkFileExtension(file) : #if java stat(file) #else FileSystem.stat(file) #end.next(checkFilePermissions));
+		.next(path -> isWindows ? checkFileExtension(path) : #if java stat(path) #else FileSystem.stat(path) #end.next(checkFilePermissions));
 
 	/** Finds the instances of the specified `command` in the system path. **/
 	public static inline function which(command: String, ?options: FinderOptions)

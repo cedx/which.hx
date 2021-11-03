@@ -10,17 +10,23 @@ using AssertionTools;
 
 	/** Tests the `gid` property. **/
 	public function testGid() {
-		final promise = Process.gid;
-		if (Finder.isWindows) asserts.rejects(promise, MethodNotAllowed).handle(asserts.handle);
-		else promise.next(gid -> asserts.assert(gid >= 0)).handle(asserts.handle);
+		final gid = Process.gid;
+		final promise = Finder.isWindows
+			? asserts.rejects(gid, MethodNotAllowed)
+			: gid.next(value -> asserts.assert(value >= 0)).noise();
+
+		promise.handle(asserts.handle);
 		return asserts;
 	}
 
 	/** Tests the `uid` property. **/
 	public function testUid() {
-		final promise = Process.uid;
-		if (Finder.isWindows) asserts.rejects(promise, MethodNotAllowed).handle(asserts.handle);
-		else promise.next(uid -> asserts.assert(uid >= 0)).handle(asserts.handle);
+		final uid = Process.uid;
+		final promise = Finder.isWindows
+			? asserts.rejects(uid, MethodNotAllowed)
+			: uid.next(value -> asserts.assert(value >= 0)).noise();
+
+		promise.handle(asserts.handle);
 		return asserts;
 	}
 }
