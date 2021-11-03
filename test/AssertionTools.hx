@@ -11,12 +11,15 @@ abstract class AssertionTools {
 	public static function rejects(asserts: AssertionBuffer, promise: Promise<Any>, ?errorCode: ErrorCode): Promise<Noise>
 		return promise.map(outcome -> switch outcome {
 			case Success(_):
-				asserts.assert(false, "Promise not rejected.");
+				asserts.assert(false, "Promise should reject.");
 				Failure(new Error(ExpectationFailed, "Promise not rejected."));
 			case Failure(e):
-				final message = errorCode != null ? 'Promise not rejected with a $errorCode error.' : "Promise not rejected.";
-				asserts.assert(errorCode != null ? e.code == errorCode : true, message);
-				errorCode == null || e.code == errorCode ? Success(Noise) : Failure(new Error(ExpectationFailed, message));
+				asserts.assert(errorCode != null ? e.code == errorCode : true, errorCode != null
+					? 'Promise should reject with a $errorCode error.'
+					: "Promise should reject.");
+				errorCode == null || e.code == errorCode
+					? Success(Noise)
+					: Failure(new Error(ExpectationFailed, 'Promise not rejected with a $errorCode error.'));
 		});
 
 	/** Expects the specified function to throw an exception. **/
