@@ -2,17 +2,17 @@ name: main
 on: [pull_request, push]
 jobs:
   hl:
-    runs-on: windows-latest
+    runs-on: ${{matrix.platform}}
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, windows-latest]
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
       - name: Set up Lix
         uses: lix-pm/setup-lix@master
       - name: Set up HashLink
-        run: |
-          Invoke-WebRequest https://github.com/HaxeFoundation/hashlink/releases/download/1.11/hl-1.11.0-win.zip -OutFile var/hashlink.zip
-          Expand-Archive var/hashlink.zip var/hashlink
-          Add-Content $Env:GITHUB_PATH (Resolve-Path var/hashlink/hl-1.11.0-win) -NoNewline
+        uses: cedx/setup-hashlink@main
       - name: Install dependencies
         run: lix download
       - name: Run tests
@@ -21,7 +21,7 @@ jobs:
         if: success()
         uses: coverallsapp/github-action@master
         with:
-          flag-name: HashLink (windows-latest)
+          flag-name: HashLink (${{matrix.platform}})
           github-token: ${{secrets.GITHUB_TOKEN}}
           parallel: true
           path-to-lcov: var/lcov.info
