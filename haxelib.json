@@ -5,8 +5,8 @@
 	"description": "Find the instances of an executable in the system path.",
 	"license": "MIT",
 	"name": "which",
-	"releasenote": "Fixed the JVM target on Unix platforms, renamed the `Finder.path` property to `paths`, renamed the `FinderStream` class to `ResultSet`, removed the `FinderException` and `FinderTools` classes, restored the Neko binary, updated the package dependencies.",
+	"releasenote": "Updated the documentation, updated the project URL.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
-	"url": "https://cedx.github.io/which.hx",
-	"version": "3.0.0"
+	"url": "https://bitbucket.org/cedx/which.hx",
+	"version": "3.0.1"
 }
