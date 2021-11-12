@@ -1,6 +1,10 @@
 # Changelog
 
-## Version [3.0.0](https://github.com/cedx/which.hx/compare/v2.0.2...v3.0.0)
+## Version [3.0.1](https://bitbucket.org/cedx/which.hx/branches/compare/v3.0.1..v3.0.0)
+- Updated the documentation.
+- Updated the project URL.
+
+## Version [3.0.0](https://bitbucket.org/cedx/which.hx/branches/compare/v3.0.0..v2.0.2)
 - Breaking change: renamed the `Finder.path` property to `paths`.
 - Breaking change: renamed the `FinderStream` class to `ResultSet`.
 - Breaking change: removed the `FinderException` and `FinderTools` classes.
@@ -11,15 +15,15 @@
 - Restored the [Neko](https://nekovm.org) binary.
 - Updated the package dependencies.
 
-## Version [2.0.2](https://github.com/cedx/which.hx/compare/v2.0.1...v2.0.2)
+## Version [2.0.2](https://bitbucket.org/cedx/which.hx/branches/compare/v2.0.2..v2.0.1)
 - Added support for [JVM](https://www.java.com) testing.
 - Fixed the [PHP](https://www.php.net) typings.
 - Updated the package dependencies.
 
-## Version [2.0.1](https://github.com/cedx/which.hx/compare/v2.0.0...v2.0.1)
+## Version [2.0.1](https://bitbucket.org/cedx/which.hx/branches/compare/v2.0.1..v2.0.0)
 - The `FinderStream` class is now public.
 
-## Version [2.0.0](https://github.com/cedx/which.hx/compare/v1.0.2...v2.0.0)
+## Version [2.0.0](https://bitbucket.org/cedx/which.hx/branches/compare/v2.0.0..v1.0.2)
 - Breaking change: ported the iteration to [Tinkerbell streams](https://github.com/haxetink/tink_streams).
 - Breaking change: raised the [PHP](https://www.php.net) constraint.
 - Breaking change: removed the `--silent` option from the command line interface.
@@ -32,10 +36,10 @@
 - Ported the documentation to [docsify](https://docsify.js.org).
 - Ported the tests to [Tinberkell](https://haxetink.github.io/tink_unittest).
 
-## Version [1.0.2](https://github.com/cedx/which.hx/compare/v1.0.1...v1.0.2)
+## Version [1.0.2](https://bitbucket.org/cedx/which.hx/branches/compare/v1.0.2..v1.0.1)
 - `haxelib run`: replaced the [Neko](https://nekovm.org) binary by the `Run` module.
 
-## Version [1.0.1](https://github.com/cedx/which.hx/compare/v1.0.0...v1.0.1)
+## Version [1.0.1](https://bitbucket.org/cedx/which.hx/branches/compare/v1.0.1..v1.0.0)
 - Pinned the [`tink_core`](https://lib.haxe.org/p/tink_core) dependency.
 
 ## Version 1.0.0
