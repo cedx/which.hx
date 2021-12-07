@@ -5,4 +5,4 @@
 /*.code-workspace
 /*.iml
 /**/.DS_Store
-/index.php
+/test/*.php
