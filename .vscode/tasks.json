@@ -5,7 +5,7 @@
 			"label": "Build",
 			"group": {"kind": "build", "isDefault": true},
 			"problemMatcher": ["$haxe", "$haxe-absolute", "$haxe-error", "$haxe-trace"],
-			"type": "shell", "command": "haxe", "args": ["run.hxml"]
+			"type": "hxml", "file": "run.hxml"
 		},
 		{
 			"label": "Clean",
