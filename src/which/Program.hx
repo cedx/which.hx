@@ -28,7 +28,7 @@ using Lambda;
 	@:defaultCommand
 	public function run(rest: Rest<String>): Promise<Noise> {
 		if (help || version) {
-			Sys.println(help ? Cli.getDoc(this) : Version.getPackageVersion());
+			Sys.println(help ? Cli.getDoc(this) : Version.packageVersion);
 			return Noise;
 		}
 
