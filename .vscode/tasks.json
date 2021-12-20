@@ -13,6 +13,11 @@
 			"type": "shell", "command": "lix", "args": ["Clean"]
 		},
 		{
+			"label": "Dist",
+			"group": "build",
+			"type": "shell", "command": "lix", "args": ["Dist"]
+		},
+		{
 			"label": "Doc",
 			"group": "build",
 			"type": "shell", "command": "lix", "args": ["Doc"]
