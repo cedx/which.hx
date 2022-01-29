@@ -70,10 +70,6 @@ class Finder {
 		.next(isDirectory -> isDirectory ? new Error(UnprocessableEntity, file) : file)
 		.next(path -> isWindows ? checkFileExtension(path) : #if java stat(path) #else FileSystem.stat(path) #end.next(checkFilePermissions));
 
-	/** Finds the instances of the specified `command` in the system path. **/
-	public static inline function which(command: String, ?options: FinderOptions)
-		return new ResultSet(command, new Finder(options));
-
 	/** Checks that the specified `file` is executable according to the executable file extensions. **/
 	function checkFileExtension(file: String)
 		return Promise.resolve(extensions.contains('.${file.extension().toLowerCase()}'));

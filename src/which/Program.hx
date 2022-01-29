@@ -1,8 +1,8 @@
 package which;
 
+import Which;
 import tink.Cli;
 import tink.cli.Rest;
-import which.Finder.which;
 
 using Lambda;
 

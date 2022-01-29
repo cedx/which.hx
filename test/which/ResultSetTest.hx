@@ -1,6 +1,6 @@
 package which;
 
-import which.Finder.which;
+import Which;
 
 using AssertionTools;
 using StringTools;

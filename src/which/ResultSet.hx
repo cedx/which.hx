@@ -8,9 +8,6 @@ class ResultSet {
 	/** The searched command. **/
 	final command: String;
 
-	/** The error raised when the command was not found. **/
-	final error: Error;
-
 	/** The finder used to perform the search. **/
 	final finder: Finder;
 
@@ -18,11 +15,11 @@ class ResultSet {
 	public function new(command: String, finder: Finder) {
 		this.command = command;
 		this.finder = finder;
-		error = new Error(NotFound, 'No "$command" in (${finder.paths.join(Finder.isWindows ? ";" : ":")}).');
 	}
 
 	/** Returns all instances of the searched command. **/
 	public function all() {
+		final error = new Error(NotFound, 'No "$command" in (${finder.paths.join(Finder.isWindows ? ";" : ":")}).');
 		final executables = [];
 		return stream()
 			.forEach(path -> { if (!executables.contains(path)) executables.push(path); Handled.Resume; })
@@ -31,6 +28,7 @@ class ResultSet {
 
 	/** Returns the first instance of the searched command. **/
 	public function first() {
+		final error = new Error(NotFound, 'No "$command" in (${finder.paths.join(Finder.isWindows ? ";" : ":")}).');
 		var executable = "";
 		return stream()
 			.forEach(path -> { executable = path; Handled.Finish; })
