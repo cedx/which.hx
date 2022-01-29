@@ -1,6 +1,5 @@
+import Which;
 import tink.streams.Stream.Handled;
-import which.Finder.which;
-
 using tink.CoreApi;
 
 /** Finds all instances of an executable and returns them one at a time. */

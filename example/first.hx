@@ -1,4 +1,4 @@
-import which.Finder.which;
+import Which;
 using tink.CoreApi;
 
 /** Finds the first instance of an executable. */
