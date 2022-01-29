@@ -1,5 +1,8 @@
 # Changelog
 
+## Version [3.1.0](https://bitbucket.org/cedx/which.hx/branches/compare/v3.1.0..v3.0.1)
+- Promoted the `Finder.which()` static method to a module-level function.
+
 ## Version [3.0.1](https://bitbucket.org/cedx/which.hx/branches/compare/v3.0.1..v3.0.0)
 - Updated the documentation.
 - Updated the project URL.

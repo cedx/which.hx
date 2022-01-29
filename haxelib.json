@@ -5,7 +5,7 @@
 	"description": "Find the instances of an executable in the system path.",
 	"license": "MIT",
 	"name": "which",
-	"releasenote": "Updated the documentation, updated the project URL.",
+	"releasenote": "Promoted the `Finder.which()` static method to a module-level function.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://bitbucket.org/cedx/which.hx",
 	"version": "3.1.0"
