@@ -1,6 +1,6 @@
 //! --class-path src --library tink_core
 import Sys.*;
-import Tools.compress;
+import Tools;
 import which.Version.*;
 
 /** Runs the script. **/

@@ -1,6 +1,6 @@
 //! --class-path src --library tink_core
 import Sys.*;
-import Tools.removeDirectory;
+import Tools;
 import sys.FileSystem.*;
 import sys.io.File.*;
 import which.Version.*;
