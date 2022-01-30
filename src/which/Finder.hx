@@ -4,15 +4,14 @@ import asys.FileSystem;
 import asys.FileStat;
 import tink.streams.RealStream;
 import tink.streams.Stream.Empty;
+using StringTools;
+using haxe.io.Path;
 
 #if java
 import java.NativeArray;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 #end
-
-using StringTools;
-using haxe.io.Path;
 
 /** Finds the instances of an executable in the system path. **/
 class Finder {

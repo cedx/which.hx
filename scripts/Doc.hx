@@ -1,13 +1,12 @@
 //! --class-path src --library tink_core
 import Sys.*;
-import Tools;
 import sys.FileSystem.*;
 import sys.io.File.*;
 import which.Version.*;
 
 /** Runs the script. **/
 function main() {
-	if (exists("docs")) removeDirectory("docs");
+	if (exists("docs")) Tools.removeDirectory("docs");
 
 	command("haxe --define doc-gen --no-output --xml var/api.xml build.hxml");
 	command("lix", [

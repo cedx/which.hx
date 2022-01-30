@@ -1,9 +1,7 @@
 package which;
 
-import Which;
 import tink.Cli;
 import tink.cli.Rest;
-
 using Lambda;
 
 /** Find the instances of an executable in the system path. **/
@@ -36,7 +34,8 @@ using Lambda;
 		if (rest.length < requiredArgs || (Sys.getEnv("HAXELIB_RUN") == "1" && rest.length < requiredArgs + 1))
 			return new Error(BadRequest, "You must provide the name of a command to find.");
 
-		final promise = all ? which(rest[0]).all() : which(rest[0]).first().next(executable -> [executable]);
+		final resultSet = Which.which(rest[0]);
+		final promise = all ? resultSet.all() : resultSet.first().next(executable -> [executable]);
 		return promise.next(executables -> {
 			executables.iter(Sys.println);
 			Noise;
