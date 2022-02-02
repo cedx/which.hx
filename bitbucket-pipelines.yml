@@ -8,13 +8,6 @@ pipelines:
     main:
       - parallel:
           - step:
-              name: HashLink
-              caches: [haxe]
-              image: cedxbelin/haxe.hl
-              script:
-                - lix download
-                - haxe test_hl.hxml
-          - step:
               name: Java
               caches: [haxe]
               image: cedxbelin/haxe.java
