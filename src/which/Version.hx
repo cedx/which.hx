@@ -77,12 +77,12 @@ import sys.io.Process;
 	/** Gets the hash of the current Git commit. **/
 	macro static function getGitCommitHash() {
 		#if display
-			return macro $v{""};
+		return macro $v{""};
 		#else
-			final process = new Process("git", ["rev-parse", "HEAD"]);
-			final hash = process.exitCode() == 0 ? process.stdout.readLine() : process.stderr.readLine();
-			process.close();
-			return macro $v{hash};
+		final process = new Process("git", ["rev-parse", "HEAD"]);
+		final hash = process.exitCode() == 0 ? process.stdout.readLine() : process.stderr.readLine();
+		process.close();
+		return macro $v{hash};
 		#end
 	}
 

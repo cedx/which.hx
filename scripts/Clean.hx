@@ -1,8 +1,8 @@
-import sys.FileSystem.*;
+import sys.FileSystem;
 
 /** Runs the script. **/
 function main() {
-	if (exists("test/index.php")) deleteFile("test/index.php");
-	for (directory in ["lib", "res"]) if (exists(directory)) Tools.removeDirectory(directory);
+	if (FileSystem.exists("test/index.php")) FileSystem.deleteFile("test/index.php");
+	for (directory in ["lib", "res"].filter(FileSystem.exists)) Tools.removeDirectory(directory);
 	Tools.cleanDirectory("var");
 }

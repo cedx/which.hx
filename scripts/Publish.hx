@@ -1,11 +1,10 @@
 //! --class-path src --library tink_core
-import Sys.*;
-import which.Version.*;
+import which.Version;
 
 /** Runs the script. **/
 function main() {
-	command("haxe run.hxml");
+	Sys.command("haxe run.hxml");
 	Tools.compress(["CHANGELOG.md", "LICENSE.md", "README.md", "haxelib.json", "run.n", "src"], "var/haxelib.zip");
-	command("haxelib submit var/haxelib.zip");
-	for (action in ["tag", "push origin"]) command('git $action v$packageVersion');
+	Sys.command("haxelib submit var/haxelib.zip");
+	for (action in ["tag", "push origin"]) Sys.command('git $action v${Version.packageVersion}');
 }

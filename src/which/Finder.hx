@@ -18,12 +18,12 @@ class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
 	#if (instrument && php)
-		public static var isWindows(get, never): Bool;
+	public static var isWindows(get, never): Bool;
 	#else
-		public static final isWindows = Sys.systemName() == "Windows" || {
-			final osType = Sys.getEnv("OSTYPE");
-			["cygwin", "msys"].contains(osType);
-		};
+	public static final isWindows = Sys.systemName() == "Windows" || {
+		final osType = Sys.getEnv("OSTYPE");
+		["cygwin", "msys"].contains(osType);
+	};
 	#end
 
 	/** The list of executable file extensions. **/
