@@ -16,7 +16,7 @@ using StringTools;
 	public function testAll(input: String, output: Null<String>) {
 		final paths = Which.which(input, {paths: ["test/fixture"]}).all();
 		final promise = output == null
-			? asserts.rejects(paths, NotFound)
+			? asserts.rejects(NotFound, paths)
 			: paths.next(values -> { asserts.assert(values.length == 1); asserts.assert(values[0].endsWith(output)); }).noise();
 
 		promise.handle(asserts.handle);
@@ -30,7 +30,7 @@ using StringTools;
 	public function testFirst(input: String, output: Null<String>) {
 		final path = Which.which(input, {paths: ["test/fixture"]}).first();
 		final promise = output == null
-			? asserts.rejects(path, NotFound)
+			? asserts.rejects(NotFound, path)
 			: path.next(value -> asserts.assert(value.endsWith(output))).noise();
 
 		promise.handle(asserts.handle);
