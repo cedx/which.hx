@@ -9,27 +9,27 @@ using StringTools;
 	public function new() {}
 
 	/** Tests the `find()` method. **/
-	@:variant("executable", which.Finder.isWindows ? "\\test\\fixture\\executable.cmd" : null)
-	@:variant("executable.sh", which.Finder.isWindows ? null : "/test/fixture/executable.sh")
-	@:variant("foo", null)
-	public function testFind(input: String, output: Null<String>) {
+	@:variant("executable", which.Finder.isWindows ? Some("\\test\\fixture\\executable.cmd") : None)
+	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/test/fixture/executable.sh"))
+	@:variant("foo", None)
+	public function testFind(input: String, output: Option<String>) {
 		new Finder({paths: ["test/fixture"]}).find(input).collect()
-			.next(paths -> asserts.assert(output != null ? paths.length == 1 && paths[0].endsWith(output) : paths.length == 0))
+			.next(paths -> asserts.assert(output != None ? paths.length == 1 && paths[0].endsWith(output.sure()) : paths.length == 0))
 			.handle(asserts.handle);
 
 		return asserts;
 	}
 
 	/** Tests the `isExecutable()` method. **/
-	@:variant("test/fixture/executable.cmd", which.Finder.isWindows)
-	@:variant("test/fixture/executable.sh", !which.Finder.isWindows)
-	@:variant("test/fixture/not_executable.sh", false)
-	@:variant("foo/bar/baz.qux", null)
-	public function testIsExecutable(input: String, output: Null<Bool>) {
+	@:variant("test/fixture/executable.cmd", Some(which.Finder.isWindows))
+	@:variant("test/fixture/executable.sh", Some(!which.Finder.isWindows))
+	@:variant("test/fixture/not_executable.sh", Some(false))
+	@:variant("foo/bar/baz.qux", None)
+	public function testIsExecutable(input: String, output: Option<Bool>) {
 		new Finder().isExecutable(input).handle(outcome -> {
 			switch outcome {
-				case Success(isExec): asserts.assert(output != null && isExec == output);
-				case Failure(error): asserts.assert(output == null && error.code == NotFound);
+				case Success(isExec): asserts.assert(output.equals(isExec));
+				case Failure(error): asserts.assert(output == None && error.code == NotFound);
 			}
 
 			asserts.done();
