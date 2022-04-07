@@ -1,0 +1,104 @@
+name: main
+on: [pull_request, push]
+jobs:
+  hl:
+    runs-on: windows-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v3
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
+      - name: Set up HashLink
+        uses: cedx/setup-hashlink@v1
+      - name: Install dependencies
+        run: lix download
+      - name: Run tests
+        run: haxe test_hl.hxml
+      - name: Collect code coverage
+        if: success()
+        uses: coverallsapp/github-action@master
+        with:
+          flag-name: HashLink
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          parallel: true
+          path-to-lcov: var/lcov.info
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v3
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
+      - name: Set up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: 17
+          version: latest
+      - name: Install dependencies
+        run: lix download
+      - name: Run tests
+        run: haxe test_java.hxml
+      - name: Collect code coverage
+        if: success()
+        uses: coverallsapp/github-action@master
+        with:
+          flag-name: Java
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          parallel: true
+          path-to-lcov: var/lcov.info
+  js:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v3
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: lix download
+      - name: Run tests
+        run: haxe test_js.hxml
+      - name: Collect code coverage
+        if: success()
+        uses: coverallsapp/github-action@master
+        with:
+          flag-name: JavaScript
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          parallel: true
+          path-to-lcov: var/lcov.info
+  php:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v3
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: curl, intl, mbstring, simplexml
+      - name: Install dependencies
+        run: lix download
+      - name: Run tests
+        run: haxe test_php.hxml
+      - name: Collect code coverage
+        if: success()
+        uses: coverallsapp/github-action@master
+        with:
+          flag-name: PHP
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          parallel: true
+          path-to-lcov: var/lcov.info
+  coverage:
+    runs-on: ubuntu-latest
+    needs: [hl, java, js, php]
+    steps:
+      - name: Upload code coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          parallel-finished: true
