@@ -7,6 +7,6 @@
 	"name": "which",
 	"releasenote": "Promoted the `Finder.which()` static method to a module-level function.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
-	"url": "https://bitbucket.org/cedx/which.hx",
+	"url": "https://github.com/cedx/which.hx",
 	"version": "3.1.0"
 }

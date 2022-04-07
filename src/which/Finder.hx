@@ -106,8 +106,8 @@ class Finder {
 typedef FinderOptions = {
 
 	/** The list of executable file extensions. **/
-	?extensions: Array<String>,
+	var ?extensions: Array<String>;
 
 	/** The list of system paths. **/
-	?paths: Array<String>
+	var ?paths: Array<String>;
 }
