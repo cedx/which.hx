@@ -32,6 +32,7 @@ jobs:
       - name: Set up GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
           java-version: 17
           version: latest
       - name: Install dependencies
