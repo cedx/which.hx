@@ -5,7 +5,7 @@ import tink.cli.Rest;
 using Lambda;
 
 /** Find the instances of an executable in the system path. **/
-@:noDoc class Program {
+@:noDoc final class Program {
 
 	/** List all instances of executables found (instead of just the first one). **/
 	public var all = false;
