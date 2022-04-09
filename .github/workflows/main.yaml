@@ -10,6 +10,12 @@ jobs:
         uses: lix-pm/setup-lix@master
       - name: Set up HashLink
         uses: cedx/setup-hashlink@v1
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/haxe
+          key: haxe-${{runner.os}}-lix-${{hashFiles('.haxerc', 'haxe_libraries/*.hxml')}}
+          restore-keys: haxe-${{runner.os}}-lix-
       - name: Install dependencies
         run: lix download
       - name: Run tests
@@ -35,6 +41,12 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           java-version: 17
           version: latest
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/haxe
+          key: haxe-${{runner.os}}-lix-${{hashFiles('.haxerc', 'haxe_libraries/*.hxml')}}
+          restore-keys: haxe-${{runner.os}}-lix-
       - name: Install dependencies
         run: lix download
       - name: Run tests
@@ -58,6 +70,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/haxe
+          key: haxe-${{runner.os}}-lix-${{hashFiles('.haxerc', 'haxe_libraries/*.hxml')}}
+          restore-keys: haxe-${{runner.os}}-lix-
       - name: Install dependencies
         run: lix download
       - name: Run tests
@@ -82,6 +100,12 @@ jobs:
         with:
           php-version: 8.1
           extensions: curl, intl, mbstring, simplexml
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/haxe
+          key: haxe-${{runner.os}}-lix-${{hashFiles('.haxerc', 'haxe_libraries/*.hxml')}}
+          restore-keys: haxe-${{runner.os}}-lix-
       - name: Install dependencies
         run: lix download
       - name: Run tests
