@@ -23,6 +23,7 @@
 		"@types/node": "^17.0.30",
 		"archiver": "^5.3.1",
 		"del": "^6.0.0",
+		"execa": "^6.1.0",
 		"fancy-log": "^2.0.0",
 		"gulp": "^4.0.2",
 		"gulp-replace": "^1.1.3",
