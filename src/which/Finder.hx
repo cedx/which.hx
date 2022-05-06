@@ -17,14 +17,7 @@ import java.nio.file.Paths;
 class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
-	#if (instrument && php)
-		public static var isWindows(get, never): Bool;
-	#else
-		public static final isWindows = Sys.systemName() == "Windows" || {
-			final osType = Sys.getEnv("OSTYPE");
-			["cygwin", "msys"].contains(osType);
-		};
-	#end
+	public static var isWindows(get, never): Bool;
 
 	/** The list of executable file extensions. **/
 	public final extensions: Array<String>;
@@ -37,7 +30,7 @@ class Finder {
 		final separator = isWindows ? ";" : ":";
 
 		final pathExt = Sys.getEnv("PATHEXT");
-		extensions = pathExt != null ? pathExt.split(separator).map(item -> item.toLowerCase()) : [".exe", ".cmd", ".bat", ".com"];
+		extensions = pathExt != null ? pathExt.split(";").map(item -> item.toLowerCase()) : [".exe", ".cmd", ".bat", ".com"];
 
 		final pathEnv = Sys.getEnv("PATH");
 		paths = pathEnv != null ? pathEnv.split(separator) : [];
@@ -48,13 +41,11 @@ class Finder {
 		}
 	}
 
-	#if (instrument && php)
 	/** Gets a value indicating whether the current platform is Windows. **/
 	static function get_isWindows() return Sys.systemName() == "Windows" || {
 		final osType = Sys.getEnv("OSTYPE");
 		["cygwin", "msys"].contains(osType);
 	};
-	#end
 
 	/** Finds the instances of the specified `command` in the system path. **/
 	public function find(command: String) {
