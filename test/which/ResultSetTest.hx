@@ -12,6 +12,7 @@ using StringTools;
 	/** Tests the `all()` method. **/
 	@:variant("executable", which.Finder.isWindows ? Some("\\test\\fixture\\executable.cmd") : None)
 	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/test/fixture/executable.sh"))
+	@:variant("not_executable.sh", None)
 	@:variant("foo", None)
 	public function testAll(input: String, output: Option<String>) {
 		final paths = Which.which(input, {paths: ["test/fixture"]}).all();
@@ -26,6 +27,7 @@ using StringTools;
 	/** Tests the `first()` method. **/
 	@:variant("executable", which.Finder.isWindows ? Some("\\test\\fixture\\executable.cmd") : None)
 	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/test/fixture/executable.sh"))
+	@:variant("not_executable.sh", None)
 	@:variant("foo", None)
 	public function testFirst(input: String, output: Option<String>) {
 		final path = Which.which(input, {paths: ["test/fixture"]}).first();
@@ -40,6 +42,7 @@ using StringTools;
 	/** Tests the `stream()` method. **/
 	@:variant("executable", which.Finder.isWindows ? Some("\\test\\fixture\\executable.cmd") : None)
 	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/test/fixture/executable.sh"))
+	@:variant("not_executable.sh", None)
 	@:variant("foo", None)
 	public function testStream(input: String, output: Option<String>) {
 		Which.which(input, {paths: ["test/fixture"]}).stream().collect()
