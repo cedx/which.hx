@@ -5,6 +5,7 @@
 --define coverage-lcov-reporter=var/lcov.info
 --define no-deprecation-warnings
 --library asys
+--library deep_equal
 --library instrument
 --library tink_cli
 --library tink_streams

@@ -8,9 +8,27 @@ using StringTools;
 	/** Creates a new test. **/
 	public function new() {}
 
+	/** Tests the constructor. **/
+	public function testConstructor() {
+		// It should set the `paths` property to the value of the `PATH` environment variable by default.
+		final pathEnv = Sys.getEnv("PATH");
+		final paths = pathEnv != null ? pathEnv.split(Finder.isWindows ? ";" : ":") : [];
+		asserts.compare(paths, new Finder().paths);
+
+		// It should set the `extensions` property to the value of the `PATHEXT` environment variable by default.
+		final pathExt = Sys.getEnv("PATHEXT");
+		final extensions = pathExt != null ? pathExt.split(";").map(item -> item.toLowerCase()) : [];
+		asserts.compare(extensions, new Finder().extensions);
+
+		// It should put in lower case the list of file extensions.
+		asserts.compare([".exe", ".js", ".ps1"], new Finder({extensions: [".EXE", ".JS", ".PS1"]}).extensions);
+		return asserts.done();
+	}
+
 	/** Tests the `find()` method. **/
 	@:variant("executable", which.Finder.isWindows ? Some("\\test\\fixture\\executable.cmd") : None)
 	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/test/fixture/executable.sh"))
+	@:variant("not_executable.sh", None)
 	@:variant("foo", None)
 	public function testFind(input: String, output: Option<String>) {
 		new Finder({paths: ["test/fixture"]}).find(input).collect()
