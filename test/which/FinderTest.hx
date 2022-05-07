@@ -17,7 +17,7 @@ using StringTools;
 
 		// It should set the `extensions` property to the value of the `PATHEXT` environment variable by default.
 		final pathExt = Sys.getEnv("PATHEXT");
-		final extensions = pathExt != null ? pathExt.split(";").map(item -> item.toLowerCase()) : [];
+		final extensions = pathExt != null ? pathExt.split(";").map(item -> item.toLowerCase()) : [".exe", ".cmd", ".bat", ".com"];
 		asserts.compare(extensions, new Finder().extensions);
 
 		// It should put in lower case the list of file extensions.
