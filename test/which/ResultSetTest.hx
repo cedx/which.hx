@@ -38,17 +38,4 @@ using StringTools;
 		promise.handle(asserts.handle);
 		return asserts;
 	}
-
-	/** Tests the `stream()` method. **/
-	@:variant("executable", which.Finder.isWindows ? Some("\\test\\fixture\\executable.cmd") : None)
-	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/test/fixture/executable.sh"))
-	@:variant("not_executable.sh", None)
-	@:variant("foo", None)
-	public function testStream(input: String, output: Option<String>) {
-		Which.which(input, {paths: ["test/fixture"]}).stream().collect()
-			.next(paths -> asserts.assert(output != None ? paths.length == 1 && paths[0].endsWith(output.sure()) : paths.length == 0))
-			.handle(asserts.handle);
-
-		return asserts;
-	}
 }
