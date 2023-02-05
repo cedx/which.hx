@@ -37,7 +37,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-          java-version: 17
+          java-version: 19
           version: latest
       - name: Cache dependencies
         uses: actions/cache@v3
