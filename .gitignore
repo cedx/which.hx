@@ -1,10 +1,6 @@
-/lib/
-/node_modules/
-/res/
-/var/
-
-/*.code-workspace
-/*.iml
 /**/.DS_Store
+/bin/*.map
+/res/
 /run.n
 /test/*.php
+/var/
