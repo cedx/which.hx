@@ -8,5 +8,5 @@
 	"releasenote": "Restored the HashLink tests, updated the project URL.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://github.com/cedx/which.hx",
-	"version": "3.1.1"
+	"version": "3.1.2"
 }
