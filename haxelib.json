@@ -5,7 +5,7 @@
 	"description": "Find the instances of an executable in the system path.",
 	"license": "MIT",
 	"name": "which",
-	"releasenote": "Restored the HashLink tests, updated the project URL.",
+	"releasenote": "Fixed the separator used to split the `PATH_EXT` environment variable.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://github.com/cedx/which.hx",
 	"version": "3.1.2"
