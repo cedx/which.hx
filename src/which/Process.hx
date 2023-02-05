@@ -9,15 +9,11 @@ abstract class Process {
 
 	/** The identifier of the current process's group. **/
 	public static var gid(get, never): Promise<Int>;
+		static inline function get_gid() return getProcessId("g");
 
 	/** The identifier of the current process's user. **/
 	public static var uid(get, never): Promise<Int>;
-
-	/** Gets the identifier of the current process's group. **/
-	static inline function get_gid() return getProcessId("g");
-
-	/** Gets the identifier of the current process's user. **/
-	static inline function get_uid() return getProcessId("u");
+		static inline function get_uid() return getProcessId("u");
 
 	/** Gets the numeric identity of the current process. **/
 	static function getProcessId(identity: String): Promise<Int> {
