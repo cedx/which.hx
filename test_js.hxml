@@ -1,5 +1,5 @@
 --define js-es=6
---js var/tests.cjs
+--js var/tests.js
 --library hxnodejs
 share/test.hxml
---cmd node var/tests.cjs
+--cmd node var/tests.js
