@@ -1,5 +1,5 @@
 /**/.DS_Store
-/bin/*.map
+/lib/
 /res/
 /run.n
 /test/*.php

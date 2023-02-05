@@ -49,9 +49,11 @@ import sys.io.Process;
 
 	/** The name of the Haxe target. **/
 	public static var haxeTarget(get, never): HaxeTarget;
+		static inline function get_haxeTarget() return getHaxeTarget();
 
 	/** The version of the Haxe compiler. **/
 	public static var haxeVersion(get, never): String;
+		static inline function get_haxeVersion() return getHaxeVersion();
 
 	/** The package version of this program. **/
 	public static var packageVersion(get, null): String;
@@ -61,12 +63,6 @@ import sys.io.Process;
 		if (gitCommitHash == null) gitCommitHash = getGitCommitHash();
 		return gitCommitHash;
 	}
-
-	/** Gets the name of the Haxe target. **/
-	static inline function get_haxeTarget() return getHaxeTarget();
-
-	/** Gets the version of the Haxe compiler. **/
-	static inline function get_haxeVersion() return getHaxeVersion();
 
 	/** Gets the package version of this program. **/
 	static function get_packageVersion() {
