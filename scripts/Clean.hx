@@ -1,8 +1,9 @@
 import sys.FileSystem;
+using Lambda;
 
 /** Runs the script. **/
 function main() {
 	if (FileSystem.exists("test/index.php")) FileSystem.deleteFile("test/index.php");
-	for (directory in ["lib", "res"].filter(FileSystem.exists)) Tools.removeDirectory(directory);
+	["lib", "res"].filter(FileSystem.exists).iter(Tools.removeDirectory);
 	Tools.cleanDirectory("var");
 }
