@@ -3,7 +3,7 @@ package which;
 import tink.streams.Stream.Handled;
 
 /** Provides convenient access to the stream of search results. **/
-class ResultSet {
+final class ResultSet {
 
 	/** The searched command. **/
 	final command: String;

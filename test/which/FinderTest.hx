@@ -3,7 +3,7 @@ package which;
 using StringTools;
 
 /** Tests the features of the `Finder` class. **/
-@:asserts class FinderTest {
+@:asserts final class FinderTest {
 
 	/** Creates a new test. **/
 	public function new() {}

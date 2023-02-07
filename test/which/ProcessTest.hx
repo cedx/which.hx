@@ -3,7 +3,7 @@ package which;
 using AssertionTools;
 
 /** Tests the features of the `Process` class. **/
-@:asserts class ProcessTest {
+@:asserts final class ProcessTest {
 
 	/** Creates a new test. **/
 	public function new() {}

@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 #end
 
 /** Finds the instances of an executable in the system path. **/
-class Finder {
+final class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
 	public static var isWindows(get, never): Bool;

@@ -4,7 +4,7 @@ using AssertionTools;
 using StringTools;
 
 /** Tests the features of the `ResultSet` class. **/
-@:asserts class ResultSetTest {
+@:asserts final class ResultSetTest {
 
 	/** Creates a new test. **/
 	public function new() {}
