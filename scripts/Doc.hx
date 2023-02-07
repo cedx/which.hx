@@ -7,7 +7,7 @@ import which.Version;
 function main() {
 	if (FileSystem.exists("docs")) Tools.removeDirectory("docs");
 
-	Sys.command("haxe --define doc-gen --no-output --xml var/api.xml build.hxml");
+	Sys.command("haxe", ["--define", "doc-gen", "--no-output", "--xml", "var/api.xml", "build.hxml"]);
 	Sys.command("lix", [
 		"run", "dox",
 		"--define", "description", "Find the instances of an executable in the system path, in Haxe.",
