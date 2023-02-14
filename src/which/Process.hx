@@ -1,6 +1,6 @@
 package which;
 
-import asys.io.Process as AsyncProcess;
+import asys.io.Process as AsysProcess;
 using StringTools;
 using tink.io.Source;
 
@@ -19,7 +19,7 @@ abstract class Process {
 	static function getProcessId(identity: String): Promise<Int> {
 		if (Finder.isWindows) return Promise.reject(new Error(MethodNotAllowed, "Not supported on Windows platform."));
 
-		final process = new AsyncProcess("id", ['-$identity']);
+		final process = new AsysProcess("id", ['-$identity']);
 		return process.exitCode()
 			.next(exitCode -> exitCode == 0 ? process.stdout.all() : new Error('Process exited with a $exitCode code.'))
 			.next(stdout -> {
