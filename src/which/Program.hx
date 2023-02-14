@@ -10,7 +10,7 @@ using Lambda;
 	/** List all instances of executables found (instead of just the first one). **/
 	public var all = false;
 
-	/** Output usage information. **/
+	/** Display this help. **/
 	public var help = false;
 
 	/** Output the version number. **/
