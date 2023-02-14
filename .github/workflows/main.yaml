@@ -69,4 +69,4 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           files: var/lcov.info
-          flags: hashlink
+          flags: hl
