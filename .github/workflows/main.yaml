@@ -44,7 +44,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           files: var/lcov.info
-          flags: Haxe.${{matrix.target}}
+          flags: haxe.${{matrix.target}}
   hashlink:
     runs-on: windows-latest
     steps:
@@ -69,4 +69,4 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           files: var/lcov.info
-          flags: HashLink
+          flags: hashlink
