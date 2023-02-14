@@ -69,7 +69,7 @@ final class Finder {
 		var processUid = -1;
 		return Future.sync(stat.mode & 1 != 0)
 			.next(isExec -> isExec || (stat.mode & 8 == 0) ? isExec : Process.gid.next(gid -> stat.gid == gid))
-			.next(isExec -> isExec || (stat.mode & 64 == 0) ? isExec : Process.uid.next(uid -> { processUid = uid; stat.uid == uid; }))
+			.next(isExec -> isExec || (stat.mode & 64 == 0) ? isExec : Process.uid.next(uid -> stat.uid == (processUid = uid)))
 			.next(isExec -> isExec || (stat.mode & (64 | 8) == 0) ? isExec : processUid == 0);
 	}
 
