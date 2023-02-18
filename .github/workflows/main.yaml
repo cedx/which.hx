@@ -16,7 +16,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-          java-version: 19
+          java-version: 17
           version: latest
       - name: Set up Node.js
         if: matrix.target == 'js'
