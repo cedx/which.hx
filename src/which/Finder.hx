@@ -18,6 +18,10 @@ final class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
 	public static var isWindows(get, never): Bool;
+		static function get_isWindows() return Sys.systemName() == "Windows" || {
+			final osType = Sys.getEnv("OSTYPE");
+			["cygwin", "msys"].contains(osType);
+		};
 
 	/** The list of executable file extensions. **/
 	public final extensions: Array<String>;
@@ -40,12 +44,6 @@ final class Finder {
 			if (options.paths != null) paths = options.paths;
 		}
 	}
-
-	/** Gets a value indicating whether the current platform is Windows. **/
-	static function get_isWindows() return Sys.systemName() == "Windows" || {
-		final osType = Sys.getEnv("OSTYPE");
-		["cygwin", "msys"].contains(osType);
-	};
 
 	/** Finds the instances of the specified `command` in the system path. **/
 	public function find(command: String) {
