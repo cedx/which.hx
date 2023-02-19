@@ -1,16 +1,20 @@
 name: main
 on: push
 jobs:
-  haxe:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{matrix.platform}}
     strategy:
       matrix:
-        target: [java, js, php]
+        platform: [macos-latest, ubuntu-latest, windows-latest]
+        target: [hl, java, js, php]
     steps:
       - name: Fetch sources
         uses: actions/checkout@v3
       - name: Set up Lix
         uses: lix-pm/setup-lix@master
+      - name: Set up HashLink
+        if: matrix.target == 'hl'
+        uses: cedx/setup-hashlink@v3
       - name: Set up GraalVM
         if: matrix.target == 'java'
         uses: graalvm/setup-graalvm@v1
@@ -32,7 +36,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: ~/haxe
+          path: ${{matrix.platform == 'windows-latest' && '~/AppData/Roaming/haxe' || '~/haxe'}}
           key: haxe-${{runner.os}}-lix-${{hashFiles('.haxerc', 'haxe_libraries/*.hxml')}}
           restore-keys: haxe-${{runner.os}}-lix-
       - name: Install dependencies
@@ -45,28 +49,3 @@ jobs:
         with:
           files: var/lcov.info
           flags: ${{matrix.target}}
-  hashlink:
-    runs-on: windows-latest
-    steps:
-      - name: Fetch sources
-        uses: actions/checkout@v3
-      - name: Set up Lix
-        uses: lix-pm/setup-lix@master
-      - name: Set up HashLink
-        uses: cedx/setup-hashlink@v3
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/AppData/Roaming/haxe
-          key: haxe-${{runner.os}}-lix-${{hashFiles('.haxerc', 'haxe_libraries/*.hxml')}}
-          restore-keys: haxe-${{runner.os}}-lix-
-      - name: Install dependencies
-        run: lix download
-      - name: Run tests
-        run: haxe test_hl.hxml
-      - name: Collect code coverage
-        if: success()
-        uses: codecov/codecov-action@v3
-        with:
-          files: var/lcov.info
-          flags: hl

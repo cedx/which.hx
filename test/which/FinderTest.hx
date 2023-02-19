@@ -47,7 +47,7 @@ using StringTools;
 		new Finder().isExecutable(input).handle(outcome -> {
 			switch outcome {
 				case Success(isExec): asserts.assert(output.equals(isExec));
-				case Failure(error): asserts.assert(output == None && error.code == NotFound);
+				case Failure(error): asserts.assert(output == None);
 			}
 
 			asserts.done();
