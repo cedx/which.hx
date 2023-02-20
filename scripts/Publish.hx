@@ -1,7 +1,7 @@
 //! --class-path src --library tink_core
 import which.Version;
 
-/** Runs the script. **/
+/** Publishes the package. **/
 function main() {
 	Sys.command("haxe run.hxml");
 	Tools.compress(["CHANGELOG.md", "LICENSE.md", "README.md", "haxelib.json", "run.n", "src"], "var/haxelib.zip");
