@@ -30,9 +30,8 @@ using Lambda;
 			return Noise;
 		}
 
-		final requiredArgs = 1;
-		if (rest.length < requiredArgs || (Sys.getEnv("HAXELIB_RUN") == "1" && rest.length < requiredArgs + 1))
-			return new Error(BadRequest, "You must provide the name of a command to find.");
+		final requiredArgs = Sys.getEnv("HAXELIB_RUN") == "1" ? 2 : 1;
+		if (rest.length < requiredArgs) return new Error(BadRequest, "You must provide the name of a command to find.");
 
 		final resultSet = Which.which(rest[0]);
 		final promise = all ? resultSet.all() : resultSet.first().next(executable -> [executable]);
