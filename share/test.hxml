@@ -10,5 +10,5 @@
 --library tink_cli
 --library tink_streams
 --library tink_unittest
---macro instrument.Instrumentation.coverage(['which'], ['src'])
+--macro instrument.Instrumentation.coverage(["which"], ["src"])
 --main RunTests
