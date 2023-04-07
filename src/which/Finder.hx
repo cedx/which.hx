@@ -31,13 +31,8 @@ final class Finder {
 
 	/** Creates a new finder. **/
 	public function new(?options: FinderOptions) {
-		final separator = isWindows ? ";" : ":";
-
-		final pathExt = Sys.getEnv("PATHEXT");
-		extensions = pathExt != null ? pathExt.split(";").map(item -> item.toLowerCase()) : [".exe", ".cmd", ".bat", ".com"];
-
-		final pathEnv = Sys.getEnv("PATH");
-		paths = pathEnv != null ? pathEnv.split(separator) : [];
+		extensions = Sys.getEnv("PATHEXT")?.split(";")?.map(item -> item.toLowerCase()) ?? [".exe", ".cmd", ".bat", ".com"];
+		paths = Sys.getEnv("PATH")?.split(isWindows ? ";" : ":") ?? [];
 
 		if (options != null) {
 			if (options.extensions != null) extensions = options.extensions.map(item -> item.toLowerCase());

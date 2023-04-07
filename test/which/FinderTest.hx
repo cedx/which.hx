@@ -11,13 +11,11 @@ using StringTools;
 	/** Tests the constructor. **/
 	public function testConstructor() {
 		// It should set the `paths` property to the value of the `PATH` environment variable by default.
-		final pathEnv = Sys.getEnv("PATH");
-		final paths = pathEnv != null ? pathEnv.split(Finder.isWindows ? ";" : ":") : [];
+		final paths = Sys.getEnv("PATH")?.split(Finder.isWindows ? ";" : ":") ?? [];
 		asserts.compare(paths, new Finder().paths);
 
 		// It should set the `extensions` property to the value of the `PATHEXT` environment variable by default.
-		final pathExt = Sys.getEnv("PATHEXT");
-		final extensions = pathExt != null ? pathExt.split(";").map(item -> item.toLowerCase()) : [".exe", ".cmd", ".bat", ".com"];
+		final extensions = Sys.getEnv("PATHEXT")?.split(";")?.map(item -> item.toLowerCase()) ?? [".exe", ".cmd", ".bat", ".com"];
 		asserts.compare(extensions, new Finder().extensions);
 
 		// It should put in lower case the list of file extensions.
