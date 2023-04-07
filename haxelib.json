@@ -5,8 +5,8 @@
 	"description": "Find the instances of an executable in the system path.",
 	"license": "MIT",
 	"name": "which",
-	"releasenote": "Fixed the separator used to split the `PATH_EXT` environment variable.",
+	"releasenote": "Updated the dependencies, use the null coalescing operator.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://github.com/cedx/which.hx",
-	"version": "3.1.2"
+	"version": "3.2.0"
 }

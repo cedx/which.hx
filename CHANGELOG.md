@@ -1,5 +1,9 @@
 # Changelog
 
+## Version [3.2.0](https://github.com/cedx/which.hx/compare/v3.1.2...v3.2.0)
+- Updated the dependencies.
+- Use the null coalescing operator.
+
 ## Version [3.1.2](https://github.com/cedx/which.hx/compare/v3.1.1...v3.1.2)
 - Fixed the separator used to split the `PATH_EXT` environment variable.
 
