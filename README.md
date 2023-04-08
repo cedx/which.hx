@@ -5,7 +5,7 @@ Find the instances of an executable in the system path, in [Haxe](https://haxe.o
 
 ## Documentation
 - [User guide](https://github.com/cedx/which.hx/wiki)
-- [API reference](https://cedx.github.io/which.hx)
+- [API reference](https://docs.belin.io/which.hx)
 
 ## Development
 - [Git repository](https://github.com/cedx/which.hx)
