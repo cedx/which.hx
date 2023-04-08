@@ -8,14 +8,11 @@ using StringTools;
 using haxe.io.Path;
 
 /** Finds the instances of an executable in the system path. **/
+@:ignoreInstrument
 final class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
-	public static var isWindows(get, never): Bool;
-		static function get_isWindows() return Sys.systemName() == "Windows" || {
-			final osType = Sys.getEnv("OSTYPE");
-			["cygwin", "msys"].contains(osType);
-		};
+	public static final isWindows = Sys.systemName() == "Windows" || ["cygwin", "msys"].contains(Sys.getEnv("OSTYPE"));
 
 	/** The list of executable file extensions. **/
 	public final extensions: Array<String>;
