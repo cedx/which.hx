@@ -8,10 +8,10 @@ using StringTools;
 using haxe.io.Path;
 
 /** Finds the instances of an executable in the system path. **/
-@:ignoreInstrument
 final class Finder {
 
 	/** Value indicating whether the current platform is Windows. **/
+	@:ignoreInstrument
 	public static final isWindows = Sys.systemName() == "Windows" || ["cygwin", "msys"].contains(Sys.getEnv("OSTYPE"));
 
 	/** The list of executable file extensions. **/
@@ -21,6 +21,7 @@ final class Finder {
 	public final paths: Array<String>;
 
 	/** Creates a new finder. **/
+	@:ignoreInstrument
 	public function new(?options: FinderOptions) {
 		extensions = Sys.getEnv("PATHEXT")?.split(";")?.map(item -> item.toLowerCase()) ?? [".exe", ".cmd", ".bat", ".com"];
 		paths = Sys.getEnv("PATH")?.split(isWindows ? ";" : ":") ?? [];
