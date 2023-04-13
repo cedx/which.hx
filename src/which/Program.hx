@@ -4,7 +4,11 @@ import tink.Cli;
 import tink.cli.Rest;
 using Lambda;
 
-/** Find the instances of an executable in the system path. **/
+/**
+	Find the instances of an executable in the system path.
+
+	> which [flags] <command>
+**/
 @:noDoc final class Program {
 
 	/** List all instances of executables found (instead of just the first one). **/
@@ -22,7 +26,7 @@ using Lambda;
 	/** Application entry point. **/
 	static function main() Cli.process(Sys.args(), new Program()).handle(Cli.exit);
 
-	/** <command> : The name of the command to find. **/
+	/** command : The name of the command to find. **/
 	@:defaultCommand
 	public function run(rest: Rest<String>): Promise<Noise> {
 		if (help || version) {
