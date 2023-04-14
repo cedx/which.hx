@@ -18,7 +18,7 @@ using StringTools;
 		final paths = Which.which(input, {paths: ["test/fixture"]}).all();
 		final promise = output == None
 			? asserts.rejects(NotFound, paths)
-			: paths.next(values -> { asserts.assert(values.length == 1); asserts.assert(values[0].endsWith(output.sure())); }).noise();
+			: paths.next(values -> { asserts.assert(values.length == 1); asserts.assert(values.pop().endsWith(output.sure())); }).noise();
 
 		promise.handle(asserts.handle);
 		return asserts;

@@ -30,7 +30,7 @@ using StringTools;
 	@:variant("foo", None)
 	public function testFind(input: String, output: Option<String>) {
 		new Finder({paths: ["test/fixture"]}).find(input).collect()
-			.next(paths -> asserts.assert(output != None ? paths.length == 1 && paths[0].endsWith(output.sure()) : paths.length == 0))
+			.next(paths -> asserts.assert(output != None ? paths.length == 1 && paths.pop().endsWith(output.sure()) : paths.length == 0))
 			.handle(asserts.handle);
 
 		return asserts;
