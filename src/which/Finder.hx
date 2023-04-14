@@ -21,6 +21,7 @@ final class Finder {
 	public final paths: Array<String>;
 
 	/** Creates a new finder. **/
+	@:ignoreInstrument
 	public function new(?options: FinderOptions) {
 		extensions = Sys.getEnv("PATHEXT")?.split(";")?.map(item -> item.toLowerCase()) ?? [".exe", ".cmd", ".bat", ".com"];
 		paths = Sys.getEnv("PATH")?.split(isWindows ? ";" : ":") ?? [];
