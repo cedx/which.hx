@@ -9,7 +9,7 @@ using AssertionTools;
 	public function new() {}
 
 	/** Tests the `gid` property. **/
-	public function testGid() {
+	public function gid() {
 		final gid = Process.gid;
 		final promise = Finder.isWindows ? asserts.rejects(MethodNotAllowed, gid) : gid.next(value -> asserts.assert(value >= 0)).noise();
 		promise.handle(asserts.handle);
@@ -17,7 +17,7 @@ using AssertionTools;
 	}
 
 	/** Tests the `uid` property. **/
-	public function testUid() {
+	public function uid() {
 		final uid = Process.uid;
 		final promise = Finder.isWindows ? asserts.rejects(MethodNotAllowed, uid) : uid.next(value -> asserts.assert(value >= 0)).noise();
 		promise.handle(asserts.handle);

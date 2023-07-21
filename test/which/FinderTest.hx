@@ -28,7 +28,7 @@ using StringTools;
 	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/share/fixture/executable.sh"))
 	@:variant("not_executable.sh", None)
 	@:variant("foo", None)
-	public function testFind(input: String, output: Option<String>) {
+	public function find(input: String, output: Option<String>) {
 		new Finder({paths: ["share/fixture"]}).find(input).collect()
 			.next(paths -> asserts.assert(output != None ? paths.length == 1 && paths.pop().endsWith(output.sure()) : paths.length == 0))
 			.handle(asserts.handle);
@@ -41,7 +41,7 @@ using StringTools;
 	@:variant("share/fixture/executable.sh", Some(!which.Finder.isWindows))
 	@:variant("share/fixture/not_executable.sh", Some(false))
 	@:variant("foo/bar/baz.qux", None)
-	public function testIsExecutable(input: String, output: Option<Bool>) {
+	public function isExecutable(input: String, output: Option<Bool>) {
 		new Finder().isExecutable(input).handle(outcome -> {
 			switch outcome {
 				case Success(isExec): asserts.assert(output.equals(isExec));
