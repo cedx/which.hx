@@ -11,7 +11,7 @@ using StringTools;
 	/** Tests the constructor. **/
 	public function testNew() {
 		// It should set the `paths` property to the value of the `PATH` environment variable by default.
-		final paths = Sys.getEnv("PATH")?.split(Finder.isWindows ? ";" : ":") ?? [];
+		final paths = (Sys.getEnv("PATH")?.split(Finder.isWindows ? ";" : ":") ?? []).filter(item -> item.length > 0);
 		asserts.compare(paths, new Finder().paths);
 
 		// It should set the `extensions` property to the value of the `PATHEXT` environment variable by default.
