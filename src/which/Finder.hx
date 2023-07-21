@@ -24,7 +24,7 @@ final class Finder {
 	@:ignoreInstrument
 	public function new(?options: FinderOptions) {
 		extensions = Sys.getEnv("PATHEXT")?.split(";")?.map(item -> item.toLowerCase()) ?? [".exe", ".cmd", ".bat", ".com"];
-		paths = (Sys.getEnv("PATH")?.split(isWindows ? ";" : ":") ?? []).map(item -> ~/^"+|"+$/g.replace(item, "")).filter(item -> item.length > 0);
+		paths = (Sys.getEnv("PATH")?.split(isWindows ? ";" : ":") ?? []).map(item -> ~/^"|"$/g.replace(item, "")).filter(item -> item.length > 0);
 
 		if (options != null) {
 			if (options.extensions != null) extensions = options.extensions.map(item -> item.toLowerCase());
