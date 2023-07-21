@@ -9,7 +9,7 @@ using StringTools;
 	public function new() {}
 
 	/** Tests the constructor. **/
-	public function testConstructor() {
+	public function testNew() {
 		// It should set the `paths` property to the value of the `PATH` environment variable by default.
 		final paths = Sys.getEnv("PATH")?.split(Finder.isWindows ? ";" : ":") ?? [];
 		asserts.compare(paths, new Finder().paths);
