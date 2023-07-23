@@ -1,9 +1,10 @@
+/** Runs the test suite. **/
 function main() {
-	var code = 0;
+	var exitCode = 0;
 	for (file in ["hl", "java", "js", "php"]) {
 		Sys.println('> Testing the "$file" target...');
-		if (Sys.command('haxe test_$file.hxml') != 0) code++;
+		if (Sys.command('haxe test_$file.hxml') != 0) exitCode++;
 	}
 
-	Sys.exit(code);
+	Sys.exit(exitCode);
 }
