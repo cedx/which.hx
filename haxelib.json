@@ -2,7 +2,7 @@
 	"classPath": "src/",
 	"contributors": ["cedx"],
 	"dependencies": {"asys": "", "tink_cli": "", "tink_streams": ""},
-	"description": "Find the instances of an executable in the system path.",
+	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
 	"license": "MIT",
 	"name": "which",
 	"releasenote": "Updated the dependencies, use the null coalescing operator.",
