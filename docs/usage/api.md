@@ -1,7 +1,7 @@
 # Application programming interface
 This package provides the `which(command: String)` function, allowing to locate a command in the system path.
 
-This function takes the name of the command to locate, and returns a `ResultSet` with the three following methods :
+This function takes the name of the command to locate, and returns a `ResultSet` with the three following methods:
 
 - `all()` : get all instances of the searched command.
 - `first()` : get the first instance of the searched command.
