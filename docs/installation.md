@@ -31,6 +31,12 @@ lix +lib which
 <!-- tabs:end -->
 
 ### 2. Import it
+Add this line to your [`.hxml`](https://haxe.org/manual/compiler-usage-hxml.html) build file:
+
+```hxml
+--library which
+```
+
 Now in your [Haxe](https://haxe.org) code, you can use:
 
 ```haxe
