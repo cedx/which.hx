@@ -24,12 +24,12 @@ using StringTools;
 	}
 
 	/** Tests the `find()` method. **/
-	@:variant("executable", which.Finder.isWindows ? Some("\\share\\fixture\\executable.cmd") : None)
-	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/share/fixture/executable.sh"))
+	@:variant("executable", which.Finder.isWindows ? Some("\\share\\res\\executable.cmd") : None)
+	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/share/res/executable.sh"))
 	@:variant("not_executable.sh", None)
 	@:variant("foo", None)
 	public function find(input: String, output: Option<String>) {
-		new Finder({paths: ["share/fixture"]}).find(input).collect()
+		new Finder({paths: ["share/res"]}).find(input).collect()
 			.next(paths -> asserts.assert(output != None ? paths.length == 1 && paths.pop().endsWith(output.sure()) : paths.length == 0))
 			.handle(asserts.handle);
 
@@ -37,9 +37,9 @@ using StringTools;
 	}
 
 	/** Tests the `isExecutable()` method. **/
-	@:variant("share/fixture/executable.cmd", Some(which.Finder.isWindows))
-	@:variant("share/fixture/executable.sh", Some(!which.Finder.isWindows))
-	@:variant("share/fixture/not_executable.sh", Some(false))
+	@:variant("share/res/executable.cmd", Some(which.Finder.isWindows))
+	@:variant("share/res/executable.sh", Some(!which.Finder.isWindows))
+	@:variant("share/res/not_executable.sh", Some(false))
 	@:variant("foo/bar/baz.qux", None)
 	public function isExecutable(input: String, output: Option<Bool>) {
 		new Finder().isExecutable(input).handle(outcome -> {

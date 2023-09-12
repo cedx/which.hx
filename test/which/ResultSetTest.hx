@@ -10,12 +10,12 @@ using StringTools;
 	public function new() {}
 
 	/** Tests the `all()` method. **/
-	@:variant("executable", which.Finder.isWindows ? Some("\\share\\fixture\\executable.cmd") : None)
-	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/share/fixture/executable.sh"))
+	@:variant("executable", which.Finder.isWindows ? Some("\\share\\res\\executable.cmd") : None)
+	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/share/res/executable.sh"))
 	@:variant("not_executable.sh", None)
 	@:variant("foo", None)
 	public function all(input: String, output: Option<String>) {
-		final paths = Which.which(input, {paths: ["share/fixture"]}).all();
+		final paths = Which.which(input, {paths: ["share/res"]}).all();
 		final promise = output == None
 			? asserts.rejects(NotFound, paths)
 			: paths.next(values -> { asserts.assert(values.length == 1); asserts.assert(values.pop().endsWith(output.sure())); }).noise();
@@ -25,12 +25,12 @@ using StringTools;
 	}
 
 	/** Tests the `first()` method. **/
-	@:variant("executable", which.Finder.isWindows ? Some("\\share\\fixture\\executable.cmd") : None)
-	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/share/fixture/executable.sh"))
+	@:variant("executable", which.Finder.isWindows ? Some("\\share\\res\\executable.cmd") : None)
+	@:variant("executable.sh", which.Finder.isWindows ? None : Some("/share/res/executable.sh"))
 	@:variant("not_executable.sh", None)
 	@:variant("foo", None)
 	public function first(input: String, output: Option<String>) {
-		final path = Which.which(input, {paths: ["share/fixture"]}).first();
+		final path = Which.which(input, {paths: ["share/res"]}).first();
 		final promise = output == None
 			? asserts.rejects(NotFound, path)
 			: path.next(value -> asserts.assert(value.endsWith(output.sure()))).noise();
