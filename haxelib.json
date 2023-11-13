@@ -7,6 +7,6 @@
 	"name": "which",
 	"releasenote": "Updated the dependencies, use the null coalescing operator.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
-	"url": "https://docs.belin.io/which.hx",
+	"url": "https://cedx.github.io/which.hx",
 	"version": "3.2.0"
 }
