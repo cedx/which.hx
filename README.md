@@ -13,4 +13,4 @@ Find the instances of an executable in the system path, in [Haxe](https://haxe.o
 - [Submit an issue](https://github.com/cedx/which.hx/issues)
 
 ## License
-[Which for Haxe](https://cedx.github.io/which.hx) is distributed under the MIT License.
+[Which for Haxe](https://github.com/cedx/which.hx) is distributed under the MIT License.

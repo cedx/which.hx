@@ -15,7 +15,7 @@ function main() {
 		"--define", "source-path", "https://github.com/cedx/which.hx/blob/main/src",
 		"--define", "themeColor", "0xea8220",
 		"--define", "version", Platform.packageVersion,
-		"--define", "website", "https://cedx.github.io/which.hx",
+		"--define", "website", "https://github.com/cedx/which.hx",
 		"--input-path", "var",
 		"--output-path", "docs/api",
 		"--title", "Which for Haxe",
