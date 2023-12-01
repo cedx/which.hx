@@ -39,9 +39,6 @@ using Lambda;
 
 		final resultSet = Which.which(rest.shift());
 		final promise = all ? resultSet.all() : resultSet.first().next(executable -> [executable]);
-		return promise.next(executables -> {
-			executables.iter(Sys.println);
-			Noise;
-		});
+		return promise.next(executables -> { executables.iter(Sys.println); Noise; });
 	}
 }
