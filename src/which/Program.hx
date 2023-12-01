@@ -28,10 +28,10 @@ using Lambda;
 
 	/** command : The name of the command to find. **/
 	@:defaultCommand
-	public function run(rest: Rest<String>): Promise<Noise> {
+	public function run(rest: Rest<String>) {
 		if (help || version) {
 			Sys.println(version ? Platform.packageVersion : Cli.getDoc(this));
-			return Noise;
+			return Promise.NOISE;
 		}
 
 		final requiredArgs = Sys.getEnv("HAXELIB_RUN") == "1" ? 2 : 1;
