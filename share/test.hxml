@@ -6,9 +6,7 @@
 --define no-deprecation-warnings
 --library asys
 --library deep_equal
---library instrument
 --library tink_cli
 --library tink_streams
 --library tink_unittest
---macro instrument.Instrumentation.coverage(["which"], ["src"])
 --main RunTests
