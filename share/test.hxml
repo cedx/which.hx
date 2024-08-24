@@ -2,7 +2,6 @@
 --class-path test
 --dce full
 --define analyzer-optimize
---define coverage-lcov-reporter=var/lcov.info
 --define no-deprecation-warnings
 --library asys
 --library deep_equal
