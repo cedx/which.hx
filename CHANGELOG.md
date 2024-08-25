@@ -1,7 +1,10 @@
 # Changelog
 
+## Version [3.3.0](https://github.com/cedx/which.hx/compare/v3.2.0...v3.3.0)
+- Updated the package dependencies.
+
 ## Version [3.2.0](https://github.com/cedx/which.hx/compare/v3.1.2...v3.2.0)
-- Updated the dependencies.
+- Updated the package dependencies.
 - Use the null coalescing operator.
 
 ## Version [3.1.2](https://github.com/cedx/which.hx/compare/v3.1.1...v3.1.2)
