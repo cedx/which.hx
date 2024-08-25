@@ -4,8 +4,3 @@
 --library asys
 --library tink_cli
 --library tink_streams
-
-Which
-which.Finder
-which.Process
-which.ResultSet
