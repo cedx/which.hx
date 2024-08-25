@@ -1,5 +1,6 @@
 package which;
 
+import tink.streams.RealStream;
 import tink.streams.Stream.Handled;
 
 /** Provides convenient access to the stream of search results. **/
@@ -18,7 +19,7 @@ final class ResultSet {
 	}
 
 	/** Returns all instances of the searched command. **/
-	public function all() {
+	public function all(): Promise<Array<String>> {
 		final error = new Error(NotFound, 'No "$command" in (${finder.paths.join(Finder.isWindows ? ";" : ":")}).');
 		final executables = [];
 		return stream()
@@ -27,7 +28,7 @@ final class ResultSet {
 	}
 
 	/** Returns the first instance of the searched command. **/
-	public function first() {
+	public function first(): Promise<String> {
 		final error = new Error(NotFound, 'No "$command" in (${finder.paths.join(Finder.isWindows ? ";" : ":")}).');
 		var executable = "";
 		return stream()
@@ -36,5 +37,6 @@ final class ResultSet {
 	}
 
 	/** Returns a stream of instances of the searched command. **/
-	public inline function stream() return finder.find(command);
+	public inline function stream(): RealStream<String>
+		return finder.find(command);
 }
