@@ -9,7 +9,7 @@ using Lambda;
 
 	> which [flags] <command>
 **/
-@:noDoc final class Program {
+final class Program {
 
 	/** List all instances of executables found (instead of just the first one). **/
 	public var all = false;
