@@ -30,10 +30,10 @@ final class ResultSet {
 	/** Returns the first instance of the searched command. **/
 	public function first(): Promise<String> {
 		final error = new Error(NotFound, 'No "$command" in (${finder.paths.join(Finder.isWindows ? ";" : ":")}).');
-		var executable = "";
+		final executables = [];
 		return stream()
-			.forEach(path -> { executable = path; Handled.Finish; })
-			.next(_ -> executable.length > 0 ? executable : error);
+			.forEach(path -> { executables.push(path); Handled.Finish; })
+			.next(_ -> executables.length > 0 ? executables[0] : error);
 	}
 
 	/** Returns a stream of instances of the searched command. **/

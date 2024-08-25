@@ -1,7 +1,0 @@
-- [Installation](installation.md)
-- Usage
-	- [Programming interface](usage/api.md)
-	- [Command line](usage/cli.md)
-- [API reference](api/)
-- [Changelog](changelog.md)
-- [License](license.md)
