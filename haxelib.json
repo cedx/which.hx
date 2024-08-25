@@ -8,5 +8,5 @@
 	"releasenote": "Updated the dependencies, use the null coalescing operator.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://github.com/cedx/which.hx",
-	"version": "3.2.0"
+	"version": "3.3.0"
 }
