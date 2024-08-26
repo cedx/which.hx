@@ -29,7 +29,7 @@ abstract class Process {
 		#if nodejs
 			return Promise.resolve(identity == "g" ? process.getgid() : process.getuid());
 		#elseif php
-			return Promise.resolve(Syntax.code(identity == "g" ? "posix_getgid()" : "posix_getuid()"));
+			return Promise.resolve(identity == "g" ? Syntax.code("posix_getgid()") : Syntax.code("posix_getuid()"));
 		#else
 			final process = new AsysProcess("id", ['-$identity']);
 			return process.exitCode()
