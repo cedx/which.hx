@@ -1,6 +1,10 @@
 package which;
 
 import asys.io.Process as AsysProcess;
+#if php
+import php.Syntax;
+#end
+
 using StringTools;
 using tink.io.Source;
 
@@ -19,13 +23,20 @@ abstract class Process {
 	static function getProcessId(identity: String): Promise<Int> {
 		if (Finder.isWindows) return Promise.reject(new Error(MethodNotAllowed, "Not supported on Windows platform."));
 
-		final process = new AsysProcess("id", ['-$identity']);
-		return process.exitCode()
-			.next(exitCode -> exitCode == 0 ? process.stdout.all() : new Error('Process exited with a $exitCode code.'))
-			.next(stdout -> {
-				process.close();
-				final processId = Std.parseInt(stdout.toString().trim());
-				processId != null ? processId : new Error("Unable to parse the process output.");
+		#if php
+			return Promise.resolve(switch identity {
+				case "g": Syntax.code("posix_getgid()");
+				case _: Syntax.code("posix_getuid()");
 			});
+		#else
+			final process = new AsysProcess("id", ['-$identity']);
+			return process.exitCode()
+				.next(exitCode -> exitCode == 0 ? process.stdout.all() : new Error('Process exited with a $exitCode code.'))
+				.next(stdout -> {
+					process.close();
+					final processId = Std.parseInt(stdout.toString().trim());
+					processId != null ? processId : new Error("Unable to parse the process output.");
+				});
+		#end
 	}
 }
