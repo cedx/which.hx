@@ -1,10 +1,12 @@
 package which;
 
-import asys.io.Process as AsysProcess;
-#if php
+#if nodejs
+import js.Node.process;
+#elseif php
 import php.Syntax;
 #end
 
+import asys.io.Process as AsysProcess;
 using StringTools;
 using tink.io.Source;
 
@@ -23,7 +25,12 @@ abstract class Process {
 	static function getProcessId(identity: String): Promise<Int> {
 		if (Finder.isWindows) return Promise.reject(new Error(MethodNotAllowed, "Not supported on Windows platform."));
 
-		#if php
+		#if nodejs
+			return Promise.resolve(switch identity {
+				case "g": process.getgid();
+				case _: process.getuid();
+			});
+		#elseif php
 			return Promise.resolve(switch identity {
 				case "g": Syntax.code("posix_getgid()");
 				case _: Syntax.code("posix_getuid()");
