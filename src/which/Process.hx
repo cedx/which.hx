@@ -27,15 +27,9 @@ abstract class Process {
 		if (Finder.isWindows) return Promise.reject(new Error(MethodNotAllowed, "Not supported on Windows platform."));
 
 		#if nodejs
-			return Promise.resolve(switch identity {
-				case "g": process.getgid();
-				case _: process.getuid();
-			});
+			return Promise.resolve(identity == "g" ? process.getgid() : process.getuid());
 		#elseif php
-			return Promise.resolve(switch identity {
-				case "g": Syntax.code("posix_getgid()");
-				case _: Syntax.code("posix_getuid()");
-			});
+			return Promise.resolve(Syntax.code(identity == "g" ? "posix_getgid()" : "posix_getuid()"));
 		#else
 			final process = new AsysProcess("id", ['-$identity']);
 			return process.exitCode()
