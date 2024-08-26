@@ -8,5 +8,5 @@
 	"releasenote": "Updated the package dependencies.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://github.com/cedx/which.hx",
-	"version": "3.3.0"
+	"version": "3.4.0"
 }
