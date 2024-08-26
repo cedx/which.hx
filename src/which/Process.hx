@@ -4,9 +4,10 @@ package which;
 import js.Node.process;
 #elseif php
 import php.Syntax;
+#else
+import asys.io.Process as AsysProcess;
 #end
 
-import asys.io.Process as AsysProcess;
 using StringTools;
 using tink.io.Source;
 
@@ -38,7 +39,7 @@ abstract class Process {
 		#else
 			final process = new AsysProcess("id", ['-$identity']);
 			return process.exitCode()
-				.next(exitCode -> exitCode == 0 ? process.stdout.all() : new Error('Process exited with a $exitCode code.'))
+				.next(exitCode -> exitCode == 0 ? Success(process.stdout.all()) : Failure(new Error(exitCode, 'Process exited with a $exitCode code.')))
 				.next(stdout -> {
 					process.close();
 					final processId = Std.parseInt(stdout.toString().trim());
