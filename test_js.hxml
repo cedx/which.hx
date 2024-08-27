@@ -1,5 +1,5 @@
 --define js-es=6
---define js-global=global
+--define js-global=globalThis
 --js var/tests.js
 --library hxnodejs
 share/test.hxml
