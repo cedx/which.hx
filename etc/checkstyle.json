@@ -1,8 +1,7 @@
 {
 	"defaultSeverity": "ERROR",
 	"exclude": {
-		"path": "RELATIVE_TO_PROJECT",
-		"ReturnCount": ["src/which/Process:getProcessId"]
+		"path": "RELATIVE_TO_PROJECT"
 	},
 	"checks": [
 		{"type": "ArrayAccess"},
