@@ -1,4 +1,4 @@
-import Which;
+import Which.which;
 using tink.CoreApi;
 
 /** Finds all instances of an executable. */
