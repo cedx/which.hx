@@ -1,12 +1,11 @@
 package which;
 
+import asys.io.Process as AsyncProcess;
 #if nodejs
 import js.Node;
 #elseif php
 import php.Syntax;
 #end
-
-import asys.io.Process as AsyncProcess;
 using StringTools;
 using tink.io.Source;
 
