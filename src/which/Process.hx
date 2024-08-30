@@ -6,7 +6,7 @@ import js.Node;
 import php.Syntax;
 #end
 
-import asys.io.Process as AsysProcess;
+import asys.io.Process as AsyncProcess;
 using StringTools;
 using tink.io.Source;
 
@@ -31,7 +31,7 @@ abstract class Process {
 
 	/** Gets the numeric identity of the current process by using the "id" command. **/
 	static function getProcessId(identity: String): Promise<Int> {
-		final process = new AsysProcess("id", ['-$identity']);
+		final process = new AsyncProcess("id", ['-$identity']);
 		return process.exitCode()
 			.next(exitCode -> exitCode == 0 ? process.stdout.all() : Error.withData('The "id" command failed.', exitCode))
 			.next(stdout -> {
