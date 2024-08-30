@@ -1,7 +1,7 @@
 package which;
 
 #if nodejs
-import js.Node.process;
+import js.Node;
 #elseif php
 import php.Syntax;
 #else
@@ -27,7 +27,7 @@ abstract class Process {
 		if (Finder.isWindows) return Promise.reject(new Error(MethodNotAllowed, "Not supported on Windows platform."));
 
 		#if nodejs
-			return Promise.resolve(identity == "g" ? process.getgid() : process.getuid());
+			return Promise.resolve(identity == "g" ? Node.process.getgid() : Node.process.getuid());
 		#elseif php
 			return Promise.resolve(identity == "g" ? Syntax.code("posix_getgid()") : Syntax.code("posix_getuid()"));
 		#else
