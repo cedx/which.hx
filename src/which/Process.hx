@@ -33,7 +33,7 @@ abstract class Process {
 		#else
 			final process = new AsysProcess("id", ['-$identity']);
 			return process.exitCode()
-				.next(exitCode -> exitCode == 0 ? process.stdout.all() : new Error(exitCode, 'Process exited with a $exitCode code.'))
+				.next(exitCode -> exitCode == 0 ? process.stdout.all() : Error.withData('The "id" process exited with a $exitCode code.', exitCode))
 				.next(stdout -> {
 					process.close();
 					final processId = Std.parseInt(stdout.toString().trim());
