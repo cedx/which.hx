@@ -5,7 +5,7 @@
 	"description": "Find the instances of an executable in the system path. Like the `which` Linux command.",
 	"license": "MIT",
 	"name": "which",
-	"releasenote": "Optimized the `Process.getProcessId()` method on `js` and `php` compilation targets.",
+	"releasenote": "Optimized the `Process.gid` and `Process.uid` properties on the `java` compilation target.",
 	"tags": ["cross", "find", "path", "system", "tink", "utility", "which"],
 	"url": "https://github.com/cedx/which.hx",
 	"version": "3.5.0"
