@@ -1,32 +1,35 @@
 package which;
 
 import asys.io.Process as AsyncProcess;
-#if nodejs
+using StringTools;
+using tink.io.Source;
+
+#if java
+import java.security.auth.module.UnixSystem;
+#elseif nodejs
 import js.Node;
 #elseif php
 import php.Syntax;
 #end
-using StringTools;
-using tink.io.Source;
 
 /** Provides information about the current process. **/
 abstract class Process {
 
 	/** The identifier of the current process's group. **/
 	public static var gid(get, never): Promise<Int>;
-		static inline function get_gid(): Promise<Int>
-			return Finder.isWindows ? new Error(MethodNotAllowed, "Not supported on Windows platform.") :
-				#if js Node.process.getgid()
-				#elseif php Promise.resolve(Syntax.code("posix_getgid()"))
-				#else getProcessId("g") #end;
+		static inline function get_gid() return Finder.isWindows ? new Error(MethodNotAllowed, "Not supported on Windows platform.") :
+			#if java Promise.resolve(new UnixSystem().getGid())
+			#elseif js Promise.resolve(Node.process.getgid())
+			#elseif php Promise.resolve(Syntax.code("posix_getgid()"))
+			#else getProcessId("g") #end;
 
 	/** The identifier of the current process's user. **/
 	public static var uid(get, never): Promise<Int>;
-		static inline function get_uid(): Promise<Int>
-			return Finder.isWindows ? new Error(MethodNotAllowed, "Not supported on Windows platform.") :
-				#if js Node.process.getuid()
-				#elseif php Promise.resolve(Syntax.code("posix_getuid()"))
-				#else getProcessId("u") #end;
+		static inline function get_uid() return Finder.isWindows ? new Error(MethodNotAllowed, "Not supported on Windows platform.") :
+			#if java Promise.resolve(new UnixSystem().getUid())
+			#elseif js Promise.resolve(Node.process.getuid())
+			#elseif php Promise.resolve(Syntax.code("posix_getuid()"))
+			#else getProcessId("u") #end;
 
 	/** Gets the numeric identity of the current process by using the "id" command. **/
 	static function getProcessId(identity: String): Promise<Int> {
