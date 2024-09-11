@@ -18,7 +18,7 @@ abstract class Process {
 	/** The identifier of the current process's group. **/
 	public static var gid(get, never): Promise<Int>;
 		static inline function get_gid() return Finder.isWindows ? new Error(MethodNotAllowed, "Not supported on Windows platform.") :
-			#if java Promise.resolve(new UnixSystem().getGid())
+			#if java Promise.resolve(new UnixSystem().getGid().intValue())
 			#elseif js Promise.resolve(Node.process.getgid())
 			#elseif php Promise.resolve(Syntax.code("posix_getgid()"))
 			#else getProcessId("g") #end;
@@ -26,7 +26,7 @@ abstract class Process {
 	/** The identifier of the current process's user. **/
 	public static var uid(get, never): Promise<Int>;
 		static inline function get_uid() return Finder.isWindows ? new Error(MethodNotAllowed, "Not supported on Windows platform.") :
-			#if java Promise.resolve(new UnixSystem().getUid())
+			#if java Promise.resolve(new UnixSystem().getUid().intValue())
 			#elseif js Promise.resolve(Node.process.getuid())
 			#elseif php Promise.resolve(Syntax.code("posix_getuid()"))
 			#else getProcessId("u") #end;
