@@ -6,7 +6,7 @@ jobs:
     runs-on: ${{matrix.target == 'hl' && 'windows-latest' || 'ubuntu-latest'}}
     strategy:
       matrix:
-        target: [hl, java, nodejs, php]
+        target: [eval, hl, java, nodejs, php]
     steps:
       - name: Fetch sources
         uses: actions/checkout@v4
