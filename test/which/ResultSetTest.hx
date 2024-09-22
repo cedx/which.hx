@@ -1,6 +1,5 @@
 package which;
 
-using AssertionTools;
 using StringTools;
 
 /** Tests the features of the `ResultSet` class. **/

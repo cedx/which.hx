@@ -1,7 +1,5 @@
 package which;
 
-using AssertionTools;
-
 /** Tests the features of the `Process` class. **/
 @:asserts final class ProcessTest {
 
