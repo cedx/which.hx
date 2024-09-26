@@ -6,7 +6,7 @@ jobs:
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
         target: [eval, hl, java, nodejs, php]
     steps:
       - name: Fetch sources
