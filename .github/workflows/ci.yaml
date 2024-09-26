@@ -3,9 +3,10 @@ on: push
 
 jobs:
   test:
-    runs-on: ${{matrix.target == 'hl' && 'windows-latest' || 'ubuntu-latest'}}
+    runs-on: ${{matrix.os}}
     strategy:
       matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
         target: [eval, hl, java, nodejs, php]
     steps:
       - name: Fetch sources
